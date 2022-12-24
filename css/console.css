@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin-top: 1rem;
+    background-color: black;
+
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    color: darkblue;
+}
+
+.active {
+    background-color: darkblue;
+    color: white;
+}
+
+#console {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 90vw;
+    height: 90vh;
+    border: 0.2rem solid white;
+    background-color: black;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+}
+
+#info { 
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    color: black;
+}
+#options{ 
+    height: 2rem;
+    width: 100%;
+    display: flex;
+    gap: 1.5rem;
+    background-color: white;
+    color: black;
+    padding-top: 0.5rem;
+}
+
+#content {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    overflow-y: auto;
+}
+
+#content-input{
+    display: flex;
+    
+}
+
+#content p{
+    margin: 1rem;
+    line-height: 1.4;
+}
+
+.color_blue {
+    color: aqua;
+}
+.color_gold {
+    color: gold;
+}
+.color_red {
+    color: red;
+}
+.color_darkblue{
+
+    color: blue;
+
+}
+.color_green{
+
+    color: green;
+
+}
+.color_pink{
+
+    color: blueviolet;
+
+}
+
+.padding{
+    padding: 0.5rem;
+}
+.padding-extrem{
+    padding: 2rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 1rem;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: black; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: white; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: white; 
+  }
+
+.LineInput {
+    display: flex;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.LineInput input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    outline-width: 0px;
+    outline-style: none;
+    background-color: inherit;
+    font-family: inherit;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.finished-input {
+    color: #070;
+}

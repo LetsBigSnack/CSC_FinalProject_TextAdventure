@@ -1,0 +1,229 @@
+{   
+    "rooms" : [
+        {
+            "locationName" : "Starting Screen",
+            "description" : "",
+            "lookAt" : "",
+            "talkTo" : "",
+            "ascii" : []
+        },
+        {
+            "locationName" : "USB Port",
+            "description" : "Your ship has arrived at the USB-Port, where files are exchanged via cargo-ships. Some dockworkers are currently working on various tasks around the port. What would you like to do?<br>",
+            "lookAt" : "Just looking around the dock, you can see some containers have been labeled and contain different variables. Every container is grouped into a section with other containers based on their name and datatype. Everything looks fine at first glance, but while you inspect the containers a bit further, you notice that the container with the label: 1 and the container with the label: '1' are grouped into the same section.",
+            "talkTo" : "You see a dockworker scratching his head, and you decide to approach him. <br><br> <span class='color_darkblue'>Dockworker</span>: Hey there; you must be the new guy. I hope you are more competent than the last one.<br><br> *he chuckles softly*<br><br><span class='color_darkblue'>Dockworker</span>: Sorry, newbie, I don't really have the time for a chat. There seems to be a problem with the sorting of the ship containers.",
+            "ascii" : [
+                "  ⣤⣤⣤                        ", 
+                "  ⣿⣿⣿⣿⣿                        ", 
+                "  ⣿                           ", 
+                "  ⠻                           ", 
+                "  ⣶⣶⣤⣄⣉                        ", 
+                "  ⣿⣿⣿⣿⣿⣿⣿⣶⣶⣤⣄⣀                 ", 
+                "  ⣿⣿⣿⣟⠙ ⠻⢿⣿⣿⣿⡟⢀                ", 
+                "  ⣿⣿⣿⣿⣿ ⣶⣾⣿⣿⡿⠁⠸⣦⡀   ⠶⣶⣶⠶⠆      ", 
+                "  ⣿⣿⣿⡄⠹ ⠟⢛⣿⣿⠃  ⠈⠻⠶⣦⣤⣤⣤⣿⣿        ", 
+                "  ⣿⣿⣿⣿⣦⣤⣴⣿⣿⡟       ⣠⣬⣭⣤⣤", 
+                "  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁     ⢸⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⢸⣿⡇ ", 
+                "  ⣿⣿⣿⣿⣿⣿⣿⣿⠃       ⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⢸⣿⡇ ", 
+                "  ⠟⠛⠉⠙⠻⣿⣿⡏        ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇ ", 
+                "  ⡶⠛⠋⠛⢷⣤⣀⣤⡾⠛⠙⠛⢶⣀⢰⣶⣶⡄⣴⣶⣶⣶⣶⣶⣦⢠⣶⡆ "
+            ]
+        },
+        {
+            "locationName" : "South Bridge",
+            "description" : "You are crossing the South Bridge, the main connection to the mainland. This Bridge is mainly used to deliver data and periphery devices to the mainland.",
+            "lookAt" : "The bridge is constructed rather sturdy. Beneath the bridge, one can see the Datastream-River",
+            "talkTo" : "",
+            "ascii" : [
+                "    ^^      ..                    ",
+                "            []                    ",
+                "          .:[]:_          ^^      ",
+                "        .: :[]: :-.               ",
+                "      .: : :[]: : :`._            ",
+                "    .: : : :[]: : : : :-._        ",
+                "_..: : : : :[]: : : : : : :-._____",
+                "_:_:_:_:_:_:[]:_:_:_:_:_:_:_:_:_:_",
+                "!!!!!!!!!!!![]!!!!!!!!!!!!!!!!!!!!",
+                "^^^^^^^^^^^^[]^^^^^^^^^^^^^^^^^^^^",
+                "            []                    ",
+                "            []                    ",
+                "            []                    ",
+                " ~~^-~^_~^~/  \\~^-~^~_~^-~_^~-^~_^",
+                "~ _~~- ~^-^~-^~~- ^~_^-^~~_ -~^_ -",
+                "   ~ ^- _~~_-  ~~ _ ~  ^~  - ~~^ _",
+                "     ~-  ^_  ~^ -  ^~ _ - ",
+                "        ~^ -_ ~^^ -_ ~",
+                "            ~^~ - _ ^",
+                "                ~ ~- "
+            ]
+        },
+        {
+            "locationName" : "Binary Tree Forrest",
+            "description" : "The binary tree Forrest is genuinely one of the most beautiful places one can visit on this island.",
+            "lookAt" : "The splitting branch structure of the tree looks almost like a complex algorithm created it. At the end of each branch lays a Fruit with a taste of a power of 2. The 2^3 fruit is especially tasty during this time of year.",
+            "talkTo" : "",
+            "ascii" : [
+                "&bsol;/  &bsol;/ &bsol;/  &bsol;/                       &bsol;/  &bsol;/ &bsol;/  &bsol;/      ",
+                " &bsol;  /   &bsol;  /                         &bsol;  /   &bsol;  /      ",
+                "  &bsol;/     &bsol;/                           &bsol;/     &bsol;/      ",
+                "   &bsol;     /                             &bsol;     / ",
+                "    &bsol;   /  &bsol;/ &bsol;/     &bsol;/ &bsol;/ &bsol;/ &bsol;/        &bsol;   /  &bsol; /  &bsol;/ &bsol;/ &bsol;/ &bsol;/         ",
+                "     &bsol; /    &bsol; /  &bsol; /  &bsol; /   &bsol; / &bsol; /      &bsol; /    |    &bsol; /   &bsol; /    &bsol; /   ",
+                "      |      |    |    |     |   |        |     |     |     |      |    "
+                ]
+        },
+        {
+            "locationName" : "North Bridge",
+            "description" : "The northbridge connects the mainland directly to the CPU and is used to transport high-performance cars, and is usually used in conjunction with the slower southbridge to manage communication between the CPU and the mainland. There are many cars lined up to cross the bridge<br><br> To pass the bridge, one needs a ticket; each ticket is represented as a variable.",
+            "lookAt" : "",
+            "talkTo" : "You approach one of the cars at the start of the queue. The driver seems to have a problem passing the gate. <br><br> <span class='color_red'>Driver</span>: For Turing's sake, why can't I pass through the flip-flopping gate? Hey, you there, can you help me? <br><br> *she points at you and hands you her ticket* <br><br> Looking at the ticket, it says: 'var ticket_11011;' it seems that the ticket hasn't been assigned a value but because the previous programmers used var instead of let it doesn't throw an exception. So nobody would know what the problem is.",
+            "ascii" : [
+                "^^                __..-::-..__",
+                "              _.-:__:.-::-.:__:-._       ^^",
+                "       ^^   .':.-:  :  ::  :  :._:'.",
+                "         _ :.':  :  :  ::  :  :  :'.: _",
+                "        [ ]:  :  :  :  ::  :  :  :  :[ ]",
+                "        [ ]:  :  :  :  ::  :  :  :  :[ ]",
+                "::::::::[ ]:__:__:__:___:__:__:__:__:[ ]:::::::::::",
+                "!!!!!!!![ ]!!!!!!!!!!!!!!!!!!!!!!!!!![ ]!!!!!!!!!!!",
+                "^^^^^^^^[ ]^^^^^^^^^^^^^^^^^^^^^^^^^^[ ]^^^^^^^^^^^",
+                "        [ ]                          [ ]",
+                "        [ ]                          [ ]",
+                "        [ ]                          [ ]",
+                "~~^_~^~/   \\~^-~^~ _~^-~~^~-~_~-^~_^/   \\~^ ~~_ ^"
+            ]
+        },
+        {
+            "locationName" : "CPU - Central Parking Unit",
+            "description" : "Reaching the CPU - Central Parking Unit, you can find many cars, trucks, and even some scooters; every car represents a package/application that needs to be processed in the parking unit. After being processed here, every vehicle is driven back to the mainland.",
+            "lookAt" : "//TODO Change Placeholder <br><br>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis nostrum dolorum tempore laborum dolorem impedit recusandae, sequi voluptate facilis a ducimus hic rem aliquid quidem neque maxime soluta ipsam quia?",
+            "talkTo" : "",
+            "ascii":[
+                "                                                        ",
+                "                    /\\      _____          _____             _____       ",
+                "     ,-----,       /  \\____/__|__\\_    ___/__|__\\___     ___/__|__\\___   ",
+                "  ,--'---:---`--, /  |  _     |     `| |      |      `|  |      |      `| ",
+                " ==(o)-----(o)==J    `(o)-------(o)=   `(o)------(o)'    `(o)------(o)'     ",
+                "``````````````````````````````````````````````````````````````````````````"
+            ]
+        },
+        {
+            "locationName" : "Parallax Plains",
+            "description" : "At the Parallax Plains, no matter how fast you go, the mountains in the back move at a different speed than the ones in the foreground, creating a beautiful illusion of range while hiking around the plains.",
+            "lookAt" : "",
+            "talkTo" : "",
+            "ascii":[
+                "                                       ^^    ^^",
+                "               _/XXX\\",
+                "_             /XXXXXX\\_     ^^                             __",
+                "X\\__    __   /X XXXX XX\\                          _       /XX\\__      ___",
+                "    \\__/  \\_/__       \\ \\                       _/X\\__   /XX XXX\\____/XXX\\",
+                "  \\  ___   \\/  \\_      \\ \\               __   _/      \\_/  _/  -   __  -  \\__/",
+                " ___/   \\__/   \\ \\__     \\\\__           /  \\_//  _ _ \\  \\     __  /  \\____//",
+                "/  __    \\  /     \\ \\_   _//_\\___     _/    //           \\___/  \\/     __/",
+                "__/_______\\________\\__\\_/________\\_ _/_____/_____________/_______\\____/_______"
+            ]
+        },
+        {
+            "locationName" : "Demilitarized Zone",
+            "description" : "The DMZ, or demilitarized zone, is a bare land that has been used to fight many wars against viruses, malware, trojans, and other malicious software. Over the years of active fighting, the once beautiful and lushes DMZ has been transformed into a barren desert ",
+            "lookAt" : "",
+            "talkTo" : "",
+            "ascii": [
+                "           ,,                              ",
+                "          || |                              ",
+                "          || |   ,                          ",
+                "          || |  | |",
+                "          || '--' |",
+                "    ,,    || .----'",
+                "   || |   || |",
+                "   |  '---'| |",
+                "   '------.| |                                   _____",
+                "          || |      (  __                      / /|\\ \\",
+                "          || |      ))(''),                    | | | | |",
+                "__________||_|_____((__^_))____________________\\_\\|/_/__"
+            ]
+        },
+        {
+            "locationName" : "RAM Farm",
+            "description" : "Although the RAM Farm looks like very little, it is one of the most critical places on the island. RAMs are the most valuable goods here. RAMs or their harvested products power everything here, from the fuel that powers the vehicles to the clothes and food the inhabitants need.",
+            "lookAt" : "",
+            "talkTo" : "A Farmer starts up a conversation with you. <br><br> <span class='color_green'>Farmer</span>: Truly beautiful those creatures. There are like a gift sent from above. <br><br> *You just nod* <br><br> <span class='color_green'>Farmer</span>: But sometimes there can be complication while they procreate. Take Ram_1 and Ram_2, for example; if they had a baby ram, it would just be automatically named Ram_3, but sometimes it's named Ram_1Ram_2, which is very weird.",
+            "ascii": [
+                "                   _.-^-._    .--.     ",
+                "                .-'   _   '-. |__|        _.-..",
+                "               /     |_|     \\|  |      ,'9 )\\)`-.,.--.",
+                "              /               \\  |       `-.|           `.",
+                "             /|     _____     |\\ |          \\,      ,    \\)",
+                "              |    |==|==|    |  |           `.  )._\\   (\\",
+                "  |---|---|---|---||--|--|    |  |            |//   `-,//",
+                "  |---|---|---|---||==|==|    |  |            ]||    //",
+                "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ''    ''"
+            ]
+        },
+        {
+            "locationName" : "Hard-Warehouse",
+            "description" : "The Hard-Warehouse is a place where unused or old peripheral devices are sorted. It is run and operated by many Turing-Machines.",
+            "lookAt" : "",
+            "talkTo" : "You talk to one of the Turing-Machines. <br><br> <span class='color_pink'>Turing-Machines</span>: Hello dear Customer, how may i help you? <br><br> *You ask it, if it has seen any bugs* <br><br> <span class='color_pink'>Turing-Machines</span>: Hello dear Customer, how may i help you? <br> <span class='color_pink'>Turing-Machines</span>: Hello dear Customer, how may i help you? <br> <br><br> It just repeats this message over and over again, and you think that you have found the bug you were looking for <br><br>",
+            "ascii":[
+                "         )",
+                "        (      _[]_         (",
+                " __[]___[]___[]/____\\_[]_    )",
+                "/______________|[][]|____\\  (",
+                "|[][]|[][]|[][]|[][]|[][]|__[]_",
+                "|  /\\|/\\  |  /\\|  /\\|/\\  |_____\\",
+                "|[]|||||[]|[]|||[]|||||[]|[_]|||",
+                "===================================",
+                "-  -  -  -  -  -  -  -  -  -  -  -  -",
+                "========================================= "
+            ]
+        }
+
+    ],
+    "bugs":[
+        {
+            "name": "The Lazy Programmer",
+            "description" : "Sometimes during production you forget to change the placeholders to actual data",
+            "event": "L",
+            "room": 5
+        },
+        {
+            "name": "Just not my type",
+            "description" : "Just using a normal equality check ('==') can lead to some bugs; using the strict equality operator ('===') is advised.",
+            "event": "L",
+            "room": 1
+        },
+        {
+            "name": "The MIGHTY + operator",
+            "description" : "The '+' operator can have some bizarre behaviors if you are unfamiliar with its logic. This can be very bothersome if you try to connect a string and a number: For example: '1' + 2 -> 12 but 1 + 2 -> 3",
+            "event": "T",
+            "room": 8
+        },
+        {
+            "name": "It's been a WHILE()",
+            "description" : "Sometimes the code can be stuck in a infinty loop, this could block other code execution. Be sure to have a valid exiting condition.",
+            "event": "T",
+            "room": 9
+        },
+        {
+            "name": "It's not your turn",
+            "description" : "trying to access a varible that hasn't been definied yet",
+            "event": "T",
+            "room": 4
+        }
+        
+    ],
+    "connections": [
+       [-1,-1,1,-1], 
+       [2,-1,-1,-1],
+       [3,-1,1,-1],
+       [4,7,2,6],
+       [5,-1,3,-1],
+       [-1,-1,4,-1],
+       [-1,3,-1,-1],
+       [8,9,-1,3],
+       [-1,-1,7,-1],
+       [-1,-1,-1,7]   
+    ]
+}

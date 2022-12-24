@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/console.css">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Javascript scripts using defer to load them at the end -->
+    <script src="js/bug.js" defer></script>
+    <script src="js/room.js" defer></script>
+    <script src="js/game.js" defer></script>
+    <script src="js/text.js" defer></script>
+    <script src="js/ui_utility.js" defer></script>
+    <script src="js/ascii_animation.js" defer></script>
+    <title>Text Base Adventure</title>
+
+</head>
+
+<body>
+
+    <main id="console">
+
+        <div id="info">
+            <p id="location">Starting Screen</p>
+            <p id="score">0 / 5 Bugs</p>
+        </div>
+
+        <div id="content">
+
+            <div id="content-text">
+                <p>Adventure:</p>
+                <p class="color_blue">On the search of the Bugs in the Spaghetti Code</p>
+                <p>The previous programmers, who have worked on this codebase have all been laid-off and it's your job, as part of your unpaid internship, to explore the code-base and find all the bugs that have accumulated over the many years that different programmers have worked on this project. And maybe if you are lucky, you can add your own bugs to the project in the future. </p>
+                <p>[S]tart | [Q]uit </p>
+            </div>
+
+            <div id="content-input">
+                <p>></p>
+                <form id="form" action="#" onsubmit="userInput();return false" class="LineInput"  autocomplete="off">
+                    <input autocapitalize="off" autofocus id="user_choice" type="text" name="user_choice">
+                </form>
+            </div>
+
+            
+        </div>
+        <div id="options">
+            <!-- Executing methods on button click -->
+            <p><a href="javascript:music();" id="audio">Music</a></p>
+            <p><a href="javascript:exportGame();">Export</a></p>
+            <p><a href="javascript:importGame();">Import</a></p>
+        </div>
+        
+        <audio src="music/slow-2021-08-17_-_8_Bit_Nostalgia_-_www.FesliyanStudios.com.mp3"></audio>
+    </main>
+
+
+
+</body>
+
+</html>
+
