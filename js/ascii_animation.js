@@ -23,7 +23,7 @@ async function ascii_animate(){
             frame += split_film[i]+"\n";
             
         }
-        //Displays the images waits a delay and than deletes the frame
+        //Displays the images waits a delay and then deletes the frame
         console.log(frame);
         await delay(100);
         console.clear();

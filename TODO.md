@@ -25,4 +25,5 @@
   * [ ] Weapons
   * [ ] Potions
 * [ ] Save and Load System
+* [ ] Expand Story
 
