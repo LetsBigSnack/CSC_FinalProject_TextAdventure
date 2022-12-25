@@ -1,30 +1,18 @@
+
 class Room {
 
 
     // STATIC CONSTANT
-
-    static get NORTH() {
-        return 0;
+    static DIRECTIONS = {
+        North: 0,
+        East: 1,
+        South: 2,
+        West: 3
     }
 
-    static get EAST() {
-        return 1;
-    }
-
-    static get SOUTH() {
-        return 2;
-    }
-
-    static get WEST() {
-        return 3;
-    }
-
-    static get LOOK() {
-        return 0;
-    }
-
-    static get TALK() {
-        return 1;
+    static EVENT = {
+        Look : 0,
+        Talk : 1
     }
 
 /**
@@ -40,7 +28,7 @@ class Room {
         this.commands = commands;
         this.location = location;
         this.connections = [];
-        this.bug;
+        this.bug = {};
         this.ascii = ascii;
         if(obj){
             obj && Object.assign(this, obj);
@@ -88,8 +76,8 @@ class Room {
     }
 
     /**
-     * Draws ASCII-Art
-     * @returns ASCII-Art
+     *
+     * @returns {string}
      */
     drawAscii() {
         let desc = "";
@@ -131,11 +119,11 @@ class Room {
             }
         }
 
-        if (this.commands[Room.TALK] !== undefined && this.commands[Room.TALK] !== "") {
+        if (this.commands[Room.EVENT.Talk]) {
             options += "<span class='color_pink'>[T]</span>alk to | ";
         }
 
-        if (this.commands[Room.LOOK] !== undefined && this.commands[Room.LOOK] !== "") {
+        if (this.commands[Room.EVENT.Look]) {
             options += "<span class='color_green'>[L]</span>ook at | ";
         }
         return options.substring(0, options.lastIndexOf("|"));
@@ -173,8 +161,8 @@ class Room {
 
         let returnText = "";
 
-        if (this.commands[Room.TALK] !== undefined && this.commands[Room.TALK] !== "") {
-            returnText = this.commands[Room.TALK];
+        if (this.commands[Room.EVENT.Talk]){
+            returnText = this.commands[Room.EVENT.Talk];
             if (this.hasBugs("T")) {
                 returnText += this.unlockBug();
             }
@@ -195,8 +183,8 @@ class Room {
 
         let returnText = "";
 
-        if (this.commands[Room.LOOK] !== undefined && this.commands[Room.LOOK] !== "") {
-            returnText = this.commands[Room.LOOK];
+        if (this.commands[Room.EVENT.Look]) {
+            returnText = this.commands[Room.EVENT.Look];
             if (this.hasBugs("L")) {
                 returnText += this.unlockBug();
             }
@@ -214,11 +202,7 @@ class Room {
      */
     hasBugs(event) {
 
-        if (this.bug !== undefined && this.bug.event === event && !this.bug.hasBeenFound()) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.bug !== undefined && this.bug.event === event && !this.bug.hasBeenFound();
     }
 
     /**
@@ -227,9 +211,8 @@ class Room {
      */
     unlockBug() {
 
-        let returnText = "";
 
-        returnText = this.bug.getDescription();
+        let returnText = this.bug.getDescription();
         this.bug.discover();
 
         return returnText;
@@ -244,30 +227,31 @@ class Room {
     travelTo(direction) {
         switch (direction) {
             case "N":
-                if (this.connections[Room.NORTH] !== undefined) {
-                    return this.connections[Room.NORTH];
+                if (this.connections[Room.DIRECTIONS.North]) {
+                    return this.connections[Room.DIRECTIONS.North];
                 }
                 break;
             case "E":
-                if (this.connections[Room.EAST] !== undefined) {
-                    return this.connections[Room.EAST];
+                if (this.connections[Room.DIRECTIONS.East]) {
+                    return this.connections[Room.DIRECTIONS.East];
                 }
                 break;
             case "S":
-                if (this.connections[Room.SOUTH] !== undefined) {
-                    return this.connections[Room.SOUTH];
+                if (this.connections[Room.DIRECTIONS.South] !== undefined) {
+                    return this.connections[Room.DIRECTIONS.South];
                 }
                 break;
             case "W":
-                if (this.connections[Room.WEST] !== undefined) {
-                    return this.connections[Room.WEST];
+                if (this.connections[Room.DIRECTIONS.West] !== undefined) {
+                    return this.connections[Room.DIRECTIONS.West];
                 }
                 break;
 
             default:
                 return "You can't go in this direction";
-                break;
         }
     }
 
 }
+
+export {Room};

@@ -1,21 +1,22 @@
-
+import {Room} from "./Room.js";
+import {Bug} from "./Bug.js";
 
 class AdventureGame {
 
-/**
- *  This AdventureGame class is used to store everything necessary for the representation in the game
+    /**
+     *  This AdventureGame class is used to store everything necessary for the representation in the game
 
- */
+     */
 
     constructor() {
 
         this.bugScore = 0;
         this.bugList = [];
         this.currentRoom;
-        this.roomList = []; 
+        this.roomList = [];
         this.gamefinished = false;
         this.importRooms("../jsonData/rooms.json");
-        
+
     }
     /**
      * sets the current room
@@ -31,6 +32,8 @@ class AdventureGame {
      * @returns the string after the interaction
      */
     interact(command) {
+
+        //TODO Interact with States
 
         let returnText = "";
 
@@ -73,17 +76,17 @@ class AdventureGame {
 
         if(this.bugScore === this.bugList.length && !this.gamefinished){
             returnText += "<br><br><span class='color_gold'>You have found all the bugs in the codebase, sadly your intership is unpaid so don't expect anything as the reward. You can explore the rest of the codebase or if you want to have some fun type in 'Star Wars' as a command </span>"
-            this.gamefinished = true    
+            this.gamefinished = true
         }
-        
+
 
         return returnText;
     }
 
-/**
- * Imports the data based on a json file
- * @param {*} path path to the json file
- */
+    /**
+     * Imports the data based on a json file
+     * @param {*} path path to the json file
+     */
     async importRooms(path) {
 
         let jsonRoomsData = {};
@@ -122,13 +125,13 @@ class AdventureGame {
 
         this.setScoreBoard();
     }
-/**
- * updates scoreboard
- */
+    /**
+     * updates scoreboard
+     */
     setScoreBoard(){
 
         let foundBugs = this.bugList.filter(element => element.discovered === true);
-        
+
 
         if(foundBugs !== undefined){
             this.bugScore = foundBugs.length;
@@ -138,12 +141,12 @@ class AdventureGame {
 
         score.innerHTML = this.bugScore + " / " + this.bugList.length + " Bugs";
 
-       
+
     }
-/**
- * exports the current game file as a json object
- * @returns exported json object as a string
- */
+    /**
+     * exports the current game file as a json object
+     * @returns exported json object as a string
+     */
     exportBugs(){
         let exportObject = {
             "currentRoom" : this.currentRoom,
@@ -157,10 +160,10 @@ class AdventureGame {
         console.log(exportObjectJSON);
         return exportObjectJSON;
     }
-/**
- * Imports the current game file based on a json string
- * @param {*} jsonString json string in question
- */
+    /**
+     * Imports the current game file based on a json string
+     * @param {*} jsonString json string in question
+     */
     importGame(jsonString){
 
         let importedObject = JSON.parse(jsonString)
@@ -189,7 +192,7 @@ class AdventureGame {
             this.roomList[this.bugList[i].room].setBug(tmpBug);
             const isCurrentRoomId = this.roomList.findIndex((obj) => {
 
-                if(obj.name == this.currentRoom.name){
+                if(obj.name === this.currentRoom.name){
                     return true;
                 }
 
@@ -209,3 +212,5 @@ class AdventureGame {
     }
 
 }
+
+export {AdventureGame};

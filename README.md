@@ -3,12 +3,12 @@
 Final project for the course CSC (Client Side Coding)  
 
 ## Task Description
-[Task description](Task_Description.md)
+[Task description](markdown/Task_Description.md)
 
 ## TODO List
-[TODO](TODO.md)
+[TODO](markdown/TODO.md)
 
 ## Time recording
-[Time recording](TIME_RECORDING.md)
+[Time recording](markdown/TIME_RECORDING.md)
 
 

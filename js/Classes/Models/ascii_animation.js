@@ -8,6 +8,7 @@ function delay(time) {
 
 // splits the string in an array
 let split_film = film.split('\n');
+
 const LINES_PER_FRAME = 14;
 
 

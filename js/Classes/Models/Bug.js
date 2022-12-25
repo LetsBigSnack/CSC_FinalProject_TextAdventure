@@ -1,13 +1,14 @@
 
 class Bug {
-/**
- *  This Bug class is used to store everything necessary for the representation in the game
- * @param {*} name Name of the bug
- * @param {*} description description of the bug
- * @param {*} event on which event the bug is triggered on 
- * @param {*} room the room connected to the bug
- * @param {*} obj is not empty then the object is copied in the bug
- */
+
+    /**
+     *  This Bug class is used to store everything necessary for the representation in the game
+     * @param {String} name Name of the bug
+     * @param {String} description description of the bug
+     * @param {String} event on which event the bug is triggered on
+     * @param {Room} room the room connected to the bug
+     * @param {Bug} obj if not empty then the object is copied in the bug
+     */
     constructor(name, description, event, room, obj=null) {
 
         this.name = name;
@@ -20,23 +21,18 @@ class Bug {
         }
     }
 
-    get getEvent(){
-        return this.event;
-    }
-    set setEvent(event){
-        this.event = event
-    }
-/**
- * checks if the bug has already been found
- * @returns if the bug has been found
- */
+    /**
+     * checks if the bug has already been found
+     * @returns if the bug has been found
+     */
     hasBeenFound(){
         return this.discovered;
     }
-/**
- * 
- * @returns the Bug description
- */
+
+    /**
+     *
+     * @returns the Bug description
+     */
     getDescription(){
         let desc = "<br>";
         desc += "<br>";
@@ -46,6 +42,7 @@ class Bug {
         desc += "<br>";
         return desc;
     }
+
     /**
      * discovers the bug
      */
@@ -54,3 +51,5 @@ class Bug {
     }
 
 }
+
+export {Bug};
