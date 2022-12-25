@@ -21,7 +21,7 @@ class Room {
     }
 
     static USER_INPUT = {
-        North : "W",
+        North : "N",
         East: "E",
         South: "S",
         West: "W",
