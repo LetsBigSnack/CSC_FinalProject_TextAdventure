@@ -32,7 +32,7 @@
 - should split Utility in multiple Classes -> Files, Music, etc. ?
 - create UtilityText Class with functions -> colorText, etc.
 -  if (this.commands[Room.EVENT.Talk] !== undefined && this.commands[Room.EVENT.Talk] !== "") { change to if(!this.commands[Room.EVENT.Talk])
-
+- rework EXPORT and IMPORT system 
 
 
 

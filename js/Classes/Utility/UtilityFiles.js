@@ -1,3 +1,5 @@
+import {adventureGame} from "../../SetUpGame.js";
+
 class UtilityFiles {
     /**
      * creates a downloadable file

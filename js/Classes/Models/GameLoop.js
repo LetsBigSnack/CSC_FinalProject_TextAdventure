@@ -170,7 +170,7 @@ class AdventureGame {
         let currentRoomJSON = importedObject["currentRoom"];
         let bugListJSON = importedObject["bugList"];
 
-        let tmpCurrentRoom = new Room("","","","",currentRoomJSON);
+        let tmpCurrentRoom = new Room("","",[""],"",currentRoomJSON);
         let tmpBugList = []
 
         for(let i = 0; i < bugListJSON.length; i++){

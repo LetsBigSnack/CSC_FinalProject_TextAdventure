@@ -1,6 +1,12 @@
+import {UtilityText} from "../Utility/UtilityText.js";
 
+/**
+ * This Class is used to represent the "Room" entities in the game.
+ * This Room class is used to store everything necessary for the representation in the game
+ * A Room is an abstract representation of a space within the Game
+ * Rooms can be connected to another and contain information about other entities or events
+ */
 class Room {
-
 
     // STATIC CONSTANT
     static DIRECTIONS = {
@@ -9,20 +15,28 @@ class Room {
         South: 2,
         West: 3
     }
-
     static EVENT = {
         Look : 0,
         Talk : 1
     }
 
-/**
- *  This Room class is used to store everything necessary for the representation in the game
- * @param {*} location Name of the location
- * @param {*} description description of the bug
- * @param {*} commands list of events 
- * @param {*} ascii the room art
- * @param {*} obj is not empty then the object is copied in the bug
- */
+    static USER_INPUT = {
+        North : "W",
+        East: "E",
+        South: "S",
+        West: "W",
+        Talk: "T",
+        Look: "L"
+    }
+
+    /**
+     * The class constructor for the class "Room"
+     * @param {string} description Description of the Room
+     * @param {string}  location Name of the Room Location
+     * @param {[string]}  commands List of all the Events the Room possess
+     * @param {[string]}  ascii ASCII Art which represents the current Room
+     * @param {Room}  obj Object which this Object will be copied to (if not empty)
+     */
     constructor(description, location, commands, ascii, obj=null) {
         this.description = description;
         this.commands = commands;
@@ -34,132 +48,129 @@ class Room {
             obj && Object.assign(this, obj);
         }
     }
-/**
- * sets bug to this object
- * @param {*} bug bug in question 
- */
+
+    /**
+     * Sets the "Bug" which is connected to the Room
+     * @param {Bug} bug The Bug which is connected to the Room
+     */
     setBug(bug) {
         this.bug = bug;
     }
+
     /**
-     * sets the connection to this object
-     * @param {*} rooms array of connected rooms
+     * Sets the connected Rooms to this Room-Object
+     * @param{[Room]} rooms The connected Rooms to this Object
      */
     setConnections(rooms) {
         for (let i = 0; i < rooms.length; i++) {
             this.connections[i] = rooms[i];
         }
     }
+
     /**
-     * 
-     * @returns the current location
+     * Gets the location name associated to the Room
+     * @returns {string} Returns the location name of the Room
      */
     getLocation() {
         return this.location;
     }
 
     /**
-     * Describes the room
-     * @returns the description 
+     * Generates and returns a description of the Room
+     * @returns {string} Returns a full description of the Room in an HTML-Format
      */
     describe() {
 
-        let desc = "";
-        desc += this.description;
-        desc += "<br>";
-        this.hasBeenDescribed = true;
-        desc += "<br>";
-        desc += this.drawAscii();
-        desc += this.displayOptions();
-        desc += "<br>";
+        let desc = this.description + UtilityText.TEXT_SYMBOL.NewEmptyLine;
+        desc += this.drawAscii() + UtilityText.TEXT_SYMBOL.NewLine;
+        desc += this.displayOptions() + UtilityText.TEXT_SYMBOL.NewLine;
         return desc;
     }
 
     /**
-     *
-     * @returns {string}
+     * Generates and returns the ASCII-Art in a format that can be viewed in the Game
+     * @returns {string} Returns the prepared ASCII-Art string
      */
     drawAscii() {
         let desc = "";
 
         if (this.ascii) {
             for (let i = 0; i < this.ascii.length; i++) {
-                desc += this.ascii[i].replaceAll(" ", "&nbsp;") + "<br>";
-
+                desc += this.ascii[i].replaceAll(" ", UtilityText.TEXT_SYMBOL.Space) + UtilityText.TEXT_SYMBOL.NewLine;
             }
-            desc += "<br>";
         }
         return desc;
     }
 
     /**
-     * Display all possible options
-     * @returns all options 
+     * Generates and returns all Options the User can Take for the Room
+     * @returns {string} Returns all the Options of the available Room
      */
     displayOptions() {
         let options = "go ";
 
         for (let i = 0; i < this.connections.length; i++) {
-            if(this.connections[i] !== undefined && this.connections[i] !== null){
+            if(this.connections[i]){
                 switch (i) {
-                    case 0:
-                        options += "<span class='color_blue'>[N]</span>orth";
+                    case Room.DIRECTIONS.North:
+                        options += UtilityText.emphasizeFirstLetter("North","[", "]", UtilityText.TEXT_COLORS.Blue);
                         break;
-                    case 1:
-                        options += "<span class='color_blue'>[E]</span>ast";
+                    case Room.DIRECTIONS.East:
+                        options +=  UtilityText.emphasizeFirstLetter("East","[", "]", UtilityText.TEXT_COLORS.Blue);
                         break;
-                    case 2:
-                        options += "<span class='color_blue'>[S]</span>outh";
+                    case Room.DIRECTIONS.South:
+                        options +=  UtilityText.emphasizeFirstLetter("South","[", "]", UtilityText.TEXT_COLORS.Blue);
                         break;
-                    case 3:
-                        options += "<span class='color_blue'>[W]</span>est";
+                    case Room.DIRECTIONS.West:
+                        options +=  UtilityText.emphasizeFirstLetter("West","[", "]", UtilityText.TEXT_COLORS.Blue);
                         break;
                 }
-                options += " | ";
+                options += UtilityText.TEXT_SYMBOL.Separator;
             }
         }
 
         if (this.commands[Room.EVENT.Talk]) {
-            options += "<span class='color_pink'>[T]</span>alk to | ";
+            options += UtilityText.emphasizeFirstLetter("Talk to","[", "]", UtilityText.TEXT_COLORS.Pink) + UtilityText.TEXT_SYMBOL.Separator;
         }
 
         if (this.commands[Room.EVENT.Look]) {
-            options += "<span class='color_green'>[L]</span>ook at | ";
+            options +=  UtilityText.emphasizeFirstLetter("Look at","[", "]", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.Separator;
         }
         return options.substring(0, options.lastIndexOf("|"));
     }
 
     /**
-     * used to interact with the object
-     * @param {*} command event 
-     * @returns string 
+     * Handles user interaction that can be done with a Room
+     * @param {string} command Represents the action of the user
+     * @returns {string} Returns a string which represent the state of the Game after user has done the action
      */
     interact(command) {
 
-        let returnText = "";
+        let returnText;
 
         switch (command) {
-            case "L":
+            case Room.USER_INPUT.Look:
                 returnText = this.lookAt();
                 break;
-            case "T":
+            case Room.USER_INPUT.Talk:
                 returnText = this.talkTo();
                 break;
             default:
-                returnText = "<span class='color_red'>BEEP BOOP COMMAND undefined</span>";
+                returnText = UtilityText.colorText("BEEP BOOP COMMAND undefined", UtilityText.TEXT_COLORS.Red);
                 break;
         }
         return returnText;
 
     }
 
+    //TODO add Dialog System
     /**
-     * 
-     * @returns a dialog if available
+     * Generates and returns the Text which represents the Talk to Event
+     * @returns {string}  Returns the Talk to Description in an HTML-Format
      */
     talkTo() {
 
-        let returnText = "";
+        let returnText;
 
         if (this.commands[Room.EVENT.Talk]){
             returnText = this.commands[Room.EVENT.Talk];
@@ -173,15 +184,15 @@ class Room {
 
         return returnText;
     }
-    
-    /**
-     * 
-     * @returns a description if available
-     */
 
+
+    /**
+     * Generates and returns the Text which represents the Look at Event
+     * @returns {string}  Returns the Look at Description in an HTML-Format
+     */
     lookAt() {
 
-        let returnText = "";
+        let returnText;
 
         if (this.commands[Room.EVENT.Look]) {
             returnText = this.commands[Room.EVENT.Look];
@@ -196,9 +207,9 @@ class Room {
     }
 
     /**
-     * 
-     * @param {*} event interaction 
-     * @returns if a certain event has a bug for it 
+     * Checks if an event has a Bug associated Bug for the current Room
+     * @param{string} event The Event / Action to be checked
+     * @returns {boolean} Returns if a specific Event / Action has gives the User a Bug in the current Room
      */
     hasBugs(event) {
 
@@ -206,8 +217,8 @@ class Room {
     }
 
     /**
-     * unlocks a bug
-     * @returns bug unlock text
+     * Unlocks and describes a Bug
+     * @returns {string} Returns the description of the Bug after it has been found in an HTML-Format
      */
     unlockBug() {
 
@@ -220,29 +231,29 @@ class Room {
     }
 
     /**
-     * travles to another room 
-     * @param {*} direction the travel direction 
-     * @returns 
+     * Tries to change the current Room based on the Direction
+     * @param direction The direction the user tries to travel to
+     * @returns {Room|string} Returns the new Room if the travel there is possible otherwise returns a default string
      */
     travelTo(direction) {
         switch (direction) {
-            case "N":
+            case Room.USER_INPUT.North:
                 if (this.connections[Room.DIRECTIONS.North]) {
                     return this.connections[Room.DIRECTIONS.North];
                 }
                 break;
-            case "E":
+            case Room.USER_INPUT.East:
                 if (this.connections[Room.DIRECTIONS.East]) {
                     return this.connections[Room.DIRECTIONS.East];
                 }
                 break;
-            case "S":
-                if (this.connections[Room.DIRECTIONS.South] !== undefined) {
+            case Room.USER_INPUT.South:
+                if (this.connections[Room.DIRECTIONS.South]) {
                     return this.connections[Room.DIRECTIONS.South];
                 }
                 break;
-            case "W":
-                if (this.connections[Room.DIRECTIONS.West] !== undefined) {
+            case Room.USER_INPUT.West:
+                if (this.connections[Room.DIRECTIONS.West]) {
                     return this.connections[Room.DIRECTIONS.West];
                 }
                 break;
