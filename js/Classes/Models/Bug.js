@@ -32,6 +32,7 @@ class Bug {
      * @returns {boolean} Returns if the Bugs has already been discovered
      */
     hasBeenFound(){
+
         return this.discovered;
     }
 

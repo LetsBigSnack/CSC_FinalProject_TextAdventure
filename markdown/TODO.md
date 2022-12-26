@@ -34,5 +34,11 @@
 -  if (this.commands[Room.EVENT.Talk] !== undefined && this.commands[Room.EVENT.Talk] !== "") { change to if(!this.commands[Room.EVENT.Talk])
 - rework EXPORT and IMPORT system 
 
-
+## 26-12
+- Add Staging -> to the AdventureGame (Start, Char creation, Traveling, Battle, Dialog, etc.)
+- change locationName to location
+- Add Version number to export to prevent Bugs with different Version
+- Add Paragraphs
+- Animate function doesn't work as of now
+- 
 

@@ -1,6 +1,6 @@
 import {UtilityMusic} from "./Classes/Utility/UtilityMusic.js";
 import {UtilityGame} from "./Classes/Utility/UtilityGame.js";
-import {AdventureGame} from "./Classes/Models/GameLoop.js";
+import {AdventureGame} from "./Classes/Models/AdventureGame.js";
 
 
 //HTML ELEMENTS
@@ -9,15 +9,12 @@ const form = document.querySelector('#form');
 const locationText = document.querySelector("#location");
 const content =  document.querySelector("#content");
 const audioBtn = document.querySelector("#audio");
+const score = document.querySelector("#score");
 
 //Buttons
 const music = document.querySelector("#audio");
 const gameImport = document.querySelector("#import");
 const gameExport = document.querySelector("#export");
-
-// ActionListener
-
-
 
 
 const audio = new Audio('../music/slow-2021-08-17_-_8_Bit_Nostalgia_-_www.FesliyanStudios.com.mp3');
@@ -65,11 +62,11 @@ function userInput(){
 function setUpEventListeners(){
 
     music.addEventListener("click", UtilityMusic.toggleMusic);
-    gameImport.addEventListener("click", UtilityGame.importGame);
-    gameExport.addEventListener("click", UtilityGame.exportGame);
+    gameImport.addEventListener("click", UtilityGame.importGameSelect);
+    gameExport.addEventListener("click", UtilityGame.exportGameFile);
     form.addEventListener("submit", userInput);
     
 }
 
-export {audio, audioBtn, adventureGame};
+export {audio, audioBtn, adventureGame, contentText, score};
 

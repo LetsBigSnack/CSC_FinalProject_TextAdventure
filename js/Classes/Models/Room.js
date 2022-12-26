@@ -1,33 +1,13 @@
 import {UtilityText} from "../Utility/UtilityText.js";
+import {AdventureGame} from "./AdventureGame.js";
 
 /**
  * This Class is used to represent the "Room" entities in the game.
  * This Room class is used to store everything necessary for the representation in the game
  * A Room is an abstract representation of a space within the Game
- * Rooms can be connected to another and contain information about other entities or events
+ * Rooms can be connected to another and contain information about other entities or events inside of them
  */
 class Room {
-
-    // STATIC CONSTANT
-    static DIRECTIONS = {
-        North: 0,
-        East: 1,
-        South: 2,
-        West: 3
-    }
-    static EVENT = {
-        Look : 0,
-        Talk : 1
-    }
-
-    static USER_INPUT = {
-        North : "N",
-        East: "E",
-        South: "S",
-        West: "W",
-        Talk: "T",
-        Look: "L"
-    }
 
     /**
      * The class constructor for the class "Room"
@@ -80,7 +60,6 @@ class Room {
      * @returns {string} Returns a full description of the Room in an HTML-Format
      */
     describe() {
-
         let desc = this.description + UtilityText.TEXT_SYMBOL.NewEmptyLine;
         desc += this.drawAscii() + UtilityText.TEXT_SYMBOL.NewLine;
         desc += this.displayOptions() + UtilityText.TEXT_SYMBOL.NewLine;
@@ -112,16 +91,16 @@ class Room {
         for (let i = 0; i < this.connections.length; i++) {
             if(this.connections[i]){
                 switch (i) {
-                    case Room.DIRECTIONS.North:
+                    case AdventureGame.DIRECTIONS.North:
                         options += UtilityText.emphasizeFirstLetter("North","[", "]", UtilityText.TEXT_COLORS.Blue);
                         break;
-                    case Room.DIRECTIONS.East:
+                    case AdventureGame.DIRECTIONS.East:
                         options +=  UtilityText.emphasizeFirstLetter("East","[", "]", UtilityText.TEXT_COLORS.Blue);
                         break;
-                    case Room.DIRECTIONS.South:
+                    case AdventureGame.DIRECTIONS.South:
                         options +=  UtilityText.emphasizeFirstLetter("South","[", "]", UtilityText.TEXT_COLORS.Blue);
                         break;
-                    case Room.DIRECTIONS.West:
+                    case AdventureGame.DIRECTIONS.West:
                         options +=  UtilityText.emphasizeFirstLetter("West","[", "]", UtilityText.TEXT_COLORS.Blue);
                         break;
                 }
@@ -129,11 +108,11 @@ class Room {
             }
         }
 
-        if (this.commands[Room.EVENT.Talk]) {
+        if (this.commands[AdventureGame.EVENT.Talk]) {
             options += UtilityText.emphasizeFirstLetter("Talk to","[", "]", UtilityText.TEXT_COLORS.Pink) + UtilityText.TEXT_SYMBOL.Separator;
         }
 
-        if (this.commands[Room.EVENT.Look]) {
+        if (this.commands[AdventureGame.EVENT.Look]) {
             options +=  UtilityText.emphasizeFirstLetter("Look at","[", "]", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.Separator;
         }
         return options.substring(0, options.lastIndexOf("|"));
@@ -142,17 +121,16 @@ class Room {
     /**
      * Handles user interaction that can be done with a Room
      * @param {string} command Represents the action of the user
-     * @returns {string} Returns a string which represent the state of the Game after user has done the action
+     * @returns {string} Returns a string which represent the state of the Game after the user has done the action
      */
     interact(command) {
-
         let returnText;
 
         switch (command) {
-            case Room.USER_INPUT.Look:
+            case AdventureGame.USER_INPUT.Look:
                 returnText = this.lookAt();
                 break;
-            case Room.USER_INPUT.Talk:
+            case AdventureGame.USER_INPUT.Talk:
                 returnText = this.talkTo();
                 break;
             default:
@@ -169,11 +147,10 @@ class Room {
      * @returns {string}  Returns the Talk to Description in an HTML-Format
      */
     talkTo() {
-
         let returnText;
 
-        if (this.commands[Room.EVENT.Talk]){
-            returnText = this.commands[Room.EVENT.Talk];
+        if (this.commands[AdventureGame.EVENT.Talk]){
+            returnText = this.commands[AdventureGame.EVENT.Talk];
             if (this.hasBugs("T")) {
                 returnText += this.unlockBug();
             }
@@ -191,11 +168,10 @@ class Room {
      * @returns {string}  Returns the Look at Description in an HTML-Format
      */
     lookAt() {
-
         let returnText;
 
-        if (this.commands[Room.EVENT.Look]) {
-            returnText = this.commands[Room.EVENT.Look];
+        if (this.commands[AdventureGame.EVENT.Look]) {
+            returnText = this.commands[AdventureGame.EVENT.Look];
             if (this.hasBugs("L")) {
                 returnText += this.unlockBug();
             }
@@ -212,7 +188,6 @@ class Room {
      * @returns {boolean} Returns if a specific Event / Action has gives the User a Bug in the current Room
      */
     hasBugs(event) {
-
         return this.bug !== undefined && this.bug.event === event && !this.bug.hasBeenFound();
     }
 
@@ -221,8 +196,6 @@ class Room {
      * @returns {string} Returns the description of the Bug after it has been found in an HTML-Format
      */
     unlockBug() {
-
-
         let returnText = this.bug.getDescription();
         this.bug.discover();
 
@@ -233,34 +206,32 @@ class Room {
     /**
      * Tries to change the current Room based on the Direction
      * @param direction The direction the user tries to travel to
-     * @returns {Room|string} Returns the new Room if the travel there is possible otherwise returns a default string
+     * @returns {Room} Returns the new Room if the travel there is possible otherwise returns undefined
      */
     travelTo(direction) {
         switch (direction) {
-            case Room.USER_INPUT.North:
-                if (this.connections[Room.DIRECTIONS.North]) {
-                    return this.connections[Room.DIRECTIONS.North];
+            case AdventureGame.USER_INPUT.North:
+                if (this.connections[AdventureGame.DIRECTIONS.North]) {
+                    return this.connections[AdventureGame.DIRECTIONS.North];
                 }
                 break;
-            case Room.USER_INPUT.East:
-                if (this.connections[Room.DIRECTIONS.East]) {
-                    return this.connections[Room.DIRECTIONS.East];
+            case AdventureGame.USER_INPUT.East:
+                if (this.connections[AdventureGame.DIRECTIONS.East]) {
+                    return this.connections[AdventureGame.DIRECTIONS.East];
                 }
                 break;
-            case Room.USER_INPUT.South:
-                if (this.connections[Room.DIRECTIONS.South]) {
-                    return this.connections[Room.DIRECTIONS.South];
+            case AdventureGame.USER_INPUT.South:
+                if (this.connections[AdventureGame.DIRECTIONS.South]) {
+                    return this.connections[AdventureGame.DIRECTIONS.South];
                 }
                 break;
-            case Room.USER_INPUT.West:
-                if (this.connections[Room.DIRECTIONS.West]) {
-                    return this.connections[Room.DIRECTIONS.West];
+            case AdventureGame.USER_INPUT.West:
+                if (this.connections[AdventureGame.DIRECTIONS.West]) {
+                    return this.connections[AdventureGame.DIRECTIONS.West];
                 }
                 break;
-
-            default:
-                return "You can't go in this direction";
         }
+        return undefined;
     }
 
 }
