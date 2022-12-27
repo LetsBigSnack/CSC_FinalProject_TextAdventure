@@ -39,6 +39,8 @@
 - change locationName to location
 - Add Version number to export to prevent Bugs with different Version
 - Add Paragraphs
-- Animate function doesn't work as of now
-- 
+- Animate function doesn't work as of now --> needs fixing
+
+## 27-12
+- Accidentally fucked up connected Rooms --> needs fixing 
 

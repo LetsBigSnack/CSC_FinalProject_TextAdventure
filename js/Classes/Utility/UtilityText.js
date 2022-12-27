@@ -5,6 +5,14 @@
  */
 class UtilityText{
 
+
+    static PREDEFINED_TEXT = {
+        Start : "                <p>Adventure:</p>\n" +
+            "                <p class=\"color_blue\">On the search of the Bugs in the Spaghetti Code</p>\n" +
+            "                <p>The previous programmers, who have worked on this codebase have all been laid-off, and it's your job, as part of your unpaid internship, to explore the code-base and find all the bugs that have accumulated over the many years that different programmers have worked on this project. And maybe if you are lucky, you can add your own bugs to the project in the future. </p>\n" +
+            "                <p>[S]tart | [Q]uit </p>"
+    }
+
     static TEXT_SYMBOL = {
         NewLine : "<br>",
         NewEmptyLine : "<br><br>",

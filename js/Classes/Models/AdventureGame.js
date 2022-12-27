@@ -1,5 +1,5 @@
 import {UtilityText} from "../Utility/UtilityText.js";
-import {contentText, score} from "../../SetUpGame.js";
+import {contentText, score, locationText} from "../../SetUpGame.js";
 import {UtilityFiles} from "../Utility/UtilityFiles.js";
 import {UtilityGame} from "../Utility/UtilityGame.js";
 
@@ -21,7 +21,17 @@ class AdventureGame {
         Look : 0,
         Talk : 1
     }
+
+    static States = {
+        Start : 0,
+        CharacterCreation : 1,
+        Explore : 2,
+        Dialog: 3,
+        Battle: 4,
+        Inventory: 5
+    }
     static USER_INPUT = {
+        StartGame : "S",
         North : "N",
         East: "E",
         South: "S",
@@ -29,7 +39,7 @@ class AdventureGame {
         Talk: "T",
         Look: "L",
         Quit: "Q",
-        Clear: "Clear",
+        Clear: "CLEAR",
         Star_Wars: "STAR WARS"
     }
 
@@ -39,56 +49,35 @@ class AdventureGame {
     constructor() {
         this.bugScore = 0;
         this.bugList = [];
-        this.currentRoom = {};
+        this.currentRoom = undefined;
         this.roomList = [];
         this.gamefinished = false;
+        this.currentState = AdventureGame.States.Start;
         this.setUp("../jsonData/rooms.json").then();
     }
 
     /**
-     * Handles user interaction
+     * Handles user interaction based on the current game State
      * @param {string} command Represents the action of the user
      * @returns {string} Returns a string which represent the state of the Game after the user has done the action
      */
     interact(command) {
         let returnText = UtilityText.TEXT_SYMBOL.TerminalArrow + UtilityText.colorText(command, UtilityText.TEXT_COLORS.Blue) + UtilityText.TEXT_SYMBOL.NewLine;
 
-        switch (command) {
-            case AdventureGame.USER_INPUT.North:
-            case AdventureGame.USER_INPUT.East:
-            case AdventureGame.USER_INPUT.South:
-            case AdventureGame.USER_INPUT.West:
-                let newRoomID = this.currentRoom.travelTo(command);
-                let newRoom = this.roomList[newRoomID];
-                if (newRoom) {
-                    this.currentRoom = newRoom;
-                    returnText += this.currentRoom.describe();
-                } else {
-                    returnText += "You can't go in this direction";
-                }
+        switch (this.currentState) {
+            case AdventureGame.States.Start:
+                returnText += this.startGame(command);
                 break;
+            case AdventureGame.States.CharacterCreation:
+                //TODO add Character Creation
+                break;
+            case AdventureGame.States.Explore:
+                returnText += this.exploreGame(command);
+                break;
+        }
 
-            case AdventureGame.USER_INPUT.Quit:
-                //TODO: make work
-                alert("Bye Bye");
-                self.close();
-                break;
-
-            case AdventureGame.USER_INPUT.Clear:
-                //TODO: make work
-                contentText.innerHTML = "";
-                returnText += this.currentRoom.describe();
-                break;
-
-            case AdventureGame.USER_INPUT.Star_Wars:
-                //TODO: make work
-                ascii_animate().then();
-                returnText += "Look at the console"
-                break;
-
-            default:
-                returnText += this.currentRoom.interact(command);
-                break;
+        if(this.currentRoom){
+            locationText.innerHTML = this.currentRoom.getLocation();
         }
 
         this.setScoreBoard();
@@ -103,6 +92,84 @@ class AdventureGame {
     }
 
     /**
+     * Handles all user interaction which isn't specified in the other game states
+     * @param {string} command Represents the action of the user
+     * @returns {string} Returns a string which represent the state of the Game after the user has done the action
+     */
+    defaultCommands(command){
+        let returnText;
+        switch (command){
+            case AdventureGame.USER_INPUT.Clear:
+                contentText.innerHTML = "";
+                if(this.currentRoom){
+                    returnText = this.currentRoom.describe();
+                }else{
+                    returnText = UtilityText.PREDEFINED_TEXT.Start;
+                }
+                break;
+            case AdventureGame.USER_INPUT.Quit:
+                // QUIT
+                break;
+            default:
+                returnText = UtilityText.colorText("BEEP BOOP COMMAND undefined", UtilityText.TEXT_COLORS.Red);
+        }
+        return returnText;
+    }
+
+    /**
+     * Handles all user in the game state "Start"
+     * @param {string} command Represents the action of the user
+     * @returns {string} Returns a string which represent the state of the Game after the user has done the action
+     */
+    startGame(command){
+        let returnText;
+        switch (command){
+            case AdventureGame.USER_INPUT.StartGame:
+                // StartGame
+                this.currentState = AdventureGame.States.Explore;
+                this.currentRoom = this.roomList[0];
+                returnText = this.currentRoom.describe();
+                break;
+            default:
+                returnText = this.defaultCommands(command)
+        }
+        return returnText;
+    }
+
+    /**
+     * Handles all user in the game state "Explore"
+     * @param {string} command Represents the action of the user
+     * @returns {string} Returns a string which represent the state of the Game after the user has done the action
+     */
+    exploreGame(command){
+        let returnText;
+
+        switch (command){
+            case AdventureGame.USER_INPUT.North:
+            case AdventureGame.USER_INPUT.East:
+            case AdventureGame.USER_INPUT.South:
+            case AdventureGame.USER_INPUT.West:
+                let newRoomID = this.currentRoom.travelTo(command);
+                let newRoom = this.roomList[newRoomID];
+                if (newRoom) {
+                    this.currentRoom = newRoom;
+                    returnText = this.currentRoom.describe();
+                } else {
+                    returnText = "You can't go in this direction";
+                }
+                break;
+            case AdventureGame.USER_INPUT.Look:
+                returnText = this.currentRoom.lookAt();
+                break;
+            case AdventureGame.USER_INPUT.Talk:
+                returnText = this.currentRoom.talkTo();
+                break;
+            default:
+                returnText = this.defaultCommands(command)
+        }
+        return returnText;
+    }
+    /**
      * Sets up the Game based on information, which is contained in a JSON-File
      * @param {string} path The Path to the JSON-File
      */
@@ -110,7 +177,6 @@ class AdventureGame {
         let jsonRoomsData = await UtilityFiles.readFile(path);
         this.roomList = UtilityGame.importRooms(jsonRoomsData);
         this.bugList = UtilityGame.importBug(jsonRoomsData, this.roomList);
-        this.currentRoom = this.roomList[0];
         this.setScoreBoard();
     }
 

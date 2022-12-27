@@ -89,7 +89,8 @@ class Room {
         let options = "go ";
 
         for (let i = 0; i < this.connections.length; i++) {
-            if(this.connections[i]){
+            //cant use if(this.connection[i]) because 0 is a valid value
+            if(this.connections[i] !== undefined){
                 switch (i) {
                     case AdventureGame.DIRECTIONS.North:
                         options += UtilityText.emphasizeFirstLetter("North","[", "]", UtilityText.TEXT_COLORS.Blue);
@@ -116,29 +117,6 @@ class Room {
             options +=  UtilityText.emphasizeFirstLetter("Look at","[", "]", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.Separator;
         }
         return options.substring(0, options.lastIndexOf("|"));
-    }
-
-    /**
-     * Handles user interaction that can be done with a Room
-     * @param {string} command Represents the action of the user
-     * @returns {string} Returns a string which represent the state of the Game after the user has done the action
-     */
-    interact(command) {
-        let returnText;
-
-        switch (command) {
-            case AdventureGame.USER_INPUT.Look:
-                returnText = this.lookAt();
-                break;
-            case AdventureGame.USER_INPUT.Talk:
-                returnText = this.talkTo();
-                break;
-            default:
-                returnText = UtilityText.colorText("BEEP BOOP COMMAND undefined", UtilityText.TEXT_COLORS.Red);
-                break;
-        }
-        return returnText;
-
     }
 
     //TODO add Dialog System
@@ -210,23 +188,24 @@ class Room {
      */
     travelTo(direction) {
         switch (direction) {
+            //cant use if(this.connection[XYZ]) because 0 is a valid value
             case AdventureGame.USER_INPUT.North:
-                if (this.connections[AdventureGame.DIRECTIONS.North]) {
+                if (this.connections[AdventureGame.DIRECTIONS.North] !== undefined) {
                     return this.connections[AdventureGame.DIRECTIONS.North];
                 }
                 break;
             case AdventureGame.USER_INPUT.East:
-                if (this.connections[AdventureGame.DIRECTIONS.East]) {
+                if (this.connections[AdventureGame.DIRECTIONS.East] !== undefined) {
                     return this.connections[AdventureGame.DIRECTIONS.East];
                 }
                 break;
             case AdventureGame.USER_INPUT.South:
-                if (this.connections[AdventureGame.DIRECTIONS.South]) {
+                if (this.connections[AdventureGame.DIRECTIONS.South] !== undefined) {
                     return this.connections[AdventureGame.DIRECTIONS.South];
                 }
                 break;
             case AdventureGame.USER_INPUT.West:
-                if (this.connections[AdventureGame.DIRECTIONS.West]) {
+                if (this.connections[AdventureGame.DIRECTIONS.West] !== undefined) {
                     return this.connections[AdventureGame.DIRECTIONS.West];
                 }
                 break;
