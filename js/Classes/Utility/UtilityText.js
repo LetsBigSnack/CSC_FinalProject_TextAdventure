@@ -18,7 +18,8 @@ class UtilityText{
         NewEmptyLine : "<br><br>",
         Space : "&nbsp;",
         Separator : " | ",
-        TerminalArrow : "&#62;"
+        TerminalArrow : "&#62;",
+        Tab: "&emsp;&emsp;"
     }
 
     static TEXT_COLORS = {

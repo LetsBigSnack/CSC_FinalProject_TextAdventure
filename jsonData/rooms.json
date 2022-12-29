@@ -2,7 +2,7 @@
     "rooms" : [
         {
             "locationName" : "USB Port",
-            "description" : "",
+            "description" : "Lorem Ipsum bla bla bla",
             "lookAt" : "dasda",
             "talkTo" : "dasdas",
             "ascii" : [

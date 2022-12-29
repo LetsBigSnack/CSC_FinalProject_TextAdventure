@@ -2,6 +2,7 @@ import {UtilityText} from "../Utility/UtilityText.js";
 import {contentText, score, locationText} from "../../SetUpGame.js";
 import {UtilityFiles} from "../Utility/UtilityFiles.js";
 import {UtilityGame} from "../Utility/UtilityGame.js";
+import {CharacterCreator} from "./CharacterCreator.js";
 
 /**
  * This Class is used to represent the "AdventureGame" and it's GameLoop.
@@ -40,7 +41,9 @@ class AdventureGame {
         Look: "L",
         Quit: "Q",
         Clear: "CLEAR",
-        Star_Wars: "STAR WARS"
+        Star_Wars: "STAR WARS",
+        Confirm : "Y",
+        Cancel : "N"
     }
 
     /**
@@ -54,6 +57,7 @@ class AdventureGame {
         this.gamefinished = false;
         this.currentState = AdventureGame.States.Start;
         this.setUp("../jsonData/rooms.json").then();
+        this.characterCreator = new CharacterCreator();
     }
 
     /**
@@ -62,14 +66,14 @@ class AdventureGame {
      * @returns {string} Returns a string which represent the state of the Game after the user has done the action
      */
     interact(command) {
-        let returnText = UtilityText.TEXT_SYMBOL.TerminalArrow + UtilityText.colorText(command, UtilityText.TEXT_COLORS.Blue) + UtilityText.TEXT_SYMBOL.NewLine;
+        let returnText = UtilityText.TEXT_SYMBOL.TerminalArrow + UtilityText.colorText(command, UtilityText.TEXT_COLORS.Blue) + UtilityText.TEXT_SYMBOL.NewEmptyLine;
 
         switch (this.currentState) {
             case AdventureGame.States.Start:
                 returnText += this.startGame(command);
                 break;
             case AdventureGame.States.CharacterCreation:
-                //TODO add Character Creation
+                returnText += this.createChar(command);
                 break;
             case AdventureGame.States.Explore:
                 returnText += this.exploreGame(command);
@@ -126,13 +130,27 @@ class AdventureGame {
         switch (command){
             case AdventureGame.USER_INPUT.StartGame:
                 // StartGame
-                this.currentState = AdventureGame.States.Explore;
-                this.currentRoom = this.roomList[0];
-                returnText = this.currentRoom.describe();
+                this.currentState = AdventureGame.States.CharacterCreation;
+                returnText = UtilityText.colorText("Create your Character!", UtilityText.TEXT_COLORS.Gold) + UtilityText.TEXT_SYMBOL.NewEmptyLine;
+                returnText += this.characterCreator.describe();
                 break;
             default:
                 returnText = this.defaultCommands(command)
         }
+        return returnText;
+    }
+
+    createChar(command){
+        let returnText;
+
+        returnText = this.characterCreator.createCharacter(command);
+
+        if(this.characterCreator.currentStep === CharacterCreator.CREATION_STEPS.Finished){
+            this.currentState = AdventureGame.States.Explore;
+            this.currentRoom = this.roomList[0];
+            returnText += UtilityText.TEXT_SYMBOL.NewEmptyLine + this.currentRoom.describe();
+        }
+
         return returnText;
     }
 

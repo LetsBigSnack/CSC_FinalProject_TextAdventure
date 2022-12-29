@@ -69,6 +69,19 @@ a:hover {
     line-height: 1.4;
 }
 
+#content ul{
+    list-style-type: none;
+    margin: 1rem 1rem 1rem 2.5rem;
+    line-height: 1.4;
+}
+
+#content a{
+    color: aqua;
+}
+#content a:hover{
+    color: blueviolet;
+}
+
 .color_blue {
     color: aqua;
 }
@@ -144,4 +157,8 @@ a:hover {
 
 .finished-input {
     color: #070;
+}
+
+#attributes {
+    display: none;
 }
