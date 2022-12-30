@@ -28,6 +28,7 @@
 * [ ] Expand Story
 
 # Notes
+
 ## 25-12
 - should split Utility in multiple Classes -> Files, Music, etc. ?
 - create UtilityText Class with functions -> colorText, etc.
@@ -68,3 +69,12 @@
 - Add click sound on stat add / sub
 - I think i am finished with the crud Character Creation
 - Add comments tomorrow !!!!!!!!!!!!!!! IMPORTANT
+- Save selected Character somewhere
+- Save character name
+
+## 30-12
+- Adding Class Data
+- Should I add option to start character creation process from the start ? [Yes]
+- Add Array of option to user input
+- Add Tutorial "How to interact"
+- Use ChatGPT to generate Flavour Text

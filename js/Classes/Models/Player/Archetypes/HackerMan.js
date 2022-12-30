@@ -1,23 +1,35 @@
 import {Player} from "../Player.js";
+import {UtilityText} from "../../../Utility/UtilityText.js";
 
 class HackerMan extends Player{
+
+    stats = {
+        Strength : 2,
+        Dexterity: 6,
+        Constitution: 2,
+        Intelligence: 4,
+        Wisdom: 2,
+        Charisma: 2
+    };
+
+    default_stats = {
+        Strength : 2,
+        Dexterity: 6,
+        Constitution: 2,
+        Intelligence: 4,
+        Wisdom: 2,
+        Charisma: 2
+    };
 
     className = "H4ck3r-M4n";
 
     describe(){
-        return "I am a Hacker";
-    }
-
-    setStats(name, health, strength, dexterity, constitution, intelligence, wisdom, charisma){
-        this.name = name
-        this.health = health;
-        this.strength = strength;
-        this.dexterity = dexterity;
-        this.constitution = constitution;
-        this.intelligence = intelligence;
-        this.wisdom = wisdom;
-        this.charisma = charisma;
-        this.level = 0;
+        let description;
+        description = "The "+ UtilityText.colorText(this.className, UtilityText.TEXT_COLORS.Blue) +" is a class that specializes in the use of technology and hacking in combat situations. In addition, they are highly skilled at manipulating and controlling electronic devices, including computer systems and robotics." + UtilityText.TEXT_SYMBOL.NewEmptyLine;
+        description += "In combat,  they can use their skills to disable or manipulate enemy technology or even take control of robotic enemies to turn them against their creators. They are also skilled at using their knowledge of computer systems to gather information, hack into secure networks, and disrupt communication channels." + UtilityText.TEXT_SYMBOL.NewEmptyLine;
+        description += "Favored attributes "+ UtilityText.colorText("[Dexterity][Intelligence]", UtilityText.TEXT_COLORS.Blue);
+        description += UtilityText.TEXT_SYMBOL.NewLine;
+        return description;
     }
 
 

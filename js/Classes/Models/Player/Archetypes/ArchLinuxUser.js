@@ -1,26 +1,38 @@
 import {Player} from "../Player.js";
+import {UtilityText} from "../../../Utility/UtilityText.js";
 
 class ArchLinuxUser extends Player{
+
+    stats = {
+        Strength : 2,
+        Dexterity: 2,
+        Constitution: 3,
+        Intelligence: 8,
+        Wisdom: 3,
+        Charisma: 0
+    };
+
+    default_stats = {
+        Strength : 2,
+        Dexterity: 2,
+        Constitution: 3,
+        Intelligence: 8,
+        Wisdom: 3,
+        Charisma: 0
+    };
 
     className = "Arch-Linux User";
 
 
     describe(){
-        return "I am a Arch";
-    }
+        let description;
 
-    setStats(name, health, strength, dexterity, constitution, intelligence, wisdom, charisma){
-        this.name = name
-        this.health = health;
-        this.strength = strength;
-        this.dexterity = dexterity;
-        this.constitution = constitution;
-        this.intelligence = intelligence;
-        this.wisdom = wisdom;
-        this.charisma = charisma;
-        this.level = 0;
+        description = "The "+ UtilityText.colorText(this.className, UtilityText.TEXT_COLORS.Blue) +" is a class that combines technical expertise with a love of all things mechanical and technological. As an "+UtilityText.colorText(this.className, UtilityText.TEXT_COLORS.Blue)+", you are highly skilled in using and repairing a wide range of technological devices and systems. You are always on the lookout for ways to improve and optimize these devices, and you have a knack for finding creative solutions to complex problems." + UtilityText.TEXT_SYMBOL.NewEmptyLine;
+        description += "In combat, you use your technical skills to create and deploy a variety of gadgets and devices to support your allies and hinder your enemies. You have a wide range of tools and devices at your disposal to aid you in your battles." + UtilityText.TEXT_SYMBOL.NewEmptyLine;
+        description += "Favored attribute "+ UtilityText.colorText("[Intelligence]", UtilityText.TEXT_COLORS.Blue);
+        description += UtilityText.TEXT_SYMBOL.NewLine;
+        return description;
     }
-
 
 
 }

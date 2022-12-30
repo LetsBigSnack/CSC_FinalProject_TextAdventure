@@ -5,6 +5,7 @@ import {OnlineInfluencer} from "./Player/Archetypes/OnlineInfluencer.js";
 import {HackerMan} from "./Player/Archetypes/HackerMan.js";
 import {ArchLinuxUser} from "./Player/Archetypes/ArchLinuxUser.js";
 import {TwitterUser} from "./Player/Archetypes/TwitterUser.js";
+import {Furry} from "./Player/Archetypes/Furry.js";
 import {
     attributeDiv,
     contentInput,
@@ -16,6 +17,7 @@ import {
     test
 } from "../../SetUpGame.js";
 
+
 class CharacterCreator{
 
 
@@ -26,8 +28,8 @@ class CharacterCreator{
         ClassConfirm: "Class Confirm",
         Attributes : "Spend your attribute points:",
         AttributesConfirm : "Are you sure?",
-        Finished : "Character Created!!"
-
+        Finished : "Character Created!!",
+        Done : "Created Created"
     };
 
     static CLASS_SELECTION = [
@@ -35,6 +37,7 @@ class CharacterCreator{
         new OnlineInfluencer(),
         new HackerMan(),
         new ArchLinuxUser(),
+        new Furry(),
         new TwitterUser()
     ];
 
@@ -77,8 +80,9 @@ class CharacterCreator{
                 break;
             case CharacterCreator.CREATION_STEPS.AttributesConfirm:
                 returnText =  "You have selected the following stats:" + UtilityText.TEXT_SYMBOL.NewLine;
+                //TODO add in Player.js to eleminate DRY
                 for (const statName in this.selectedClass.stats) {
-                    returnText += statName + " : " + this.selectedClass.stats[statName] + UtilityText.TEXT_SYMBOL.NewLine;
+                    returnText += UtilityText.colorText(statName, UtilityText.TEXT_COLORS.Gold) + " : " + this.selectedClass.stats[statName] + UtilityText.TEXT_SYMBOL.NewLine;
                 }
                 returnText += UtilityText.TEXT_SYMBOL.NewLine;
                 returnText +=  "Are you happy with your choice?" + UtilityText.TEXT_SYMBOL.NewLine;
@@ -86,7 +90,15 @@ class CharacterCreator{
                 returnText += UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewLine;
                 break;
             case CharacterCreator.CREATION_STEPS.Finished:
+                returnText = this.selectedClass.overview() + UtilityText.TEXT_SYMBOL.NewLine;
+                returnText += "Are you happy with the Character? " + UtilityText.TEXT_SYMBOL.NewLine;
+                returnText +=  "By choosing "+ UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red)+" the creation process can be started again." + UtilityText.TEXT_SYMBOL.NewLine;
+                returnText += UtilityText.emphasizeFirstLetter("Yes", "[", "]", UtilityText.TEXT_COLORS.Green) + " ";
+                returnText += UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewLine;
+                break;
+            case CharacterCreator.CREATION_STEPS.Done:
                 returnText =  UtilityText.colorText("Character Created!!", UtilityText.TEXT_COLORS.Gold) + UtilityText.TEXT_SYMBOL.NewLine;
+
         }
         return returnText;
     }
@@ -137,12 +149,23 @@ class CharacterCreator{
                 if(confirm){
                     returnText = confirm;
                 }else{
+                    this.selectedClass.name = this.name;
                     returnText = this.describe();
                     this.addActionListenerStats();
                 }
                 break;
             case CharacterCreator.CREATION_STEPS.Finished:
-                returnText = this.describe();
+                confirm = this.confirmDialog(command, CharacterCreator.CREATION_STEPS.Name, CharacterCreator.CREATION_STEPS.Done);
+                if(confirm){
+                    returnText = confirm;
+                }else{
+                    returnText = this.describe();
+                    this.addActionListenerStats();
+                }
+                break;
+            case CharacterCreator.CREATION_STEPS.Done:
+
+                break;
         }
         return returnText;
     }
@@ -199,7 +222,7 @@ class CharacterCreator{
                 tmpText += "=";
             }
             for (let i = this.selectedClass.stats[statName]; i < this.selectedClass.maxStat; i++) {
-                tmpText += "-";
+                tmpText += "·";
             }
             tmpText += "]";
             stats[statName].innerHTML = tmpText;

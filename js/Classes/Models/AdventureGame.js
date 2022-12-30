@@ -58,6 +58,7 @@ class AdventureGame {
         this.currentState = AdventureGame.States.Start;
         this.setUp("../jsonData/rooms.json").then();
         this.characterCreator = new CharacterCreator();
+        this.player = undefined;
     }
 
     /**
@@ -145,9 +146,10 @@ class AdventureGame {
 
         returnText = this.characterCreator.createCharacter(command);
 
-        if(this.characterCreator.currentStep === CharacterCreator.CREATION_STEPS.Finished){
+        if(this.characterCreator.currentStep === CharacterCreator.CREATION_STEPS.Done){
             this.currentState = AdventureGame.States.Explore;
             this.currentRoom = this.roomList[0];
+            this.player = this.characterCreator.selectedClass;
             returnText += UtilityText.TEXT_SYMBOL.NewEmptyLine + this.currentRoom.describe();
         }
 
