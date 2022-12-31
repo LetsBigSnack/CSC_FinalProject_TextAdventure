@@ -1,6 +1,8 @@
 import {Player} from "../Player.js";
 import {UtilityText} from "../../../Utility/UtilityText.js";
-
+/**
+ * This Class is used to represent the Player-Class "Arch-Linux User" in the game.
+ */
 class ArchLinuxUser extends Player{
 
     stats = {
@@ -12,17 +14,14 @@ class ArchLinuxUser extends Player{
         Charisma: 0
     };
 
-    default_stats = {
-        Strength : 2,
-        Dexterity: 2,
-        Constitution: 3,
-        Intelligence: 8,
-        Wisdom: 3,
-        Charisma: 0
-    };
 
     className = "Arch-Linux User";
 
+    constructor() {
+        super();
+        //If it's just in the super-constructor it will not work :C
+        this.default_stats = Object.assign({}, this.stats);
+    }
 
     describe(){
         let description;

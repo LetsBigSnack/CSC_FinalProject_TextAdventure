@@ -61,25 +61,17 @@ const adventureGame = new AdventureGame();
 
 
 function userInput(){
-    let temporaryTag = document.createElement("p");
+
     const formData = new FormData(form);
     let choice = formData.get("user_choice");
-    let text = adventureGame.interact(choice.toUpperCase());
 
-    if(text){
-        temporaryTag.innerHTML = text;
-        contentText.appendChild(temporaryTag);
-    }
-
-    content.scrollTop = content.scrollHeight;
-    form.reset();
-    return false;
+    interact(choice);
 }
 
 //TODO change horrible code
-function test(state){
+function interact(input){
     let temporaryTag = document.createElement("p");
-    let text = adventureGame.interact(state.toUpperCase());
+    let text = adventureGame.interact(input.toUpperCase());
 
     if(text){
         temporaryTag.innerHTML = text;
@@ -99,5 +91,5 @@ function setUpEventListeners(){
     form.addEventListener("submit", userInput);
 }
 
-export {audio, audioBtn, adventureGame, contentText, score, locationText, content, attributeDiv, contentInput,stats,remainingPoints, subStat, addStat, test,doneBtn};
+export {audio, audioBtn, adventureGame, contentText, score, locationText, content, attributeDiv, contentInput,stats,remainingPoints, subStat, addStat, interact ,doneBtn};
 

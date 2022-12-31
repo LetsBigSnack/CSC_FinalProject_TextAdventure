@@ -59,6 +59,21 @@ class UtilityText{
         }
         return returnText;
     }
+
+    /**
+     * Creates a Yes / No Dialog
+     * @param {string} text The Text which will be put before the yes / no options
+     * @returns {string} Returns an HTML string of the Yes/No Dialog
+     */
+    static createYesNoDialog(text){
+        let returnText;
+
+        returnText = UtilityText.TEXT_SYMBOL.NewLine +  text + UtilityText.TEXT_SYMBOL.NewLine ;
+        returnText += UtilityText.emphasizeFirstLetter("Yes", "[", "]", UtilityText.TEXT_COLORS.Green) + " ";
+        returnText += UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewLine;
+
+        return returnText;
+    }
 }
 
 export {UtilityText};

@@ -14,22 +14,26 @@ import {
     addStat,
     subStat,
     doneBtn,
-    test
+    interact
 } from "../../SetUpGame.js";
 
-
+/**
+ * This Class is used to represent the "CharacterCreation".
+ * This CharacterCreation class is used to store everything necessary for the creation process.
+ * CharacterCreation handles the user input and the steps which are needed to create a Character.
+ */
 class CharacterCreator{
 
 
     static CREATION_STEPS = {
-        Name : "Give your Character a Name:",
-        NameConfirm : "Do you want to name your character.",
-        Class: "Select a Class:",
-        ClassConfirm: "Class Confirm",
-        Attributes : "Spend your attribute points:",
-        AttributesConfirm : "Are you sure?",
-        Finished : "Character Created!!",
-        Done : "Created Created"
+        Name : 0,
+        NameConfirm : 1,
+        Class: 2,
+        ClassConfirm: 3,
+        Attributes : 4,
+        AttributesConfirm : 5,
+        Finished : 6,
+        Done : 7
     };
 
     static CLASS_SELECTION = [
@@ -41,13 +45,19 @@ class CharacterCreator{
         new TwitterUser()
     ];
 
-
+    /**
+     * The class constructor for the class "CharacterCreator"
+     */
     constructor() {
         this.currentStep = CharacterCreator.CREATION_STEPS.Name;
-        this.name = "";
+        this.name = undefined;
         this.selectedClass = undefined;
     }
 
+    /**
+     * Gives a description of every step
+     * @returns {string} Returns the description of every step.
+     */
     describe(){
         let returnText;
         switch (this.currentStep){
@@ -56,9 +66,7 @@ class CharacterCreator{
                 break;
             case CharacterCreator.CREATION_STEPS.NameConfirm:
                 returnText =  "You have selected '" + this.name + "' as your character name." + UtilityText.TEXT_SYMBOL.NewLine;
-                returnText += "Are you happy with your choice?" + UtilityText.TEXT_SYMBOL.NewLine;
-                returnText += UtilityText.emphasizeFirstLetter("Yes", "[", "]", UtilityText.TEXT_COLORS.Green) + " ";
-                returnText += UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewLine;
+                returnText += UtilityText.createYesNoDialog("Are you happy with your choice?");
                 break;
             case CharacterCreator.CREATION_STEPS.Class:
                 returnText = "Select Your Class:"+ UtilityText.TEXT_SYMBOL.NewLine;
@@ -69,9 +77,7 @@ class CharacterCreator{
             case CharacterCreator.CREATION_STEPS.ClassConfirm:
                 returnText = this.selectedClass.describe()+ UtilityText.TEXT_SYMBOL.NewLine;
                 returnText +=  "You have selected '" + this.selectedClass.className+ "' as your character class." + UtilityText.TEXT_SYMBOL.NewLine;
-                returnText += "Are you happy with your choice?" + UtilityText.TEXT_SYMBOL.NewLine;
-                returnText += UtilityText.emphasizeFirstLetter("Yes", "[", "]", UtilityText.TEXT_COLORS.Green) + " ";
-                returnText += UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewLine;
+                returnText += UtilityText.createYesNoDialog("Are you happy with your choice?");
                 break;
             case CharacterCreator.CREATION_STEPS.Attributes:
                 this.allocateAttributesDisplay();
@@ -80,30 +86,30 @@ class CharacterCreator{
                 break;
             case CharacterCreator.CREATION_STEPS.AttributesConfirm:
                 returnText =  "You have selected the following stats:" + UtilityText.TEXT_SYMBOL.NewLine;
-                //TODO add in Player.js to eleminate DRY
+                //TODO add in Player.js to eliminate DRY
                 for (const statName in this.selectedClass.stats) {
                     returnText += UtilityText.colorText(statName, UtilityText.TEXT_COLORS.Gold) + " : " + this.selectedClass.stats[statName] + UtilityText.TEXT_SYMBOL.NewLine;
                 }
                 returnText += UtilityText.TEXT_SYMBOL.NewLine;
-                returnText +=  "Are you happy with your choice?" + UtilityText.TEXT_SYMBOL.NewLine;
-                returnText += UtilityText.emphasizeFirstLetter("Yes", "[", "]", UtilityText.TEXT_COLORS.Green) + " ";
-                returnText += UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewLine;
+                returnText += UtilityText.createYesNoDialog("Are you happy with your choice?");
                 break;
             case CharacterCreator.CREATION_STEPS.Finished:
                 returnText = this.selectedClass.overview() + UtilityText.TEXT_SYMBOL.NewLine;
-                returnText += "Are you happy with the Character? " + UtilityText.TEXT_SYMBOL.NewLine;
-                returnText +=  "By choosing "+ UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red)+" the creation process can be started again." + UtilityText.TEXT_SYMBOL.NewLine;
-                returnText += UtilityText.emphasizeFirstLetter("Yes", "[", "]", UtilityText.TEXT_COLORS.Green) + " ";
-                returnText += UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewLine;
-                break;
+                let dialogText = "Are you happy with the Character? " + UtilityText.TEXT_SYMBOL.NewLine;
+                dialogText +=  "By choosing "+ UtilityText.emphasizeFirstLetter("No", "[", "]", UtilityText.TEXT_COLORS.Red)+" the creation process can be started again." + UtilityText.TEXT_SYMBOL.NewLine;
+                returnText += UtilityText.createYesNoDialog(dialogText);break;
             case CharacterCreator.CREATION_STEPS.Done:
                 returnText =  UtilityText.colorText("Character Created!!", UtilityText.TEXT_COLORS.Gold) + UtilityText.TEXT_SYMBOL.NewLine;
-
+                break;
         }
         return returnText;
     }
 
-
+    /**
+     * Handles the user input for every step and executes the necessary logic for each step.
+     * @param {string} command Represents the action of the user
+     * @returns {string} Returns a string which represent the state of the Character Creation process after the user has done the action
+     */
     createCharacter(command){
         let returnText;
         let confirm;
@@ -170,6 +176,13 @@ class CharacterCreator{
         return returnText;
     }
 
+    /**
+     * Handles the user input for the confirm dialog and either advanced to a certain step or reverts to another step
+     * @param {string} command  Represents the action of the user (should be either Y or N)
+     * @param {number} previousStep The step to which the currentState will be reverted to if the user has chosen the no option
+     * @param {number} nextStep The step to which the currentState will be advanced to if the user has chosen the no option
+     * @returns {string} Returns a string, if the dialog has received an unexpected value
+     */
     confirmDialog(command, previousStep, nextStep){
         let returnText = "";
 
@@ -186,8 +199,13 @@ class CharacterCreator{
         return returnText;
     }
 
+    /**
+     * Handles the class choice for the user
+     * @param {string} command Represents the action of the user (the selected class)
+     * @returns {string} Returns a string, if the dialog has received an unexpected value
+     */
     selectClass(command){
-        let returnText = undefined;
+        let returnText = "";
 
         let commandInt = parseInt(command);
 
@@ -200,6 +218,9 @@ class CharacterCreator{
         return returnText;
     }
 
+    /**
+     * Toggles the Attributes screen to on and disables the user input
+     */
     allocateAttributesDisplay(){
 
         this.showStats();
@@ -207,12 +228,18 @@ class CharacterCreator{
         contentInput.style.display = "none";
     }
 
+    /**
+     * Toggles the Attributes screen to off and enables the user input
+     */
     allocateAttributesHide(){
         attributeDiv.style.display = "none";
         contentInput.style.display = "";
     }
 
 
+    /**
+     * Displays the current Stats / Attributes in the Attribute Window
+     */
     showStats(){
 
         for (const statName in this.selectedClass.stats) {
@@ -231,6 +258,9 @@ class CharacterCreator{
         remainingPoints.innerHTML = UtilityText.colorText("["+this.selectedClass.statPoints +"]", UtilityText.TEXT_COLORS.Red);
     }
 
+    /**
+     * Add all the necessary EventListener to the Button and Interface of the Attribute Window
+     */
     addActionListenerStats(){
         for (const statName in this.selectedClass.stats) {
             // ✅ Remove event listeners from Element
@@ -253,13 +283,10 @@ class CharacterCreator{
         doneBtn.button.addEventListener("click", () => {
             this.allocateAttributesHide();
             //TODO change terrible code
-            test("Done");
+            interact("Done");
         });
 
-
     }
-
-
 }
 
 export {CharacterCreator}

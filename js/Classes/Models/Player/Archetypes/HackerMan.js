@@ -1,6 +1,9 @@
 import {Player} from "../Player.js";
 import {UtilityText} from "../../../Utility/UtilityText.js";
 
+/**
+ * This Class is used to represent the Player-Class "H4ck3r-M4n" in the game.
+ */
 class HackerMan extends Player{
 
     stats = {
@@ -11,17 +14,14 @@ class HackerMan extends Player{
         Wisdom: 2,
         Charisma: 2
     };
-
-    default_stats = {
-        Strength : 2,
-        Dexterity: 6,
-        Constitution: 2,
-        Intelligence: 4,
-        Wisdom: 2,
-        Charisma: 2
-    };
-
     className = "H4ck3r-M4n";
+    constructor() {
+        super();
+        //If it's just in the super-constructor it will not work :C
+        this.default_stats = Object.assign({}, this.stats);
+    }
+
+
 
     describe(){
         let description;

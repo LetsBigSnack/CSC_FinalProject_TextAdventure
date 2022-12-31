@@ -1,6 +1,9 @@
 import {Player} from "../Player.js";
 import {UtilityText} from "../../../Utility/UtilityText.js";
 
+/**
+ * This Class is used to represent the Player-Class "Twitter-User" in the game.
+ */
 class TwitterUser extends Player{
 
     stats = {
@@ -12,15 +15,15 @@ class TwitterUser extends Player{
         Charisma: 1
     }
 
-    default_stats = {
-        Strength : 1,
-        Dexterity: 1,
-        Constitution: 1,
-        Intelligence: 1,
-        Wisdom: 1,
-        Charisma: 1
-    }
+
+
     className = "Twitter-User";
+
+    constructor() {
+        super();
+        //If it's just in the super-constructor it will not work :C
+        this.default_stats = Object.assign({}, this.stats);
+    }
     describe(){
         let description;
         description = "The "+ UtilityText.colorText(this.className, UtilityText.TEXT_COLORS.Blue) +" class is a unique and challenging role to play. Unfortunately, this class is characterized by its below-average skills and tendency to get easily triggered by any perceived slight or challenge." + UtilityText.TEXT_SYMBOL.NewEmptyLine;

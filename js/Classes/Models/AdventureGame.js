@@ -122,7 +122,7 @@ class AdventureGame {
     }
 
     /**
-     * Handles all user in the game state "Start"
+     * Handles all user interaction in the game state "Start"
      * @param {string} command Represents the action of the user
      * @returns {string} Returns a string which represent the state of the Game after the user has done the action
      */
@@ -141,6 +141,11 @@ class AdventureGame {
         return returnText;
     }
 
+    /**
+     * Handles all user interaction in the game state "Character Creation"
+     * @param {string} command Represents the action of the user
+     * @returns {string} Returns a string which represent the state of the Game after the user has done the action
+     */
     createChar(command){
         let returnText;
 

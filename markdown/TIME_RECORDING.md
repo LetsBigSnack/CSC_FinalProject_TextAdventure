@@ -10,3 +10,4 @@
 | **28-12-2022** 21:30-23:30 | Creating Character-Menu Continuing (Unfinished --> no commit to github)           | 2 Hour         | 10 Hours 35 min |
 | **29-12-2022** 17:00-20:50 | Finishing Character Creation                                                      | 3 Hours 50 min | 14 Hours 25 min |
 | **30-12-2022** 16:00-17:10 | Adding Data to Player-Classes +                                                   | 1 Hours 10 min | 15 Hours 35 min |
+| **31-12-2022** 14:40-15:40 | [31-12-2022-TODO's](TODOS/31-12-2022.md)                                          | 1 Hour         | 16 Hours 35 min |

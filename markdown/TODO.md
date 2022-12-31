@@ -62,12 +62,12 @@
 - ADD COMMENTS (but not today, too tired :C)
 
 ## 29-12
-- Tried to add Attribute window without a HTML element --> not really doable (create a hidden div)
-  - couldn't access eventlisteners :C
+- Tried to add Attribute window without an HTML element --> not really doable (create a hidden div)
+  - couldn't access event listeners :C
   - On Attribute disable the inout div --> to prevent user input
   - Add key listener to div for attributes
 - Add click sound on stat add / sub
-- I think i am finished with the crud Character Creation
+- I think I am finished with the crud Character Creation
 - Add comments tomorrow !!!!!!!!!!!!!!! IMPORTANT
 - Save selected Character somewhere
 - Save character name
@@ -78,3 +78,10 @@
 - Add Array of option to user input
 - Add Tutorial "How to interact"
 - Use ChatGPT to generate Flavour Text
+- ADD TUTORIAL Stage
+  - TO interact with the Game world press the first letter in the option menu [Y] // Something like that
+
+## 31-12
+- Maybe create Trello with Tasks / Backlog / Etc.
+- Decided to put everything into individual md-Files
+- [31-12](TODOS/31-12-2022.md)
