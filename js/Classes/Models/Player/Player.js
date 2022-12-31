@@ -80,6 +80,20 @@ class Player {
         return returnText;
     }
 
+    /**
+     * Displays all the Stats and their Value
+     * @returns {string} Returns their Stats / Attributes and their value in an HTML-Format
+     */
+    displayStats(){
+        let returnText = "";
+
+        for (const statName in this.stats) {
+            returnText += UtilityText.colorText(statName, UtilityText.TEXT_COLORS.Gold) + " : " + this.stats[statName] + UtilityText.TEXT_SYMBOL.NewLine;
+        }
+
+        return returnText
+    }
+
     //TODO worry about abilities and classes later
 }
 

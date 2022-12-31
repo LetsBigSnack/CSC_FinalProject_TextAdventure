@@ -3,8 +3,8 @@
         {
             "locationName" : "USB Port",
             "description" : "Lorem Ipsum bla bla bla",
-            "lookAt" : "dasda",
-            "talkTo" : "dasdas",
+            "lookAt" : "Test",
+            "talkTo" : "Test",
             "ascii" : [
                 "  ⣤⣤⣤                        ", 
                 "  ⣿⣿⣿⣿⣿                        ", 

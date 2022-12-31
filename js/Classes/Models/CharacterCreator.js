@@ -86,10 +86,7 @@ class CharacterCreator{
                 break;
             case CharacterCreator.CREATION_STEPS.AttributesConfirm:
                 returnText =  "You have selected the following stats:" + UtilityText.TEXT_SYMBOL.NewLine;
-                //TODO add in Player.js to eliminate DRY
-                for (const statName in this.selectedClass.stats) {
-                    returnText += UtilityText.colorText(statName, UtilityText.TEXT_COLORS.Gold) + " : " + this.selectedClass.stats[statName] + UtilityText.TEXT_SYMBOL.NewLine;
-                }
+                returnText += this.selectedClass.displayStats();
                 returnText += UtilityText.TEXT_SYMBOL.NewLine;
                 returnText += UtilityText.createYesNoDialog("Are you happy with your choice?");
                 break;
