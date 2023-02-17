@@ -10,6 +10,8 @@ class Player {
     className = "Player";
     maxHealth;
     currentHealth;
+    maxMana;
+    currentMana;
     maxStat = 10;
     statPoints = 12;
 
@@ -25,12 +27,25 @@ class Player {
     /**
      * The class constructor for the class "Player"
      */
-    constructor() {
+    constructor(obj = null) {
         this.name = "Player";
         this.default_stats = Object.assign({}, this.stats);
         this.maxHealth = undefined;
         this.currentHealth = undefined;
+        this.maxMana = undefined;
+        this.currentMana = undefined;
         this.level = 1;
+        if(obj){
+            obj && Object.assign(this, obj);
+        }
+    }
+
+    resetStats(){
+        this.currentHealth = this.level * (10+this.stats.Constitution);
+        this.maxHealth = this.currentHealth;
+
+        this.currentMana = this.level * (10+this.stats.Intelligence);
+        this.maxMana = this.currentMana;
     }
 
     /**

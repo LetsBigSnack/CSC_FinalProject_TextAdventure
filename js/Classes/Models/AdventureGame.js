@@ -1,8 +1,9 @@
 import {UtilityText} from "../Utility/UtilityText.js";
-import {contentText, score, locationText} from "../../SetUpGame.js";
+import {contentText, score, locationText, content} from "../../SetUpGame.js";
 import {UtilityFiles} from "../Utility/UtilityFiles.js";
 import {UtilityGame} from "../Utility/UtilityGame.js";
 import {CharacterCreator} from "./CharacterCreator.js";
+import {Battle} from "./Battle.js";
 
 /**
  * This Class is used to represent the "AdventureGame" and it's GameLoop.
@@ -43,21 +44,25 @@ class AdventureGame {
         Clear: "CLEAR",
         Star_Wars: "STAR WARS",
         Confirm : "Y",
-        Cancel : "N"
+        Cancel : "N",
+        ExitDialog: "X"
     }
 
     /**
      * The class constructor for the class "AdventureGame"
      */
     constructor() {
+        this.canPlay = false;
+        this.playSound = false;
         this.bugScore = 0;
         this.bugList = [];
         this.currentRoom = undefined;
         this.roomList = [];
         this.gamefinished = false;
         this.currentState = AdventureGame.States.Start;
-        this.setUp("../jsonData/rooms.json").then();
+        this.setUp("../jsonData/").then();
         this.characterCreator = new CharacterCreator();
+        this.battleScreen = new Battle();
         this.player = undefined;
     }
 
@@ -79,10 +84,21 @@ class AdventureGame {
             case AdventureGame.States.Explore:
                 returnText += this.exploreGame(command);
                 break;
+            case AdventureGame.States.Dialog:
+                returnText += this.executeDialog(command);
+                break;
+            case AdventureGame.States.Battle:
+                returnText += this.fightBattle(command);
+                break;
         }
 
         if(this.currentRoom){
-            locationText.innerHTML = this.currentRoom.getLocation();
+            if(this.currentState === AdventureGame.States.Battle){
+                locationText.innerHTML = "Battle";
+            }else{
+                locationText.innerHTML = this.currentRoom.getLocation();
+
+            }
         }
 
         this.setScoreBoard();
@@ -155,6 +171,7 @@ class AdventureGame {
             this.currentState = AdventureGame.States.Explore;
             this.currentRoom = this.roomList[0];
             this.player = this.characterCreator.selectedClass;
+            this.battleScreen.addPlayer(this.player);
             returnText += UtilityText.TEXT_SYMBOL.NewEmptyLine + this.currentRoom.describe();
         }
 
@@ -179,6 +196,9 @@ class AdventureGame {
                 if (newRoom) {
                     this.currentRoom = newRoom;
                     returnText = this.currentRoom.describe();
+                    if(this.currentRoom.hasEnemy()){
+                        this.startBattle();
+                    }
                 } else {
                     returnText = "You can't go in this direction";
                 }
@@ -187,7 +207,12 @@ class AdventureGame {
                 returnText = this.currentRoom.lookAt();
                 break;
             case AdventureGame.USER_INPUT.Talk:
-                returnText = this.currentRoom.talkTo();
+                this.currentRoom.startDialog();
+                returnText = this.executeDialog();
+
+                if(returnText !== "There is nobody to talk to."){
+                    this.currentState = AdventureGame.States.Dialog;
+                }
                 break;
             default:
                 returnText = this.defaultCommands(command)
@@ -199,10 +224,40 @@ class AdventureGame {
      * @param {string} path The Path to the JSON-File
      */
     async setUp(path) {
-        let jsonRoomsData = await UtilityFiles.readFile(path);
+        let jsonRoomsData = await UtilityFiles.readFile(path+"rooms.json");
+        let jsonNpcData = await UtilityFiles.readFile(path+"npc.json")
         this.roomList = UtilityGame.importRooms(jsonRoomsData);
         this.bugList = UtilityGame.importBug(jsonRoomsData, this.roomList);
+        UtilityGame.importNpcs(jsonNpcData, this.roomList);
         this.setScoreBoard();
+    }
+    executeDialog(command = "Start"){
+        let returnText;
+
+        switch (command){
+            case AdventureGame.USER_INPUT.ExitDialog:
+                this.currentState = AdventureGame.States.Explore;
+                returnText =  this.currentRoom.describe();
+                break;
+            default:
+                returnText = this.currentRoom.talkTo(command);
+        }
+        return returnText;
+    }
+
+    startBattle(){
+        this.player.resetStats();
+        this.currentState = AdventureGame.States.Battle;
+        this.battleScreen.toggleBattleScreen();
+        this.battleScreen.display();
+    }
+    fightBattle(command = "Start"){
+        this.endBattle();
+    }
+    endBattle(){
+        this.currentState = AdventureGame.States.Explore;
+        this.battleScreen.toggleBattleScreen();
+        content.scrollTop = content.scrollHeight;
     }
 
     /**
@@ -212,10 +267,15 @@ class AdventureGame {
     importGame(jsonString){
 
         UtilityGame.importGameFile(jsonString);
+        this.currentState = AdventureGame.States.Explore;
+        let paragraph = document.createElement("p");
+        paragraph.innerHTML =  UtilityText.colorText("Game loaded!", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.NewLine;
+        paragraph.innerHTML += this.currentRoom.describe();
+        contentText.innerHTML = ""
 
-        contentText.innerHTML = "";
-        contentText.innerHTML += this.currentRoom.describe();
+        contentText.appendChild(paragraph);
         this.setScoreBoard();
+        content.scrollTop = content.scrollHeight;
     }
 
     /**

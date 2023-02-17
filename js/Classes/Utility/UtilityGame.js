@@ -1,7 +1,19 @@
 import {UtilityFiles} from "./UtilityFiles.js";
-import {adventureGame} from "../../SetUpGame.js";
+import {adventureGame, locationText, contentText, content} from "../../SetUpGame.js";
 import {Room} from "../Models/Room.js";
 import {Bug} from "../Models/Bug.js";
+import {Npc} from "../Models/Npc/Npc.js";
+import {Dialog} from "../Models/Npc/Dialog/Dialog.js";
+import {DialogOption} from "../Models/Npc/Dialog/DialogOption.js";
+import {Player} from "../Models/Player/Player.js";
+import {KeyboardWarrior} from "../Models/Player/Archetypes/KeyboardWarrior.js";
+import {Furry} from "../Models/Player/Archetypes/Furry.js";
+import {ArchLinuxUser} from "../Models/Player/Archetypes/ArchLinuxUser.js";
+import {HackerMan} from "../Models/Player/Archetypes/HackerMan.js";
+import {OnlineInfluencer} from "../Models/Player/Archetypes/OnlineInfluencer.js";
+import {TwitterUser} from "../Models/Player/Archetypes/TwitterUser.js";
+import {AdventureGame} from "../Models/AdventureGame.js";
+import {UtilityText} from "./UtilityText.js";
 
 /**
  * This Class is used to house all the Function which revolve around game saving, loading, exporting and importing.
@@ -16,7 +28,8 @@ class UtilityGame {
     static exportGame(){
         let exportObject = {
             "currentRoom" : adventureGame.roomList.findIndex(element => element === adventureGame.currentRoom),
-            "bugList" : adventureGame.bugList
+            "bugList" : adventureGame.bugList,
+            "player": adventureGame.player
         }
         let exportObjectJSON = JSON.stringify(exportObject);
         console.log(exportObjectJSON);
@@ -27,9 +40,15 @@ class UtilityGame {
      * Exports and Downloads the current state of the Game as a JSON-File
      */
     static exportGameFile(){
-        let exportObject = UtilityGame.exportGame();
-        let today = new Date().toISOString().slice(0, 10)
-        UtilityFiles.download("save_"+today+".json",exportObject);
+        if(adventureGame.currentState === AdventureGame.States.Explore || adventureGame.currentState === AdventureGame.States.Dialog){
+            let exportObject = UtilityGame.exportGame();
+            let today = new Date().toISOString().slice(0, 10)
+            UtilityFiles.download("save_"+today+".json",exportObject);
+        }else{
+            let paragraph = document.createElement("p");
+            paragraph.innerHTML = UtilityText.colorText("Game can only be saved/exported during the exploration state", UtilityText.TEXT_COLORS.Red);
+            contentText.appendChild(paragraph);
+        }
     }
 
     /**
@@ -58,6 +77,32 @@ class UtilityGame {
             roomList[i].setConnections(temporaryConnections);
         }
         return roomList;
+    }
+
+    /**
+     *
+     * @param jsonData
+     * @param{[Room]} roomList
+     */
+    static importNpcs(jsonData, roomList){
+
+        for (let i = 0; i < jsonData.npcs.length; i++) {
+            let npcEntry = jsonData.npcs[i];
+
+            //Create NPC
+            let tempNPC = new Npc(npcEntry.name);
+
+            //Iterate through all the DialogTrees
+            for (const dialog of npcEntry.dialogs) {
+                 let tempDialog = new Dialog(dialog.dialogText);
+                for (const dialogOption of dialog.dialogOptions) {
+                    let tempDialogOption = new DialogOption(dialogOption.optionText, dialogOption.optionLink, dialogOption.hasBug, dialogOption.requiredCharisma);
+                    tempDialog.addDialogOption(tempDialogOption);
+                }
+                tempNPC.addDialogTree(tempDialog);
+            }
+            roomList[npcEntry.roomID].addNPC(tempNPC);
+        }
     }
 
     /**
@@ -99,11 +144,71 @@ class UtilityGame {
         let importedObject = JSON.parse(jsonString)
         let currentRoomJSON = importedObject["currentRoom"];
         let bugListJSON = importedObject["bugList"];
+        let playerJSON = importedObject["player"];
         adventureGame.bugList = UtilityGame.copyBugList(bugListJSON);
         for (let i = 0; i < adventureGame.bugList.length; i++) {
             adventureGame.roomList[adventureGame.bugList[i].room].setBug(adventureGame.bugList[i]);
         }
+        adventureGame.player = UtilityGame.importPlayer(playerJSON);
+        adventureGame.player.resetStats();
+        adventureGame.battleScreen.addPlayer(adventureGame.player);
         adventureGame.currentRoom = adventureGame.roomList[currentRoomJSON];
+
+        if(adventureGame.currentRoom){
+            locationText.innerHTML = adventureGame.currentRoom.getLocation();
+        }
+    }
+
+    static importPlayer(playerJSON){
+
+        // Cast to specific class ?
+        let newPlayer;
+
+        switch(playerJSON.className){
+
+            case "Keyboard Warrior":
+                newPlayer = new KeyboardWarrior(playerJSON);
+                break;
+            case "Arch-Linux User":
+                newPlayer = new ArchLinuxUser(playerJSON);
+                break;
+            case "Furry":
+                newPlayer = new Furry(playerJSON);
+                break;
+            case "H4ck3r-M4n":
+                newPlayer = new HackerMan(playerJSON);
+                break;
+            case "Online Influencer":
+                newPlayer = new OnlineInfluencer(playerJSON);
+                break;
+            case "Twitter-User":
+                newPlayer = new TwitterUser(playerJSON);
+                break;
+            default:
+                newPlayer = new Player(playerJSON);
+        }
+
+        return newPlayer;
+    }
+
+    static loadGame(){
+        console.log("load");
+        if(localStorage.getItem("save")){
+            console.log("load 2");
+            adventureGame.importGame(localStorage.getItem("save"));
+        }
+    }
+
+    static saveGame() {
+        let paragraph = document.createElement("p");
+        if (adventureGame.currentState === AdventureGame.States.Explore || adventureGame.currentState === AdventureGame.States.Dialog) {
+            localStorage.setItem("save", UtilityGame.exportGame());
+            paragraph.innerHTML = UtilityText.colorText("Game saved!", UtilityText.TEXT_COLORS.Green);
+        } else {
+            paragraph.innerHTML = UtilityText.colorText("Game can only be saved/exported during the exploration state", UtilityText.TEXT_COLORS.Red);
+        }
+        content.scrollTop = content.scrollHeight;
+        contentText.appendChild(paragraph);
     }
 
 }

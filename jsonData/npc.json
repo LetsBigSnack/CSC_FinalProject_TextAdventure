@@ -1,0 +1,50 @@
+{
+  "npcs" : [
+    {
+      "roomID": 0,
+      "name": "Hallo Melih",
+      "dialogs": [
+        {
+          "dialogText": "HOHO",
+          "dialogOptions": [
+            {
+              "optionText" : "go to Dialog 2",
+              "optionLink": 1,
+              "hasBug": false,
+              "requiredCharisma": 8
+            },
+            {
+              "optionText" : "go to Dialog 3",
+              "optionLink": 2,
+              "hasBug": false,
+              "requiredCharisma": 0
+            }
+          ]
+        },
+        {
+          "dialogText": "Dialog 2",
+          "dialogOptions": [
+            {
+              "optionText" : "go to Dialog 1",
+              "optionLink": 0,
+              "hasBug": false,
+              "requiredCharisma": 0
+
+            },
+            {
+              "optionText" : "go to Dialog 3",
+              "optionLink": 2,
+              "hasBug": false,
+              "requiredCharisma": 0
+            }
+          ]
+        },
+        {
+          "dialogText": "Dialog 3",
+          "dialogOptions": [
+          ]
+        }
+      ]
+    }
+  ]
+}

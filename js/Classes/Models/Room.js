@@ -1,5 +1,6 @@
 import {UtilityText} from "../Utility/UtilityText.js";
 import {AdventureGame} from "./AdventureGame.js";
+import {Npc} from "./Npc/Npc.js";
 
 /**
  * This Class is used to represent the "Room" entities in the game.
@@ -24,6 +25,8 @@ class Room {
         this.connections = [];
         this.bug = {};
         this.ascii = ascii;
+        this.npc = undefined;
+        this.enemy = undefined;
         if(obj){
             obj && Object.assign(this, obj);
         }
@@ -109,8 +112,8 @@ class Room {
             }
         }
 
-        if (this.commands[AdventureGame.EVENT.Talk]) {
-            options += UtilityText.emphasizeFirstLetter("Talk to","[", "]", UtilityText.TEXT_COLORS.Pink) + UtilityText.TEXT_SYMBOL.Separator;
+        if (this.npc) {
+            options += UtilityText.emphasizeFirstLetter("Talk to " + this.npc.name,"[", "]", UtilityText.TEXT_COLORS.Pink) + UtilityText.TEXT_SYMBOL.Separator;
         }
 
         if (this.commands[AdventureGame.EVENT.Look]) {
@@ -119,18 +122,51 @@ class Room {
         return options.substring(0, options.lastIndexOf("|"));
     }
 
+    addNPC(npc){
+        this.npc = npc;
+    }
+
+    addEnemy(enemy){
+        this.enemy = enemy;
+    }
+
+    hasEnemy(){
+        return true;
+    }
+    startDialog(){
+        //RESET previous Dialog
+        if(this.npc){
+            this.npc.currentDialogIndex = 0;
+        }
+    }
+
+
+
     //TODO add Dialog System
     /**
      * Generates and returns the Text which represents the Talk to Event
      * @returns {string}  Returns the Talk to Description in an HTML-Format
      */
-    talkTo() {
+    talkTo(command) {
         let returnText;
 
-        if (this.commands[AdventureGame.EVENT.Talk]){
-            returnText = this.commands[AdventureGame.EVENT.Talk];
-            if (this.hasBugs("T")) {
-                returnText += this.unlockBug();
+        // Add Bugs Later
+
+        if (this.npc){
+            if(command != "Start"){
+                let hasChosenDialog = this.npc.selectDialogOption(command);
+                if(hasChosenDialog){
+                    returnText = this.npc.displayDialog();
+                    if(this.hasBugs("T")){
+                        if(this.npc.hasBug(command)){
+                            returnText +=  this.unlockBug();
+                        }
+                    }
+                }else{
+                    returnText = UtilityText.colorText("BEEP BOOP Dialog Option undefined", UtilityText.TEXT_COLORS.Red);
+                }
+            }else{
+                returnText = this.npc.displayDialog();
             }
         } else {
             returnText = "There is nobody to talk to.";
@@ -139,6 +175,8 @@ class Room {
 
         return returnText;
     }
+
+
 
 
     /**

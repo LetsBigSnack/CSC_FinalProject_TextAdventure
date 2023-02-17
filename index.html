@@ -27,61 +27,134 @@
 
         <div id="content">
 
-            <div id="content-text">
-                <p>Adventure:</p>
-                <p class="color_blue">On the search of the Bugs in the Spaghetti Code</p>
-                <p>The previous programmers, who have worked on this codebase have all been laid-off, and it's your job, as part of your unpaid internship, to explore the code-base and find all the bugs that have accumulated over the many years that different programmers have worked on this project. And maybe if you are lucky, you can add your own bugs to the project in the future. </p>
-                <p>[S]tart | [Q]uit </p>
+            <div id="adventureScreen">
+                <div id="content-text">
+                    <p>Adventure:</p>
+                    <p class="color_blue">On the search of the Bugs in the Spaghetti Code</p>
+                    <p>The previous programmers, who have worked on this codebase have all been laid-off, and it's your job, as part of your unpaid internship, to explore the code-base and find all the bugs that have accumulated over the many years that different programmers have worked on this project. And maybe if you are lucky, you can add your own bugs to the project in the future. </p>
+                    <p>[S]tart | [Q]uit </p>
+                </div>
 
-                <!-- Proof of Concept-->
+                <div id="attributes">
+                    <ul>
+                        <li>
+                            <p class=""><span class="color_gold">Strength:</span><br>
+                                <a id="sub_stat_Strength" href="#">[-]</a><span id="stat_str">[-]</span><a id="add_stat_Strength" href="#">[+]</a></p>
+                        </li>
+                        <li>
+                            <p class=""><span class="color_gold">Dexterity:</span><br>
+                                <a id="sub_stat_Dexterity" href="#">[-]</a><span id="stat_dex">[-]</span><a id="add_stat_Dexterity" href="#">[+]</a></p>
+                        </li>
+                        <li>
+                            <p class=""><span class="color_gold">Constitution:</span><br>
+                                <a id="sub_stat_Constitution" href="#">[-]</a><span id="stat_con">[-]</span><a id="add_stat_Constitution" href="#">[+]</a></p>
+                        </li>
+                        <li>
+                            <p class=""><span class="color_gold">Intelligence:</span><br>
+                                <a id="sub_stat_Intelligence" href="#">[-]</a><span id="stat_int">[-]</span><a id="add_stat_Intelligence" href="#">[+]</a></p>
+                        </li>
+                        <li>
+                            <p class=""><span class="color_gold">Wisdom:</span><br>
+                                <a id="sub_stat_Wisdom" href="#">[-]</a><span id="stat_wis">[-]</span><a id="add_stat_Wisdom" href="#">[+]</a></p>
+                        </li>
+                        <li>
+                            <p class=""><span class="color_gold">Charisma:</span><br>
+                                <a id="sub_stat_Charisma" href="#">[-]</a><span id="stat_cha">[-]</span><a id="add_stat_Charisma" href="#">[+]</a></p>
+                        </li>
+                    </ul>
+                    <p>Remaining points <span id="remaining" class="color_red">[10]</span></p>
+                    <p><a id="doneStats" href="#">[Done]</a></p>
+                </div>
+
+                <div id="content-input">
+                    <p>></p>
+                    <form id="form"  onsubmit="return false" action="#" class="LineInput"  autocomplete="off">
+                        <label for="user_choice"></label>
+                        <input autocapitalize="off" autofocus id="user_choice" type="text" name="user_choice">
+                    </form>
+                </div>
 
             </div>
 
-            <div id="attributes">
-                <ul>
-                    <li>
-                        <p class=""><span class="color_gold">Strength:</span><br>
-                        <a id="sub_stat_Strength" href="#">[-]</a><span id="stat_str">[-]</span><a id="add_stat_Strength" href="#">[+]</a></p>
-                    </li>
-                    <li>
-                        <p class=""><span class="color_gold">Dexterity:</span><br>
-                            <a id="sub_stat_Dexterity" href="#">[-]</a><span id="stat_dex">[-]</span><a id="add_stat_Dexterity" href="#">[+]</a></p>
-                    </li>
-                    <li>
-                        <p class=""><span class="color_gold">Constitution:</span><br>
-                            <a id="sub_stat_Constitution" href="#">[-]</a><span id="stat_con">[-]</span><a id="add_stat_Constitution" href="#">[+]</a></p>
-                    </li>
-                    <li>
-                        <p class=""><span class="color_gold">Intelligence:</span><br>
-                            <a id="sub_stat_Intelligence" href="#">[-]</a><span id="stat_int">[-]</span><a id="add_stat_Intelligence" href="#">[+]</a></p>
-                    </li>
-                    <li>
-                        <p class=""><span class="color_gold">Wisdom:</span><br>
-                            <a id="sub_stat_Wisdom" href="#">[-]</a><span id="stat_wis">[-]</span><a id="add_stat_Wisdom" href="#">[+]</a></p>
-                    </li>
-                    <li>
-                        <p class=""><span class="color_gold">Charisma:</span><br>
-                            <a id="sub_stat_Charisma" href="#">[-]</a><span id="stat_cha">[-]</span><a id="add_stat_Charisma" href="#">[+]</a></p>
-                    </li>
-                </ul>
-                <p>Remaining points <span id="remaining" class="color_red">[10]</span></p>
-                <p><a id="doneStats" href="#">[Done]</a></p>
+
+            <div id="battleScreen">
+
+                <div id="battle_text">
+                    <div id="battle_info_player">
+                        <div class="content_border">
+                            <p id="player_name">Player:</p>
+                            <ul>
+                                <li><p id="player_health">HP: 80/80</p></li>
+                                <li><p id="player_health_bar">[||||||||||||||||||||]</p></li>
+                                <li><p id="player_mana">MP: 80/80</p></li>
+                                <li><p id="player_mana_bar">[||||||||||||||||||||]</p></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="battle_enemy_image">
+                        <p>
+                            __________██████████__________<br>
+                            ______████░░░░░░░░░░████______<br>
+                            ____██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██____<br>
+                            __██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██__<br>
+                            __██▒▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██__<br>
+                            ██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒▒▒██<br>
+                            ██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒▒▒██<br>
+                            ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██<br>
+                            ██▒▒▒▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██<br>
+                            ██▓▓▒▒▒▒▒▒▒▒██████▒▒▒▒▒▒▒▒▓▓██<br>
+                            __██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██__<br>
+                            ____██████████████████████____<br>
+                        </p>
+                    </div>
+                    <div>
+                    </div>
+                    <div id="battle_info_enemy">
+                        <div class="content_border">
+                            <p id="enemy_name">Enemy:</p>
+                            <ul>
+                                <li><p id="enemy_health">HP: 80/80</p></li>
+                                <li><p id="enemy_health_bar">[||||||||||||||||||||]</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="player_action">
+                        <div class="content_border">
+                            <p>Player Actions:</p>
+                            <ul>
+                                <li>[0] Ability 1</li>
+                                <li>[1] Ability 2</li>
+                                <li>[2] Ability 3</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="battle_info">
+                    <p>
+                        Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+                    </p>
+                </div>
+                <div id="battle_input">
+                    <p>></p>
+                    <form id="form_battle"  onsubmit="return false" action="#" class="LineInput"  autocomplete="off">
+                        <label for="user_choice_battle"></label>
+                        <input autocapitalize="off" autofocus id="user_choice_battle" type="text" name="user_choice_battle">
+                    </form>
+                </div>
             </div>
 
-            <div id="content-input">
-                <p>></p>
-                <form id="form"  onsubmit="return false" action="#" class="LineInput"  autocomplete="off">
-                    <label for="user_choice"></label>
-                    <input autocapitalize="off" autofocus id="user_choice" type="text" name="user_choice">
-                </form>
-            </div>
 
-            
+
         </div>
         <div id="options">
-            <p><a id="audio">Music</a></p>
-            <p><a id="export">Export</a></p>
-            <p><a id="import">Import</a></p>
+            <p><a title="turn on/off audio" id="audio">Music</a></p>
+            <p><a title="turn on/off sound" id="sound">Sound</a></p>
+            <p><a title="saves the current state of the game" id="save">Save</a></p>
+            <p><a title="loads the saved game state" id="load">Load</a></p>
+            <p><a title="exports the curren game to a json file" id="export">Export</a></p>
+            <p><a title="loads the game based on a given json file" id="import">Import</a></p>
         </div>
 
     </main>

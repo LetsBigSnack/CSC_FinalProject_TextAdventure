@@ -19,8 +19,8 @@ class OnlineInfluencer extends Player{
 
     className = "Online Influencer";
 
-    constructor() {
-        super();
+    constructor(obj = null) {
+        super(obj);
         //If it's just in the super-constructor it will not work :C
         this.default_stats = Object.assign({}, this.stats);
     }

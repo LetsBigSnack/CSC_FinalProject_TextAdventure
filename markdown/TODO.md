@@ -10,17 +10,18 @@
 
 ## Final Project Version (24-12-2022 - ...)
 * [ ] Adding Gameplay Systems
-  * [ ] Inventory
+  * [ ] Inventory (nice to have)
   * [ ] Stats
   * [ ] Dialog
   * [ ] Battle
+  * [ ] Character Sheet
 * [ ] Having different States handle through Code
-  * [ ] Character Creations
-  * [ ] Exploration
+  * [X] Character Creations
+  * [X] Exploration
   * [ ] Dialog
   * [ ] Battle
 * [ ] Add Sounds
-* [ ] Create Item generation System
+* [ ] Create Item generation System (nice to have)
   * [ ] Armor
   * [ ] Weapons
   * [ ] Potions

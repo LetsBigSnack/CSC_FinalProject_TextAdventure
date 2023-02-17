@@ -1,4 +1,4 @@
-import  {audioBtn, audio} from "../../SetUpGame.js";
+import {audioBtn, audio, adventureGame, sound} from "../../SetUpGame.js";
 
 /**
  * This Class is used to house all the Function which revolve around Sound/Music, and it's representation.
@@ -17,6 +17,17 @@ class UtilityMusic {
             audio.pause();
             audioBtn.style.color = "red";
         }
+    }
+
+    static toggleSound(){
+        if(!adventureGame.playSound){
+            sound.style.color = "black";
+            adventureGame.playSound = !adventureGame.playSound;
+        }else{
+            sound.style.color = "red";
+            adventureGame.playSound = !adventureGame.playSound;
+        }
+
     }
 
 }

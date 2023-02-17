@@ -19,8 +19,8 @@ class KeyboardWarrior extends Player{
     /**
      * The class constructor for the class "Player"
      */
-    constructor() {
-        super();
+    constructor(obj = null) {
+        super(obj);
         //If it's just in the super-constructor it will not work :C
         this.default_stats = Object.assign({}, this.stats);
     }

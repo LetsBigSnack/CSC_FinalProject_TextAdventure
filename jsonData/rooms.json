@@ -4,7 +4,7 @@
             "locationName" : "USB Port",
             "description" : "Lorem Ipsum bla bla bla",
             "lookAt" : "Test",
-            "talkTo" : "Test",
+            "talkTo" : "",
             "ascii" : [
                 "  ⣤⣤⣤                        ", 
                 "  ⣿⣿⣿⣿⣿                        ", 
@@ -56,7 +56,7 @@
         {
             "name": "Just not my type",
             "description" : "Just using a normal equality check ('==') can lead to some bugs; using the strict equality operator ('===') is advised.",
-            "event": "L",
+            "event": "T",
             "room": 0
         }
         

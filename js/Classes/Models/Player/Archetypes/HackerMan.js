@@ -15,8 +15,8 @@ class HackerMan extends Player{
         Charisma: 2
     };
     className = "H4ck3r-M4n";
-    constructor() {
-        super();
+    constructor(obj = null) {
+        super(obj);
         //If it's just in the super-constructor it will not work :C
         this.default_stats = Object.assign({}, this.stats);
     }
