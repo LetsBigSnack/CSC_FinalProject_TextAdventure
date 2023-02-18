@@ -24,10 +24,13 @@ class Player {
         Charisma: 3
     };
 
+
+
     /**
      * The class constructor for the class "Player"
      */
     constructor(obj = null) {
+
         this.name = "Player";
         this.default_stats = Object.assign({}, this.stats);
         this.maxHealth = undefined;
@@ -35,9 +38,25 @@ class Player {
         this.maxMana = undefined;
         this.currentMana = undefined;
         this.level = 1;
+        this.isAlive = true;
         if(obj){
             obj && Object.assign(this, obj);
         }
+        let player = this;
+        this.abilities = [
+            {
+                "name" : "Basic Attack",
+                "mp":0,
+            },
+            {
+                "name" : "Basic Heal",
+                "mp":4,
+            },
+            {
+                "name" : "Basic Ultimate",
+                "mp":10,
+            }
+        ];
     }
 
     resetStats(){
@@ -110,6 +129,56 @@ class Player {
     }
 
     //TODO worry about abilities and classes later
+
+    ability_attack(){
+
+        let returnObject = {};
+
+        returnObject.dmg = Math.round(Math.random() * this.stats.Strength);
+        returnObject.text = UtilityText.colorText(this.name, UtilityText.TEXT_COLORS.Blue) + " dealt " + returnObject.dmg + " damage.";
+
+        return returnObject;
+    }
+
+    ability_heal(){
+        let returnObject = {};
+
+        if(this.currentMana-this.abilities[1].mp >= 0){
+            this.currentMana = this.currentMana-this.abilities[1].mp;
+            returnObject.heal = Math.round(Math.random() * this.stats.Wisdom);
+            returnObject.text = UtilityText.colorText(this.name, UtilityText.TEXT_COLORS.Blue) + " healed " + returnObject.heal + " HP.";
+        }
+
+        return returnObject;
+
+    }
+
+    ability_ult(){
+        let returnObject = {};
+        if(this.currentMana-this.abilities[2].mp >= 0){
+            this.currentMana = this.currentMana-this.abilities[2].mp;
+            returnObject.dmg = Math.round(Math.random() * this.stats.Strength)*2;
+            returnObject.text = UtilityText.colorText(this.name, UtilityText.TEXT_COLORS.Blue) + " dealt " + returnObject.dmg + " damage with their Ultimate.";
+        }
+        return returnObject;
+    }
+
+    heal(heal){
+        if(this.currentHealth+heal >= this.maxHealth){
+            this.currentHealth = this.maxHealth;
+        }else{
+            this.currentHealth += heal;
+        }
+    }
+
+    receiveDmg(dmg){
+        this.currentHealth  -= dmg;
+        if(this.currentHealth <= 0){
+            this.currentHealth = 0;
+            this.isAlive = false;
+        }
+    }
+
 }
 
 export {Player};

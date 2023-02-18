@@ -67,9 +67,9 @@ const adventureScreen = document.querySelector("#adventureScreen");
 //Battle divs
 const battleScreen = document.querySelector("#battleScreen");
 battleScreen.style.display = "none";
-const battle_text = document.querySelector("#battle_text");
+
 const battle_info = document.querySelector("#battle_info");
-const battle_input = document.querySelector("#battle_input");
+const battle_error = document.querySelector("#battle_error");
 
 
 // Battle Player Info
@@ -78,13 +78,15 @@ const battle_player_info = {
     "health" : document.querySelector("#player_health"),
     "healthBar" : document.querySelector("#player_health_bar"),
     "mana" : document.querySelector("#player_mana"),
-    "manaBar" : document.querySelector("#player_mana_bar")
+    "manaBar" : document.querySelector("#player_mana_bar"),
+    "actions" :  document.querySelector("#player_action")
 }
 
 const battle_enemy_info = {
     "name" : document.querySelector("#enemy_name"),
     "health" : document.querySelector("#enemy_health"),
     "healthBar" : document.querySelector("#enemy_health_bar"),
+    "ascii":  document.querySelector("#battle_enemy_image"),
 }
 
 
@@ -136,5 +138,5 @@ function setUpEventListeners(){
     form_battle.addEventListener("submit", battleInput);
 }
 
-export {audio, audioBtn, adventureGame, contentText, score, locationText, content, attributeDiv, contentInput,stats,remainingPoints, subStat, addStat, interact ,doneBtn, sound, battle_text, battle_info, battle_input, battleScreen, adventureScreen, battle_player_info, battle_enemy_info};
+export {battle_error,audio, audioBtn, adventureGame, contentText, score, locationText, content, attributeDiv, contentInput,stats,remainingPoints, subStat, addStat, interact ,doneBtn, sound, battle_info, battleScreen, adventureScreen, battle_player_info, battle_enemy_info};
 

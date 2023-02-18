@@ -1,5 +1,5 @@
 import {UtilityFiles} from "./UtilityFiles.js";
-import {adventureGame, locationText, contentText, content} from "../../SetUpGame.js";
+import {adventureGame, locationText, contentText, content, battle_error} from "../../SetUpGame.js";
 import {Room} from "../Models/Room.js";
 import {Bug} from "../Models/Bug.js";
 import {Npc} from "../Models/Npc/Npc.js";
@@ -205,9 +205,13 @@ class UtilityGame {
             localStorage.setItem("save", UtilityGame.exportGame());
             paragraph.innerHTML = UtilityText.colorText("Game saved!", UtilityText.TEXT_COLORS.Green);
         } else {
-            paragraph.innerHTML = UtilityText.colorText("Game can only be saved/exported during the exploration state", UtilityText.TEXT_COLORS.Red);
-        }
-        content.scrollTop = content.scrollHeight;
+            if(adventureGame.currentState === AdventureGame.States.Battle){
+                battle_error.innerHTML =  UtilityText.colorText("Game can only be saved/exported during the exploration state", UtilityText.TEXT_COLORS.Red);
+            }else{
+                paragraph.innerHTML = UtilityText.colorText("Game can only be saved/exported during the exploration state", UtilityText.TEXT_COLORS.Red);
+                content.scrollTop = content.scrollHeight;
+            }
+          }
         contentText.appendChild(paragraph);
     }
 

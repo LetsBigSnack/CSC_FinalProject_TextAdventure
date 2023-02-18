@@ -1,9 +1,10 @@
 import {UtilityText} from "../Utility/UtilityText.js";
-import {contentText, score, locationText, content} from "../../SetUpGame.js";
+import {contentText, score, locationText, content, battleScreen} from "../../SetUpGame.js";
 import {UtilityFiles} from "../Utility/UtilityFiles.js";
 import {UtilityGame} from "../Utility/UtilityGame.js";
 import {CharacterCreator} from "./CharacterCreator.js";
 import {Battle} from "./Battle.js";
+import {Enemy} from "./Enemy/Enemy";
 
 /**
  * This Class is used to represent the "AdventureGame" and it's GameLoop.
@@ -171,7 +172,6 @@ class AdventureGame {
             this.currentState = AdventureGame.States.Explore;
             this.currentRoom = this.roomList[0];
             this.player = this.characterCreator.selectedClass;
-            this.battleScreen.addPlayer(this.player);
             returnText += UtilityText.TEXT_SYMBOL.NewEmptyLine + this.currentRoom.describe();
         }
 
@@ -246,18 +246,26 @@ class AdventureGame {
     }
 
     startBattle(){
+
+        this.battleScreen = new Battle();
         this.player.resetStats();
         this.currentState = AdventureGame.States.Battle;
+        this.battleScreen.addPlayer(this.player);
+        this.battleScreen.addEnemy(new Enemy());
         this.battleScreen.toggleBattleScreen();
-        this.battleScreen.display();
+        this.fightBattle();
     }
     fightBattle(command = "Start"){
-        this.endBattle();
-    }
-    endBattle(){
-        this.currentState = AdventureGame.States.Explore;
-        this.battleScreen.toggleBattleScreen();
-        content.scrollTop = content.scrollHeight;
+
+        switch (command) {
+            case "Start":
+                this.battleScreen.display();
+                break;
+            default:
+                this.battleScreen.interact(command);
+                break;
+        }
+
     }
 
     /**
@@ -268,6 +276,9 @@ class AdventureGame {
 
         UtilityGame.importGameFile(jsonString);
         this.currentState = AdventureGame.States.Explore;
+        if(battleScreen.style.display !== "none"){
+            this.battleScreen.toggleBattleScreen();
+        }
         let paragraph = document.createElement("p");
         paragraph.innerHTML =  UtilityText.colorText("Game loaded!", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.NewLine;
         paragraph.innerHTML += this.currentRoom.describe();
@@ -289,6 +300,9 @@ class AdventureGame {
         score.innerHTML = this.bugScore + " / " + this.bugList.length + " Bugs";
     }
 
+    static restartGame() {
+        location.reload();
+    }
 }
 
 export {AdventureGame};

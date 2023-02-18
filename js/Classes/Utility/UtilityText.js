@@ -27,7 +27,8 @@ class UtilityText{
         Blue : "color_blue",
         Pink : "color_pink",
         Red : "color_red",
-        Gold: "color_gold"
+        Gold: "color_gold",
+        DarkBlue: "color_darkblue"
     }
 
     /**
