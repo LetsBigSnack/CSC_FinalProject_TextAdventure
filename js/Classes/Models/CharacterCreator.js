@@ -280,7 +280,6 @@ class CharacterCreator{
         doneBtn.button = document.querySelector("#doneStats");
         doneBtn.button.addEventListener("click", () => {
             this.allocateAttributesHide();
-            //TODO change terrible code
             interact("Done");
         });
 

@@ -96,7 +96,6 @@ class Player {
      * @param {string} statName The stat name in question.
      */
     subStat(statName){
-        //TODO Check default value [maybe]
         if(this.stats[statName] > this.default_stats[statName]){
             this.stats[statName]--;
             this.statPoints++;
