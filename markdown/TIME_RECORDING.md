@@ -2,7 +2,7 @@
 
 | **Timestamp**                          | **Summary**                                                                       | **Time**       | **Total** Time  |
 |----------------------------------------|-----------------------------------------------------------------------------------|----------------|-----------------|
-| **24-12-2022** 7:50-8:40               | Setting-Up the Project (GitHub, TODO's)                                           | 50 mins        | 50 mins         |
+| **24-12-2022** 7:50-8:40               | Setting-Up the Project (GitHub, TODO's)                                           | 50 min         | 50 mins         |
 | **25-12-2022** 19:00-20:30             | Restructure code and add documentation                                            | 1 Hour 30 min  | 2 Hours 20 min  |
 | **26-12-2022** 13:30-17:30             | Split function across multiple Utility-Classes, restructured code, added Comments | 4 Hours        | 6 Hours 20 min  |
 | **27-12-2022** 22:00-22:45             | Adding States-System to AdventureGame currently implemented (Start, Explore)      | 45 min         | 7 Hours 05 min  |
@@ -15,3 +15,8 @@
 | **15-02-2023** 13:30-15:00 22:30-00:00 | [15-02-2023-TODO's](TODOS/15-02-2023.md)                                          | 3 Hour  00 min | 19 Hours 35 min |
 | **16-02-2023** 15:55-16:30 19:00-21:10 | [16-02-2023-TODO's](TODOS/16-02-2023.md)                                          | 2 Hour  45 min | 22 Hours 20 min |
 | **17-02-2023** 19:00-20:00 21:00-03:00 | [17-02-2023-TODO's](TODOS/17-02-2023.md)                                          | 7 Hour  00 min | 29 Hours 20 min |
+| **18-02-2023** 17:00-21:00             | [18-02-2023-TODO's](TODOS/17-02-2023.md)                                          | 4 Hours        | 33 Hours 20 mim |
+| **19-02-2023** 16:30-18:30             | [19-02-2023-TODO's](TODOS/17-02-2023.md)                                          | 2 Hours        | 35 Hours 20 min |
+| **20-02-2023** 16:00-21:30             | [20-02-2023-TODO's](TODOS/17-02-2023.md)                                          | 5 Hours 30 min | 40 Hours 50 min |
+| **21-02-2023** 19:00-20:00             | [21-02-2023-TODO's](TODOS/17-02-2023.md)                                          | 1 Hour         | 41 Hours 50 min |
+| **22-02-2023** 15:00-17:41             | [22-02-2023-TODO's](TODOS/22-02-2023.md)                                          | 2 Hours 41 min | 44 Hours 31 min |
