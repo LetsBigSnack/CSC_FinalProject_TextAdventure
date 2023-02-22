@@ -1,19 +1,20 @@
 import {
-    addStat,
     adventureGame,
     adventureScreen,
-    battle_player_info, content, contentText,
-    doneBtn,
-    interact, remainingPoints,
-    stats,
-    subStat
+    content
 } from "../../SetUpGame.js";
 import {UtilityText} from "../Utility/UtilityText.js";
 import {AdventureGame} from "./AdventureGame.js";
 
+/**
+ * This Class is used to represent the "CharacterSheet" and it's Logic.
+ * This CharacterSheet class is used to display the Player and it's abilities in a short and understandable form.
+ */
 class CharacterSheet {
 
-
+    /**
+     * The class constructor for the class "CharacterSheet"
+     */
     constructor() {
         this.characterScreen = document.querySelector("#characterScreen");
         this.playerInfo = {
@@ -40,24 +41,36 @@ class CharacterSheet {
         this.player = undefined;
     }
 
+    /**
+     * Sets the player for the CharacterSheet
+     * @param{Player} player
+     */
     setPlayer(player){
         this.player = player;
         this.addActionListenerStats();
     }
 
+    /**
+     * Displays the CharacterSheet and hides the AdventureScreen
+     */
     displayCharacterScreen(){
         this.characterScreen.style.display = "grid";
         adventureScreen.style.display = "none";
     }
 
+    /**
+     * Displays the Character in HTML-Form
+     */
     display(){
-        console.log("adasdas");
         this.player.resetStats();
         this.displayPlayerInfo();
         this.displayAttributes();
         this.displayAbilities();
     }
 
+    /**
+     * Displays the basic Player Info
+     */
     displayPlayerInfo(){
 
         let currentHealth = this.player.currentHealth;
@@ -79,6 +92,9 @@ class CharacterSheet {
 
     }
 
+    /**
+     * Displays the Player Stats
+     */
     displayAttributes(){
         for (const [key, value] of Object.entries(this.playerStats)) {
             value.innerHTML = UtilityText.createBar(this.player.stats[key],10,10);
@@ -86,6 +102,9 @@ class CharacterSheet {
         this.remaingPoints.innerHTML = UtilityText.colorText("["+this.player.statPoints+"]", UtilityText.TEXT_COLORS.Red);
     }
 
+    /**
+     * Hides the Character Screen and displays the adventure game
+     */
     hideCharacterScreen(){
 
         this.characterScreen.style.display = "none";
@@ -99,13 +118,16 @@ class CharacterSheet {
         adventureGame.clearScreen();
     }
 
-
+    /**
+     * Adds EventListeners to the buttons
+     */
     addActionListenerStats(){
         let keys = Array.from(Object.keys(this.playerStats));
 
         for (const statName in keys) {
             let tmpAddButton = document.querySelector("#sheet_add_stat_"+keys[statName]);
             let tmpSubButton = document.querySelector("#sheet_sub_stat_"+keys[statName]);
+            //to prevent multiple actions listeners for the same object
             tmpAddButton.replaceWith(tmpAddButton.cloneNode(true));
             tmpSubButton.replaceWith(tmpSubButton.cloneNode(true));
 
@@ -121,6 +143,7 @@ class CharacterSheet {
         }
 
         let tmpButton = document.querySelector("#characterScreen_exit");
+        //to prevent multiple actions listeners for the same object
         tmpButton.replaceWith(tmpButton.cloneNode(true));
         document.querySelector("#characterScreen_exit").addEventListener("click", () => {
             this.player.setDefaultStats();
@@ -129,6 +152,9 @@ class CharacterSheet {
 
     }
 
+    /**
+     * Displays the Player Abilities
+     */
     displayAbilities() {
 
         let abilityObject = [

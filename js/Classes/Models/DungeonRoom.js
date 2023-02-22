@@ -3,7 +3,12 @@ import {AdventureGame} from "./AdventureGame.js";
 import {adventureGame} from "../../SetUpGame.js";
 import {Enemy} from "./Enemy/Enemy.js";
 
-
+/**
+ * This Class is used to represent the "DungeonRoom" entities in the game.
+ * This DungeonRoom class is used to store everything necessary for the representation in the game
+ * A DungeonRoom is an abstract representation of a space within a Dungeon
+ * DungeonRoom can be connected to another and contain information Enemies inside of them
+ */
 class DungeonRoom {
 
 
@@ -21,7 +26,11 @@ class DungeonRoom {
         3 : [-1,0]
     }
 
-
+    /**
+     * The class constructor for the class "CharacterSheet"
+     * @param{number} x_pos The Position of the Dungeon on an imaginary X-Axis
+     * @param{number} y_pos The Position of the Dungeon on an imaginary X-Axis
+     */
     constructor(x_pos,y_pos) {
         this.y_pos = y_pos;
         this.x_pos = x_pos;
@@ -32,10 +41,20 @@ class DungeonRoom {
         this.enemy = undefined;
     }
 
+    /**
+     * Adds an Enemy to the DungeonRoom
+     * @param{Enemy} enemy
+     */
     addEnemy(enemy){
         this.enemy = enemy;
     }
 
+    /**
+     * Add a connection to the DungeonRoom
+     * @param{AdventureGame.DIRECTIONS} directions The Direction on which the new room will be added
+     * @param{DungeonRoom} room The DungeonRoom, which will be added
+     * @param{boolean} call The Calls if to stop the function from an endless recursion
+     */
     addConnection(directions, room, call = true){
         this.numberConnections++;
         this.connections[directions] = room;
@@ -87,6 +106,10 @@ class DungeonRoom {
         return options.substring(0, options.lastIndexOf("|"));
     }
 
+    /**
+     * Check if the current DungeonRoom has an Enemy
+     * @returns {boolean|*} Returns if the DungeonRoom contains an Enemy
+     */
     hasEnemy(){
         return this.enemy && this.enemy.isAlive;
     }

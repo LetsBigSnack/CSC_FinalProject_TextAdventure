@@ -1,6 +1,5 @@
 import {DungeonRoom} from "./DungeonRoom.js";
 import {UtilityRandom} from "../Utility/UtilityRandom.js";
-import {Enemy} from "./Enemy/Enemy.js";
 import {Worm} from "./Enemy/Enemy-Types/Boss-Types/Worm.js";
 import {Bot} from "./Enemy/Enemy-Types/Bot.js";
 import {Virus} from "./Enemy/Enemy-Types/Virus.js";
@@ -8,15 +7,21 @@ import {Electrode} from "./Enemy/Enemy-Types/Electrode.js";
 import {Resistor} from "./Enemy/Enemy-Types/Resistor.js";
 import {Circuit} from "./Enemy/Enemy-Types/Boss-Types/Circuit.js";
 
+/**
+ * This Class is used primarily for the generation of a Dungeon
+ */
 class DungeonGen{
 
-
+    /**
+     * Generates a random Dungeon filled with Enemies and a Boss based on given Parameters
+     * @param{number} minNumberOfRooms The minimum number of Dungeon rooms which are going to be created
+     * @param{number} maxNumberRooms The minimum number of Dungeon rooms which are going to be created
+     * @returns {DungeonRoom[]} Returns the Array of the Generated Dungeon
+     */
     static generateLevel(minNumberOfRooms = 10, maxNumberRooms = 20 ){
 
         let roomList;
         let finishedGeneration = false;
-
-
 
         do{
 
@@ -61,9 +66,6 @@ class DungeonGen{
 
                                 //Add Connection to connected Rooms
                                 for (const [key_2, value_2] of Object.entries(DungeonRoom.generatorDirections)) {
-
-                                    let test_x = tmpRoom.x_pos+value_2[0];
-                                    let test_y = tmpRoom.y_pos+value_2[1]
 
                                     let adjacentRoom = roomList.filter(room => room.x_pos === tmpRoom.x_pos+value_2[0] &&  room.y_pos === tmpRoom.y_pos+value_2[1])[0];
 

@@ -11,8 +11,15 @@ import {UtilityText} from "../Utility/UtilityText.js";
 import {AdventureGame} from "./AdventureGame.js";
 import {UtilityMusic} from "../Utility/UtilityMusic.js";
 
+/**
+ * This Class is used to represent the "Battle" and it's Logic.
+ * This Battle class is used to store everything necessary for a battle and handle the player's actions.
+ */
 class Battle{
 
+    /**
+     * The class constructor for the class "Battle"
+     */
     constructor() {
         this.player = undefined;
         this.enemy = undefined;
@@ -21,15 +28,27 @@ class Battle{
         this.xpReceived = false;
     }
 
+    /**
+     * Adds a Player to the battle scene
+     * @param{Player} player The Player, which will be added
+     */
     addPlayer(player){
         this.player = player;
         this.playerLVL = this.player.level;
     }
+
+    /**
+     * Adds an Enemy to the battle scene
+     * @param{Enemy} enemy The Enemy, which will be added
+     */
     addEnemy(enemy){
         this.enemy = enemy;
         this.info_text = "Enemy encountered: "+ UtilityText.colorText(this.enemy.name, UtilityText.TEXT_COLORS.Red);
     }
 
+    /**
+     * Toggles the Scene to either display or hide the Battle Screen
+     */
     toggleBattleScreen(){
         if(battleScreen.style.display === "none"){
             this.displayBattleScreen();
@@ -38,18 +57,27 @@ class Battle{
         }
     }
 
+    /**
+     * Displays the Battle Screen and hides all other screens
+     */
     displayBattleScreen(){
         battle_error.innerHTML = "";
         battleScreen.style.display = "block";
         adventureScreen.style.display = "none";
     }
 
+    /**
+     * Hides the Battle Screen and displays the AdventureScreen
+     */
     hideBattleScreen(){
         adventureGame.clearScreen();
         battleScreen.style.display = "none";
         adventureScreen.style.display = "block";
     }
 
+    /**
+     * Displays all the necessary Information for the Battle Screen
+     */
     display(){
 
         battle_info.innerHTML = this.info_text;
@@ -59,6 +87,9 @@ class Battle{
         this.displayEnemyASCIIImage();
     }
 
+    /**
+     * Displays the Player-Stats
+     */
     displayPlayer(){
         let currentHealth = this.player.currentHealth;
         let maxHealth = this.player.maxHealth;
@@ -72,6 +103,9 @@ class Battle{
         battle_player_info.manaBar.innerHTML = UtilityText.createBar(currentMana, maxMana,20);
     }
 
+    /**
+     * Displays all available Player Actions
+     */
     displayPlayerActions(){
         let playerActions = this.player.abilities;
         battle_player_info.actions.innerHTML = "";
@@ -104,6 +138,9 @@ class Battle{
         }
     }
 
+    /**
+     * Displays the Enemy-Stats
+     */
     displayEnemy(){
         let currentHealth = this.enemy.currentHealth;
         let maxHealth = this.enemy.maxHealth;
@@ -114,6 +151,9 @@ class Battle{
 
     }
 
+    /**
+     * Displays the Enemy's Visual Representation
+     */
     displayEnemyASCIIImage(){
         let enemyASCII = this.enemy.asciiImage;
         battle_enemy_info.ascii.innerHTML = "";
@@ -122,6 +162,10 @@ class Battle{
         }
     }
 
+    /**
+     * Handles the user input
+     * @param{string} command The user input
+     */
     interact(command){
         battle_error.innerHTML = "";
         this.info_text = "";
@@ -170,8 +214,11 @@ class Battle{
 
     }
 
+    /**
+     * Executes the User Input for the Battle
+     * @param{string} command The user input
+     */
     fight(command) {
-        //TODO change 02:00 am code to many if-statements
 
         if (this.player.abilities[(Number(command))]) {
             let returnObject;
@@ -210,6 +257,9 @@ class Battle{
             }
         }
 
+    /**
+     * Executes the Enemies Actions
+     */
     enemyFight(){
         let returnObjectEnemy = this.enemy.makeBattleMove();
 
@@ -230,6 +280,9 @@ class Battle{
 
     }
 
+    /**
+     * Tries to run away from the encounter
+     */
     run(){
         let isEscaped = false;
 
@@ -251,6 +304,9 @@ class Battle{
         }
     }
 
+    /**
+     * Escapes the enocunter
+     */
     escape(){
         if(adventureGame.isInDungeon){
             adventureGame.currentState = AdventureGame.States.Dungeoneering;
@@ -260,8 +316,6 @@ class Battle{
         this.toggleBattleScreen();
         content.scrollTop = content.scrollHeight;
     }
-
-
 
 }
 export {Battle};

@@ -258,6 +258,12 @@ class AdventureGame {
         UtilityGame.importNpcs(jsonNpcData, this.roomList);
         this.setScoreBoard();
     }
+
+    /**
+     * Handles all user in the game state "Dialog"
+     * @param {string} command Represents the action of the user
+     * @returns {string} Returns a string which represent the state of the Game after the user has done the action
+     */
     executeDialog(command = "Start"){
         let returnText;
 
@@ -272,6 +278,9 @@ class AdventureGame {
         return returnText;
     }
 
+    /**
+     * Start the Battle-State
+     */
     startBattle(){
 
         this.battleScreen = new Battle();
@@ -282,6 +291,11 @@ class AdventureGame {
         this.battleScreen.toggleBattleScreen();
         this.fightBattle();
     }
+
+    /**
+     * Handles all user in the game state "Battle"
+     * @param {string} command Represents the action of the user
+     */
     fightBattle(command = "Start"){
 
         switch (command) {
@@ -295,17 +309,28 @@ class AdventureGame {
 
     }
 
+    /**
+     * Start the Dungeoneering-State
+     */
     startDungeon(){
         this.isInDungeon = true;
         this.currentState = AdventureGame.States.Dungeoneering;
         this.currentRoom.generateDungeon();
     }
 
+    /**
+     * Exits the Dungeoneering-State
+     */
     exitDungeon(){
         this.isInDungeon = false;
         this.currentState = AdventureGame.States.Explore;
     }
 
+    /**
+     * Handles all user in the game state "Dungeoneering"
+     * @param {string} command Represents the action of the user
+     * @returns {string} Returns a string which represent the state of the Game after the user has done the action
+     */
     exploreDungeon(command){
         let returnText;
 
@@ -335,6 +360,9 @@ class AdventureGame {
         return returnText;
     }
 
+    /**
+     * Displays the Character Sheet
+     */
     displayCharacterSheet(){
         this.player.resetStats();
         this.characterSheet.setPlayer(this.player);
@@ -370,6 +398,10 @@ class AdventureGame {
         content.scrollTop = content.scrollHeight;
     }
 
+    /**
+     * Clears Screen
+     * @param{boolean} showDescription Indicates what Description will be shown
+     */
     clearScreen(showDescription=true){
         let paragraph = document.createElement("p");
         contentText.innerHTML = ""
@@ -394,6 +426,9 @@ class AdventureGame {
         score.innerHTML = this.bugScore + " / " + this.bugList.length + " Bugs";
     }
 
+    /**
+     * Restart the game
+     */
     static restartGame() {
         location.reload();
     }

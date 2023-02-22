@@ -261,6 +261,7 @@ class CharacterCreator{
     addActionListenerStats(){
         for (const statName in this.selectedClass.stats) {
             // ✅ Remove event listeners from Element
+            //to prevent multiple actions listeners for the same object
             addStat[statName].replaceWith(addStat[statName].cloneNode(true));
             addStat[statName] = document.querySelector("#add_stat_"+statName);
             addStat[statName].addEventListener("click", () => {

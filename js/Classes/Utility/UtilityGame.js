@@ -162,6 +162,11 @@ class UtilityGame {
         }
     }
 
+    /**
+     * Imports the Player-Data of a JSON File and returns a Player.
+     * @param playerJSON The JSON-Data, which holds all the information of the Player entities.
+     * @returns {Player} Returns the Player
+     */
     static importPlayer(playerJSON){
 
         let newPlayer;
@@ -193,6 +198,9 @@ class UtilityGame {
         return newPlayer;
     }
 
+    /**
+     * Loads the Game from the local Storage
+     */
     static loadGame(){
         console.log("load");
         if(localStorage.getItem("save")){
@@ -201,6 +209,9 @@ class UtilityGame {
         }
     }
 
+    /**
+     * Saves the Game
+     */
     static saveGame() {
         let paragraph = document.createElement("p");
         if (adventureGame.currentState === AdventureGame.States.Explore || adventureGame.currentState === AdventureGame.States.Dialog) {

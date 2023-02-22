@@ -11,6 +11,7 @@ class Dialog {
 
     /**
      * The class constructor for the class "Dialog"
+     * @param dialogText The Text, which is displayed for the dialog
      */
     constructor(dialogText) {
         this.dialogText = dialogText;
@@ -18,13 +19,17 @@ class Dialog {
     }
 
     /**
-     *
+     * Adds DialogOption to the current Dialog
      * @param{DialogOption} dialogOption
      */
     addDialogOption(dialogOption){
         this.dialogOptions.push(dialogOption);
     }
 
+    /**
+     * Displays the current DialogTree with all available DialogOptions
+     * @returns {string} The HTML representation of the current DialogTree with all the DialogOptions
+     */
     displayDialogOptions(){
         let returnText;
         returnText = this.dialogText + UtilityText.TEXT_SYMBOL.NewEmptyLine;
@@ -40,6 +45,11 @@ class Dialog {
         return returnText;
     }
 
+    /**
+     * Selects an DialogOption in the current DialogTree and returns if the option was valid
+     * @param{String} command The option, which was selected
+     * @returns {boolean|-1} Returns if the chosen options exists
+     */
     choiceDialogOption(command){
         try {
             if(this.dialogOptions[Number(command)].requiredCharisma <=  adventureGame.player.stats["Charisma"]){
@@ -52,6 +62,11 @@ class Dialog {
         }
     }
 
+    /**
+     * Checks if the selected DialogOption has a Bug associated with it.
+     * @param{String} command The DialogOption, which was selected
+     * @returns {boolean|(function(*): (*|boolean|undefined))|*|(function(String): (*|boolean))|boolean}
+     */
     hasBug(command){
         try{
             if(this.dialogOptions[Number(command)].requiredCharisma <=  adventureGame.player.stats["Charisma"]){

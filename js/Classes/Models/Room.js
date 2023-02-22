@@ -3,6 +3,7 @@ import {AdventureGame} from "./AdventureGame.js";
 import {adventureGame} from "../../SetUpGame.js";
 import {DungeonGen} from "./DungeonGen.js";
 import {DungeonMap} from "./DungeonMap.js";
+import {Npc} from "./Npc/Npc.js";
 
 /**
  * This Class is used to represent the "Room" entities in the game.
@@ -145,17 +146,18 @@ class Room {
         return options.substring(0, options.lastIndexOf("|"));
     }
 
+    /**
+     * Adds and NPC to the Room
+     * @param{Npc} npc
+     */
     addNPC(npc){
         this.npc = npc;
     }
 
-    addEnemy(enemy){
-        this.enemy = enemy;
-    }
 
-    hasEnemy(){
-        return false;
-    }
+    /**
+     * Initiates a Dialog if an NPC is there
+     */
     startDialog(){
         //RESET previous Dialog
         if(this.npc){
@@ -163,6 +165,9 @@ class Room {
         }
     }
 
+    /**
+     * Generates a new Dungeon
+     */
     generateDungeon(){
         this.dungeonRooms = DungeonGen.generateLevel();
         this.currentDungeonRoom = this.dungeonRooms[0];
@@ -170,6 +175,11 @@ class Room {
         console.table(this.dungeonRooms);
     }
 
+    /**
+     * Handles interaction to interact within the DungeonRoom
+     * @param{string} command The user input
+     * @returns {string} Returns the HTML-Representation of the output
+     */
     exploreDungeon(command){
         let returnText = "";
         if(this.isDungeon){
@@ -201,10 +211,10 @@ class Room {
         return returnText;
     }
 
-    //TODO add Dialog System
     /**
-     * Generates and returns the Text which represents the Talk to Event
-     * @returns {string}  Returns the Talk to Description in an HTML-Format
+     * Handles interaction to interact within the Dialog
+     * @param{string} command The user input
+     * @returns {string} Returns the HTML-Representation of the output
      */
     talkTo(command) {
         let returnText = "";

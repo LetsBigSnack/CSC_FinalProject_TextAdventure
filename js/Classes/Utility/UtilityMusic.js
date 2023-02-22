@@ -47,6 +47,9 @@ class UtilityMusic {
         }
     }
 
+    /**
+     * Toggles is sound are allowed to play either on or off
+     */
     static toggleSound(){
         console.log("sound");
         if(canPlaySound){
@@ -60,12 +63,20 @@ class UtilityMusic {
         }
     }
 
+    /**
+     * Plays a specific sound clip
+     * @param soundClip The specified sound clip
+     */
     static playSoundClip(soundClip){
         if(canPlaySound && adventureGame.playSound){
             soundClip.play();
         }
     }
 
+    /**
+     * Plays a random sound clip based on a given category
+     * @param soundCategory The category of the sound clips
+     */
     static playRandomSound(soundCategory){
         if(canPlaySound && adventureGame.playSound){
             let rngClip = UtilityRandom.getRandomInt(0, soundCategory.length-1);

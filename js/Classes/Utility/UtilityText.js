@@ -76,6 +76,13 @@ class UtilityText{
         return returnText;
     }
 
+    /**
+     * Creates Bar
+     * @param curValue The current Value of the Bar
+     * @param maxValue The max Value of the Bar
+     * @param maxSize The max Size of the Bar
+     * @returns {string} Returns an HTML string of the Bar
+     */
     static createBar(curValue, maxValue, maxSize){
 
         let returnText = "[";

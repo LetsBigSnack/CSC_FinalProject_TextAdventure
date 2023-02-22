@@ -16,10 +16,9 @@ class Player {
     statPoints = 6;
 
 
-
-
     /**
      * The class constructor for the class "Player"
+     * @param {Player}  obj Object which this Object will be copied to (if not empty)
      */
     constructor(obj = null) {
 
@@ -45,6 +44,7 @@ class Player {
             };
             this.default_stats = Object.assign({}, this.stats);
         }
+
         this.abilities = [
             {
                 "name" : "Basic Attack",
@@ -61,6 +61,9 @@ class Player {
         ];
     }
 
+    /**
+     * Reset the Player Health and Mana to their original state after battle
+     */
     resetStats(){
         this.currentHealth = Math.round(((this.level) * 1.5) *  (10+this.stats.Constitution));
         this.maxHealth = this.currentHealth;
@@ -130,8 +133,11 @@ class Player {
         return returnText
     }
 
-    //TODO worry about abilities and classes later
 
+    /**
+     * Performance an Attack, based on behaviour of the class
+     * @returns {{}} Returns an Object of the Player's Attack
+     */
     ability_attack(){
 
         let returnObject = {};
@@ -142,6 +148,10 @@ class Player {
         return returnObject;
     }
 
+    /**
+     * Describes the Player Attack, based on behaviour of the class
+     * @returns {{}} Returns an Object of the Player's Attack Description
+     */
     describe_Attack(){
         let returnObject = {};
         returnObject.name = "Basic Attack";
@@ -149,6 +159,10 @@ class Player {
         return returnObject;
     }
 
+    /**
+     * Performance a Heal, based on behaviour of the class
+     * @returns {{}} Returns an Object of the Player's Heal
+     */
     ability_heal(){
         let returnObject = {};
 
@@ -162,6 +176,10 @@ class Player {
 
     }
 
+    /**
+     * Describes the Player Heal, based on behaviour of the class
+     * @returns {{}} Returns an Object of the Player's Heal Description
+     */
     describe_Heal(){
         let returnObject = {};
         returnObject.name = "Basic Heal";
@@ -169,6 +187,10 @@ class Player {
         return returnObject;
     }
 
+    /**
+     * Performance an Ultimate Ability, based on behaviour of the class
+     * @returns {{}} Returns an Object of the Player's Ultimate
+     */
     ability_ult(){
         let returnObject = {};
         if(this.currentMana-this.abilities[2].mp >= 0){
@@ -179,6 +201,10 @@ class Player {
         return returnObject;
     }
 
+    /**
+     * Describes the Player Heal, based on behaviour of the class
+     * @returns {{}} Returns an Object of the Player's Heal Description
+     */
     describe_Ult(){
         let returnObject = {};
         returnObject.name = "Ultimate Attack";
@@ -186,6 +212,10 @@ class Player {
         return returnObject;
     }
 
+    /**
+     * Heals a certain amount of Health
+     * @param{Number} heal The Heal-Value, which is added to the enemy's current health
+     */
     heal(heal){
         this.currentHealth += heal;
         if(this.currentHealth >= this.maxHealth){
@@ -194,6 +224,10 @@ class Player {
 
     }
 
+    /**
+     * Receives Damage
+     * @param dmg The Damage received
+     */
     receiveDmg(dmg){
         if(dmg > 0){
             this.currentHealth  -= dmg;
@@ -204,6 +238,10 @@ class Player {
         }
     }
 
+    /**
+     * Receives XP
+     * @param xp The XP received
+     */
     receiveXP(xp){
         console.log("XP");
         this.xp += xp;
@@ -215,10 +253,16 @@ class Player {
         }
     }
 
+    /**
+     * Calculates the xp Threshold,which is needed for the next level
+     */
     calcNextLvl(){
         this.xpThreshhold =5 + Math.round((4 * (this.level**3)) / 5);
     }
 
+    /**
+     * Sets the Default Stats to the value of current Stats
+     */
     setDefaultStats(){
         this.default_stats = Object.assign({}, this.stats);
     }
