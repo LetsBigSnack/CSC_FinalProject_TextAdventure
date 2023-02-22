@@ -11,22 +11,22 @@
 ## Final Project Version (24-12-2022 - ...)
 * [ ] Adding Gameplay Systems
   * [ ] Inventory (nice to have)
-  * [ ] Stats
-  * [ ] Dialog
-  * [ ] Battle
-  * [ ] Character Sheet
-* [ ] Having different States handle through Code
+  * [X] Stats
+  * [X] Dialog
+  * [X] Battle
+  * [X] Character Sheet
+* [X] Having different States handle through Code
   * [X] Character Creations
   * [X] Exploration
-  * [ ] Dialog
-  * [ ] Battle
+  * [X] Dialog
+  * [X] Battle
 * [ ] Add Sounds
 * [ ] Create Item generation System (nice to have)
   * [ ] Armor
   * [ ] Weapons
   * [ ] Potions
-* [ ] Save and Load System
-* [ ] Expand Story
+* [X] Save and Load System
+* [X] Expand Story
 
 # Notes
 

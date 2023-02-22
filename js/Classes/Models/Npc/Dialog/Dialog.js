@@ -17,6 +17,10 @@ class Dialog {
         this.dialogOptions = [];
     }
 
+    /**
+     *
+     * @param{DialogOption} dialogOption
+     */
     addDialogOption(dialogOption){
         this.dialogOptions.push(dialogOption);
     }

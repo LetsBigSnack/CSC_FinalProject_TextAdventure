@@ -1,6 +1,4 @@
 import {UtilityText} from "../../Utility/UtilityText.js";
-import {DialogOption} from "./Dialog/DialogOption.js";
-import {Dialog} from "./Dialog/Dialog.js";
 
 /**
  * This Class is used to represent the "NPC" entity in the game.
@@ -11,15 +9,8 @@ class Npc {
 
 
     /**
-     *     dialogTree = {
-     *         0: new Dialog("Dialog 1"),
-     *         1: new Dialog("Dialog 2"),
-     *         2: new Dialog("Dialog 3")
-     *     }
-     *     currentDialogIndex = 0;
-     */
-    /**
-     * The class constructor for the class "Player"
+     * The class constructor for the class "NPC"
+     * @param{String} name
      */
     constructor(name) {
         this.name = name;

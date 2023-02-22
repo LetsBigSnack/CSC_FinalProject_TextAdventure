@@ -1,6 +1,8 @@
 import {UtilityText} from "../Utility/UtilityText.js";
 import {AdventureGame} from "./AdventureGame.js";
-import {Npc} from "./Npc/Npc.js";
+import {adventureGame} from "../../SetUpGame.js";
+import {DungeonGen} from "./DungeonGen.js";
+import {DungeonMap} from "./DungeonMap.js";
 
 /**
  * This Class is used to represent the "Room" entities in the game.
@@ -27,6 +29,12 @@ class Room {
         this.ascii = ascii;
         this.npc = undefined;
         this.enemy = undefined;
+        this.isDungeon = this.location.includes("Dungeon");
+        if(this.isDungeon){
+            this.dungeonRooms = DungeonGen.generateLevel();
+            this.currentDungeonRoom = this.dungeonRooms[0];
+            console.table(this.dungeonRooms);
+        }
         if(obj){
             obj && Object.assign(this, obj);
         }
@@ -119,6 +127,21 @@ class Room {
         if (this.commands[AdventureGame.EVENT.Look]) {
             options +=  UtilityText.emphasizeFirstLetter("Look at","[", "]", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.Separator;
         }
+
+        if(this.isDungeon){
+            options +=  UtilityText.emphasizeFirstLetter("X","[", "]", UtilityText.TEXT_COLORS.Red) +"Enter Dungeon"+ UtilityText.TEXT_SYMBOL.Separator;
+
+        }
+
+        if(adventureGame.player.statPoints > 0){
+            options +=  UtilityText.emphasizeFirstLetter("Character Sheet","[", "]", UtilityText.TEXT_COLORS.DarkBlue) +" <span class='blink_me'>["+adventureGame.player.statPoints+"]</span>"+ UtilityText.TEXT_SYMBOL.Separator;
+
+        }else{
+            options +=  UtilityText.emphasizeFirstLetter("Character Sheet","[", "]", UtilityText.TEXT_COLORS.DarkBlue) + UtilityText.TEXT_SYMBOL.Separator;
+        }
+
+
+
         return options.substring(0, options.lastIndexOf("|"));
     }
 
@@ -131,7 +154,7 @@ class Room {
     }
 
     hasEnemy(){
-        return true;
+        return false;
     }
     startDialog(){
         //RESET previous Dialog
@@ -140,7 +163,43 @@ class Room {
         }
     }
 
+    generateDungeon(){
+        this.dungeonRooms = DungeonGen.generateLevel();
+        this.currentDungeonRoom = this.dungeonRooms[0];
+        this.currentDungeonRoom.visited = true;
+        console.table(this.dungeonRooms);
+    }
 
+    exploreDungeon(command){
+        let returnText = "";
+        if(this.isDungeon){
+
+            if(command !== "Start"){
+                let tmpDungeonRoom = this.currentDungeonRoom.travelTo(command);
+                if(tmpDungeonRoom){
+                    adventureGame.clearScreen(false);
+                    this.currentDungeonRoom = tmpDungeonRoom;
+                    this.currentDungeonRoom.visited = true;
+                    returnText = DungeonMap.drawMap(this.dungeonRooms, this.currentDungeonRoom);
+                    returnText += this.currentDungeonRoom.displayOptions();
+                }else{
+                    returnText = "You can't go in this direction";
+                }
+            }else{
+                returnText = DungeonMap.drawMap(this.dungeonRooms, this.currentDungeonRoom);
+                returnText += this.currentDungeonRoom.displayOptions();
+            }
+
+            if(this.currentDungeonRoom.enemy){
+                if(!this.currentDungeonRoom.enemy.isAlive && this.currentDungeonRoom.enemy.isBoss){
+                    if (this.hasBugs("F")) {
+                        returnText += this.unlockBug();
+                    }
+                }
+            }
+        }
+        return returnText;
+    }
 
     //TODO add Dialog System
     /**
@@ -148,19 +207,27 @@ class Room {
      * @returns {string}  Returns the Talk to Description in an HTML-Format
      */
     talkTo(command) {
-        let returnText;
+        let returnText = "";
 
         // Add Bugs Later
 
         if (this.npc){
-            if(command != "Start"){
-                let hasChosenDialog = this.npc.selectDialogOption(command);
-                if(hasChosenDialog){
-                    returnText = this.npc.displayDialog();
+            if(command !== "Start"){
+                let bugText = undefined;
+                try{
                     if(this.hasBugs("T")){
                         if(this.npc.hasBug(command)){
-                            returnText +=  this.unlockBug();
+                            bugText =  this.unlockBug();
                         }
+                    }
+                }catch (e){
+
+                }
+                let hasChosenDialog = this.npc.selectDialogOption(command);
+                if(hasChosenDialog){
+                    returnText += this.npc.displayDialog();
+                    if(bugText){
+                        returnText += bugText;
                     }
                 }else{
                     returnText = UtilityText.colorText("BEEP BOOP Dialog Option undefined", UtilityText.TEXT_COLORS.Red);
@@ -171,6 +238,7 @@ class Room {
         } else {
             returnText = "There is nobody to talk to.";
         }
+
 
 
         return returnText;

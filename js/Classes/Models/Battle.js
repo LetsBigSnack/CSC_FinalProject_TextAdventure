@@ -9,32 +9,45 @@ import {
 import {Enemy} from "./Enemy/Enemy.js";
 import {UtilityText} from "../Utility/UtilityText.js";
 import {AdventureGame} from "./AdventureGame.js";
+import {UtilityMusic} from "../Utility/UtilityMusic.js";
 
 class Battle{
 
     constructor() {
         this.player = undefined;
         this.enemy = undefined;
-        this.info_text = "Enemy encountered: "+ UtilityText.colorText(this.enemy.name, UtilityText.TEXT_COLORS.Red);
+        this.info_text = "";
+        this.playerLVL = undefined;
+        this.xpReceived = false;
     }
 
     addPlayer(player){
         this.player = player;
+        this.playerLVL = this.player.level;
     }
     addEnemy(enemy){
         this.enemy = enemy;
+        this.info_text = "Enemy encountered: "+ UtilityText.colorText(this.enemy.name, UtilityText.TEXT_COLORS.Red);
     }
 
     toggleBattleScreen(){
         if(battleScreen.style.display === "none"){
-            battle_error.innerHTML = "";
-            battleScreen.style.display = "block";
-            adventureScreen.style.display = "none";
+            this.displayBattleScreen();
         }else{
-            battleScreen.style.display = "none";
-            adventureScreen.style.display = "block";
-
+           this.hideBattleScreen();
         }
+    }
+
+    displayBattleScreen(){
+        battle_error.innerHTML = "";
+        battleScreen.style.display = "block";
+        adventureScreen.style.display = "none";
+    }
+
+    hideBattleScreen(){
+        adventureGame.clearScreen();
+        battleScreen.style.display = "none";
+        adventureScreen.style.display = "block";
     }
 
     display(){
@@ -54,9 +67,9 @@ class Battle{
 
         battle_player_info.name.innerHTML = UtilityText.colorText(this.player.name, UtilityText.TEXT_COLORS.Gold) + " [" +this.player.level+ "]:";
         battle_player_info.health.innerHTML = UtilityText.colorText("[HP]", UtilityText.TEXT_COLORS.Red) + ": " + currentHealth + "/" + maxHealth;
-        battle_player_info.healthBar.innerHTML = this.createBar(currentHealth, maxHealth);
+        battle_player_info.healthBar.innerHTML = UtilityText.createBar(currentHealth, maxHealth,20);
         battle_player_info.mana.innerHTML = UtilityText.colorText("[MP]", UtilityText.TEXT_COLORS.DarkBlue) + ": " + currentMana + "/" + maxMana;
-        battle_player_info.manaBar.innerHTML = this.createBar(currentMana, maxMana);
+        battle_player_info.manaBar.innerHTML = UtilityText.createBar(currentMana, maxMana,20);
     }
 
     displayPlayerActions(){
@@ -97,7 +110,7 @@ class Battle{
 
         battle_enemy_info.name.innerHTML = UtilityText.colorText(this.enemy.name, UtilityText.TEXT_COLORS.Red)+":";
         battle_enemy_info.health.innerHTML = UtilityText.colorText("[HP]", UtilityText.TEXT_COLORS.Red) + ": " + currentHealth + "/" + maxHealth;
-        battle_enemy_info.healthBar.innerHTML = this.createBar(currentHealth, maxHealth);
+        battle_enemy_info.healthBar.innerHTML = UtilityText.createBar(currentHealth, maxHealth,20);
 
     }
 
@@ -135,12 +148,24 @@ class Battle{
             this.enemyFight();
         }else{
             this.info_text += UtilityText.TEXT_SYMBOL.NewLine +  UtilityText.colorText(this.enemy.name, UtilityText.TEXT_COLORS.Red) + " has been defeated!";
+            this.info_text += UtilityText.TEXT_SYMBOL.NewLine +  UtilityText.colorText(this.player.name, UtilityText.TEXT_COLORS.Blue) + " gained "+
+                UtilityText.colorText(this.enemy.xp, UtilityText.TEXT_COLORS.Green)+" XP!";
+            if(!this.xpReceived){
+                this.player.receiveXP(this.enemy.xp);
+                this.xpReceived = true;
+                UtilityMusic.playRandomSound(UtilityMusic.SOUND_CLIPS.POSITIVE);
+            }
+            if(this.player.level > this.playerLVL){
+                this.info_text += UtilityText.TEXT_SYMBOL.NewLine +  UtilityText.colorText(this.player.name, UtilityText.TEXT_COLORS.Blue) + "  "+
+                    UtilityText.colorText("Leveled Up", UtilityText.TEXT_COLORS.Gold)+"!";
+            }
+
         }
 
         if(!this.player.isAlive){
             this.info_text += UtilityText.TEXT_SYMBOL.NewLine + UtilityText.colorText(this.player.name, UtilityText.TEXT_COLORS.Blue) + " has been defeated!";
         }
-
+        this.playerHeal=undefined;
         this.display();
 
     }
@@ -165,9 +190,13 @@ class Battle{
 
             if (returnObject.text) {
                 if (returnObject.dmg) {
+                    UtilityMusic.playRandomSound(UtilityMusic.SOUND_CLIPS.ATTACK);
                     this.enemy.receiveDmg(returnObject.dmg);
                 }
                 if (returnObject.heal) {
+                    UtilityMusic.playRandomSound(UtilityMusic.SOUND_CLIPS.ABILITIES);
+                    console.log("heal"+returnObject.heal);
+                    this.playerHeal = returnObject.heal;
                     this.player.heal(returnObject.heal);
                 }
                 this.info_text += returnObject.text;
@@ -185,9 +214,15 @@ class Battle{
         let returnObjectEnemy = this.enemy.makeBattleMove();
 
         if(returnObjectEnemy.dmg){
-            this.player.receiveDmg(returnObjectEnemy.dmg);
+            UtilityMusic.playRandomSound(UtilityMusic.SOUND_CLIPS.ATTACK);
+            if(this.playerHeal){
+                this.player.receiveDmg(returnObjectEnemy.dmg-this.playerHeal);
+            }else{
+                this.player.receiveDmg(returnObjectEnemy.dmg);
+            }
         }
         if(returnObjectEnemy.heal){
+            UtilityMusic.playRandomSound(UtilityMusic.SOUND_CLIPS.ABILITIES);
             this.enemy.healDmg(returnObjectEnemy.heal);
         }
         this.info_text += UtilityText.TEXT_SYMBOL.NewLine + returnObjectEnemy.text;
@@ -211,33 +246,20 @@ class Battle{
             this.player.isAlive = true;
             this.escape();
         }else{
+            UtilityMusic.playSoundClip(UtilityMusic.SOUND_CLIPS.ERROR[0]);
             battle_error.innerHTML = UtilityText.colorText("Failed to run away!", UtilityText.TEXT_COLORS.Red);
         }
     }
 
     escape(){
-        adventureGame.currentState = AdventureGame.States.Explore;
+        if(adventureGame.isInDungeon){
+            adventureGame.currentState = AdventureGame.States.Dungeoneering;
+        }else{
+            adventureGame.currentState = AdventureGame.States.Explore;
+        }
         this.toggleBattleScreen();
         content.scrollTop = content.scrollHeight;
     }
-
-    createBar(currentValue, maxValue){
-        let returnText = "[";
-
-        let valuePercentage =  currentValue/maxValue;
-
-        let valueSteps = Math.round(20 * valuePercentage);
-
-        for (let i = 0; i < valueSteps; i++){
-            returnText += "|";
-        }
-        for (let i = valueSteps; i < 20; i++){
-            returnText += "-";
-        }
-        returnText += "]";
-        return returnText;
-    }
-
 
 
 

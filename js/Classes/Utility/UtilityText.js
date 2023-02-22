@@ -75,6 +75,25 @@ class UtilityText{
 
         return returnText;
     }
+
+    static createBar(curValue, maxValue, maxSize){
+
+        let returnText = "[";
+
+        let valuePercentage =  curValue/maxValue;
+
+        let valueSteps = Math.round(maxSize * valuePercentage);
+
+        for (let i = 0; i < valueSteps; i++){
+            returnText += "|";
+        }
+        for (let i = valueSteps; i < maxSize; i++){
+            returnText += "-";
+        }
+        returnText += "]";
+        return returnText;
+
+    }
 }
 
 export {UtilityText};

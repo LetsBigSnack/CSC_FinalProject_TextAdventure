@@ -1,10 +1,11 @@
 import {UtilityText} from "../Utility/UtilityText.js";
-import {contentText, score, locationText, content, battleScreen} from "../../SetUpGame.js";
+import {contentText, score, locationText, content} from "../../SetUpGame.js";
 import {UtilityFiles} from "../Utility/UtilityFiles.js";
 import {UtilityGame} from "../Utility/UtilityGame.js";
 import {CharacterCreator} from "./CharacterCreator.js";
 import {Battle} from "./Battle.js";
-import {Enemy} from "./Enemy/Enemy";
+import {CharacterSheet} from "./CharacterSheet.js";
+import {UtilityMusic} from "../Utility/UtilityMusic.js";
 
 /**
  * This Class is used to represent the "AdventureGame" and it's GameLoop.
@@ -31,7 +32,8 @@ class AdventureGame {
         Explore : 2,
         Dialog: 3,
         Battle: 4,
-        Inventory: 5
+        CharacterSheet: 5,
+        Dungeoneering: 6
     }
     static USER_INPUT = {
         StartGame : "S",
@@ -43,17 +45,17 @@ class AdventureGame {
         Look: "L",
         Quit: "Q",
         Clear: "CLEAR",
-        Star_Wars: "STAR WARS",
         Confirm : "Y",
         Cancel : "N",
-        ExitDialog: "X"
+        ExitDialog: "X",
+        CharacterSheet: "C",
+        EnterDungeon: "X"
     }
 
     /**
      * The class constructor for the class "AdventureGame"
      */
     constructor() {
-        this.canPlay = false;
         this.playSound = false;
         this.bugScore = 0;
         this.bugList = [];
@@ -61,10 +63,12 @@ class AdventureGame {
         this.roomList = [];
         this.gamefinished = false;
         this.currentState = AdventureGame.States.Start;
+        this.characterSheet = new CharacterSheet();
         this.setUp("../jsonData/").then();
         this.characterCreator = new CharacterCreator();
         this.battleScreen = new Battle();
         this.player = undefined;
+        this.isInDungeon = false;
     }
 
     /**
@@ -89,14 +93,22 @@ class AdventureGame {
                 returnText += this.executeDialog(command);
                 break;
             case AdventureGame.States.Battle:
-                returnText += this.fightBattle(command);
+                this.fightBattle(command);
+                break;
+            case AdventureGame.States.CharacterSheet:
+
+                break;
+            case AdventureGame.States.Dungeoneering:
+                returnText += this.exploreDungeon(command);
                 break;
         }
 
         if(this.currentRoom){
             if(this.currentState === AdventureGame.States.Battle){
                 locationText.innerHTML = "Battle";
-            }else{
+            }else if(this.currentState === AdventureGame.States.CharacterSheet){
+                locationText.innerHTML = "Character Sheet";
+            } else{
                 locationText.innerHTML = this.currentRoom.getLocation();
 
             }
@@ -106,7 +118,7 @@ class AdventureGame {
 
         if(this.bugScore === this.bugList.length && !this.gamefinished){
             returnText += UtilityText.TEXT_SYMBOL.NewEmptyLine;
-            returnText += UtilityText.colorText("You have found all the bugs in the codebase, sadly your internship is unpaid so don't expect anything as the reward. You can explore the rest of the codebase or if you want to have some fun type in 'Star Wars' as a command", UtilityText.TEXT_COLORS.Gold);
+            returnText += UtilityText.colorText("You have found all the bugs in the codebase, sadly your internship is unpaid so don't expect anything as the reward. You can explore the rest of the codebase.", UtilityText.TEXT_COLORS.Gold);
             this.gamefinished = true
         }
 
@@ -134,7 +146,10 @@ class AdventureGame {
                 break;
             default:
                 returnText = UtilityText.colorText("BEEP BOOP COMMAND undefined", UtilityText.TEXT_COLORS.Red);
-        }
+                if(this.currentRoom){
+                    returnText += UtilityText.TEXT_SYMBOL.NewEmptyLine + this.currentRoom.displayOptions();
+                }
+          }
         return returnText;
     }
 
@@ -196,9 +211,6 @@ class AdventureGame {
                 if (newRoom) {
                     this.currentRoom = newRoom;
                     returnText = this.currentRoom.describe();
-                    if(this.currentRoom.hasEnemy()){
-                        this.startBattle();
-                    }
                 } else {
                     returnText = "You can't go in this direction";
                 }
@@ -212,6 +224,21 @@ class AdventureGame {
 
                 if(returnText !== "There is nobody to talk to."){
                     this.currentState = AdventureGame.States.Dialog;
+                }
+                break;
+            case AdventureGame.USER_INPUT.CharacterSheet:
+                returnText = "";
+                this.displayCharacterSheet();
+                this.currentState = AdventureGame.States.CharacterSheet;
+                break;
+            case AdventureGame.USER_INPUT.EnterDungeon:
+                if(this.currentRoom.isDungeon){
+                    this.clearScreen(false);
+                    this.startDungeon();
+                    returnText = UtilityText.colorText("Dungeon entered!", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewEmptyLine;
+                    returnText += this.currentRoom.exploreDungeon("Start");
+                }else{
+                    returnText = "You can't Enter this";
                 }
                 break;
             default:
@@ -251,7 +278,7 @@ class AdventureGame {
         this.player.resetStats();
         this.currentState = AdventureGame.States.Battle;
         this.battleScreen.addPlayer(this.player);
-        this.battleScreen.addEnemy(new Enemy());
+        this.battleScreen.addEnemy(this.currentRoom.currentDungeonRoom.enemy);
         this.battleScreen.toggleBattleScreen();
         this.fightBattle();
     }
@@ -268,27 +295,94 @@ class AdventureGame {
 
     }
 
+    startDungeon(){
+        this.isInDungeon = true;
+        this.currentState = AdventureGame.States.Dungeoneering;
+        this.currentRoom.generateDungeon();
+    }
+
+    exitDungeon(){
+        this.isInDungeon = false;
+        this.currentState = AdventureGame.States.Explore;
+    }
+
+    exploreDungeon(command){
+        let returnText;
+
+        switch (command){
+            case AdventureGame.USER_INPUT.North:
+            case AdventureGame.USER_INPUT.East:
+            case AdventureGame.USER_INPUT.South:
+            case AdventureGame.USER_INPUT.West:
+                returnText = this.currentRoom.exploreDungeon(command);
+                if(this.currentRoom.currentDungeonRoom.hasEnemy()){
+                    this.startBattle();
+                }
+                break;
+            case AdventureGame.USER_INPUT.ExitDialog:
+                this.exitDungeon();
+                returnText =  this.currentRoom.describe();
+                break;
+            case AdventureGame.USER_INPUT.CharacterSheet:
+                returnText = "";
+                this.displayCharacterSheet();
+                this.currentState = AdventureGame.States.CharacterSheet;
+                break;
+            default:
+                returnText = this.defaultCommands(command)
+        }
+
+        return returnText;
+    }
+
+    displayCharacterSheet(){
+        this.player.resetStats();
+        this.characterSheet.setPlayer(this.player);
+        this.characterSheet.displayCharacterScreen();
+        this.characterSheet.display();
+    }
+
     /**
      * Imports the current game state based on information in a JSON-String
      * @param {string} jsonString The JSON-String which contains all the useful information
      */
     importGame(jsonString){
-
-        UtilityGame.importGameFile(jsonString);
-        this.currentState = AdventureGame.States.Explore;
-        if(battleScreen.style.display !== "none"){
-            this.battleScreen.toggleBattleScreen();
-        }
         let paragraph = document.createElement("p");
-        paragraph.innerHTML =  UtilityText.colorText("Game loaded!", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.NewLine;
-        paragraph.innerHTML += this.currentRoom.describe();
-        contentText.innerHTML = ""
+
+        try{
+            UtilityGame.importGameFile(jsonString);
+            this.isInDungeon = false;
+            this.currentState = AdventureGame.States.Explore;
+            this.battleScreen.hideBattleScreen();
+            this.characterCreator.allocateAttributesHide();
+            this.characterSheet.hideCharacterScreen();
+
+            paragraph.innerHTML =  UtilityText.colorText("Game loaded!", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.NewLine;
+            paragraph.innerHTML += this.currentRoom.describe();
+            contentText.innerHTML = ""
+        }catch (e){
+            UtilityMusic.playSoundClip(UtilityMusic.SOUND_CLIPS.ERROR[0]);
+            paragraph.innerHTML =  UtilityText.colorText("Game couldn't be loaded! Make sure you have selected the right file.", UtilityText.TEXT_COLORS.Red) + UtilityText.TEXT_SYMBOL.NewLine;
+        }
 
         contentText.appendChild(paragraph);
         this.setScoreBoard();
         content.scrollTop = content.scrollHeight;
     }
 
+    clearScreen(showDescription=true){
+        let paragraph = document.createElement("p");
+        contentText.innerHTML = ""
+        if(showDescription){
+            if(this.currentState === AdventureGame.States.Explore){
+                paragraph.innerHTML = this.currentRoom.describe();
+            }else if(this.currentState === AdventureGame.States.Dungeoneering){
+                paragraph.innerHTML = this.currentRoom.exploreDungeon("Start");
+            }
+            contentText.appendChild(paragraph);
+        }
+        this.setScoreBoard();
+    }
     /**
      * Updates the Scoreboard
      */

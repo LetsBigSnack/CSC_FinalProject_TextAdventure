@@ -1,4 +1,5 @@
-import {audioBtn, audio, adventureGame, sound} from "../../SetUpGame.js";
+import {audioBtn, audio, adventureGame, sound, canPlaySound} from "../../SetUpGame.js";
+import {UtilityRandom} from "./UtilityRandom.js";
 
 /**
  * This Class is used to house all the Function which revolve around Sound/Music, and it's representation.
@@ -6,28 +7,70 @@ import {audioBtn, audio, adventureGame, sound} from "../../SetUpGame.js";
  */
 class UtilityMusic {
 
+    static SOUND_CLIPS = {
+        "ATTACK" : [
+            new Audio("../sounds/Hit_01.mp3"),
+            new Audio("../sounds/Hit_02.mp3"),
+            new Audio("../sounds/Hit_03.mp3"),
+            new Audio("../sounds/Explosion_02.mp3"),
+            new Audio("../sounds/Explosion_03.mp3"),
+            new Audio("../sounds/Explosion_04.mp3")
+        ],
+        "ABILITIES":[
+            new Audio("../sounds/sfx_sounds_powerup15.wav"),
+            new Audio("../sounds/sfx_sounds_powerup16.wav"),
+            new Audio("../sounds/sfx_sounds_powerup17.wav"),
+            new Audio("../sounds/sfx_sounds_powerup18.wav"),
+        ],
+        "POSITIVE":[
+            new Audio("../sounds/sfx_coin_cluster3.wav"),
+            new Audio("../sounds/sfx_coin_cluster6.wav"),
+        ],
+        "ERROR":[
+            new Audio("../sounds/19_cantdo2.wav")
+        ]
+    };
+
     /**
      * Toggles the currently played music Track either on or off
      */
     static toggleMusic(){
-        if(audio.paused){
-            audio.play().then();
-            audioBtn.style.color = "black";
-        }else{
-            audio.pause();
-            audioBtn.style.color = "red";
+        console.log("music");
+        if(canPlaySound){
+            if(audio.paused){
+                audio.play().then();
+                audioBtn.style.color = "black";
+            }else{
+                audio.pause();
+                audioBtn.style.color = "red";
+            }
         }
     }
 
     static toggleSound(){
-        if(!adventureGame.playSound){
-            sound.style.color = "black";
-            adventureGame.playSound = !adventureGame.playSound;
-        }else{
-            sound.style.color = "red";
-            adventureGame.playSound = !adventureGame.playSound;
+        console.log("sound");
+        if(canPlaySound){
+            if(!adventureGame.playSound){
+                sound.style.color = "black";
+                adventureGame.playSound = !adventureGame.playSound;
+            }else{
+                sound.style.color = "red";
+                adventureGame.playSound = !adventureGame.playSound;
+            }
         }
+    }
 
+    static playSoundClip(soundClip){
+        if(canPlaySound && adventureGame.playSound){
+            soundClip.play();
+        }
+    }
+
+    static playRandomSound(soundCategory){
+        if(canPlaySound && adventureGame.playSound){
+            let rngClip = UtilityRandom.getRandomInt(0, soundCategory.length-1);
+            soundCategory[rngClip].play();
+        }
     }
 
 }

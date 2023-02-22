@@ -13,16 +13,8 @@ class Player {
     maxMana;
     currentMana;
     maxStat = 10;
-    statPoints = 12;
+    statPoints = 6;
 
-    stats = {
-        Strength : 3,
-        Dexterity: 3,
-        Constitution: 3,
-        Intelligence: 3,
-        Wisdom: 3,
-        Charisma: 3
-    };
 
 
 
@@ -32,17 +24,27 @@ class Player {
     constructor(obj = null) {
 
         this.name = "Player";
-        this.default_stats = Object.assign({}, this.stats);
         this.maxHealth = undefined;
         this.currentHealth = undefined;
         this.maxMana = undefined;
         this.currentMana = undefined;
         this.level = 1;
+        this.xp = 0;
+        this.xpThreshhold = 5 + Math.round((4 * (this.level**3)) / 5);
         this.isAlive = true;
         if(obj){
             obj && Object.assign(this, obj);
+        }else{
+            this.stats = {
+                Strength : 3,
+                Dexterity: 3,
+                Constitution: 3,
+                Intelligence: 3,
+                Wisdom: 3,
+                Charisma: 3
+            };
+            this.default_stats = Object.assign({}, this.stats);
         }
-        let player = this;
         this.abilities = [
             {
                 "name" : "Basic Attack",
@@ -60,10 +62,10 @@ class Player {
     }
 
     resetStats(){
-        this.currentHealth = this.level * (10+this.stats.Constitution);
+        this.currentHealth = Math.round(((this.level) * 1.5) *  (10+this.stats.Constitution));
         this.maxHealth = this.currentHealth;
 
-        this.currentMana = this.level * (10+this.stats.Intelligence);
+        this.currentMana = Math.round(((this.level) * 1.5) * (10+this.stats.Intelligence));
         this.maxMana = this.currentMana;
     }
 
@@ -140,6 +142,13 @@ class Player {
         return returnObject;
     }
 
+    describe_Attack(){
+        let returnObject = {};
+        returnObject.name = "Basic Attack";
+        returnObject.text = "Basic Attack does some DMG";
+        return returnObject;
+    }
+
     ability_heal(){
         let returnObject = {};
 
@@ -153,6 +162,13 @@ class Player {
 
     }
 
+    describe_Heal(){
+        let returnObject = {};
+        returnObject.name = "Basic Heal";
+        returnObject.text = "Basic Heal heals some HP";
+        return returnObject;
+    }
+
     ability_ult(){
         let returnObject = {};
         if(this.currentMana-this.abilities[2].mp >= 0){
@@ -163,20 +179,48 @@ class Player {
         return returnObject;
     }
 
+    describe_Ult(){
+        let returnObject = {};
+        returnObject.name = "Ultimate Attack";
+        returnObject.text = "Ultimate Attack does massive DMG";
+        return returnObject;
+    }
+
     heal(heal){
-        if(this.currentHealth+heal >= this.maxHealth){
+        this.currentHealth += heal;
+        if(this.currentHealth >= this.maxHealth){
             this.currentHealth = this.maxHealth;
-        }else{
-            this.currentHealth += heal;
         }
+
     }
 
     receiveDmg(dmg){
-        this.currentHealth  -= dmg;
-        if(this.currentHealth <= 0){
-            this.currentHealth = 0;
-            this.isAlive = false;
+        if(dmg > 0){
+            this.currentHealth  -= dmg;
+            if(this.currentHealth <= 0){
+                this.currentHealth = 0;
+                this.isAlive = false;
+            }
         }
+    }
+
+    receiveXP(xp){
+        console.log("XP");
+        this.xp += xp;
+        if(this.xp >= this.xpThreshhold){
+            this.xp = 0;
+            this.statPoints++;
+            this.level++;
+            this.calcNextLvl();
+        }
+    }
+
+    calcNextLvl(){
+        this.xpThreshhold =5 + Math.round((4 * (this.level**3)) / 5);
+    }
+
+    setDefaultStats(){
+        this.default_stats = Object.assign({}, this.stats);
     }
 
 }

@@ -4,6 +4,12 @@
     font-size: min(1.5vw,1.65vh);
 }
 
+h1{
+    font-size: min(2.5vw,2.65vh);
+    margin: 0.1rem;
+    padding: 0.1rem;
+}
+
 body {
     margin-top: 1rem;
     background-color: black;
@@ -114,7 +120,7 @@ a:hover {
 }
 .color_darkblue{
 
-    color: blue;
+    color: #0080ff;
 
 }
 .color_green{
@@ -190,4 +196,83 @@ a {
 
 #battleScreen{
     display: none;
+}
+
+#characterScreen{
+    display: none;
+    grid-template-columns: 50% 50%;
+    grid-auto-rows: minmax(8vh, auto);
+}
+
+#characterScreen>*{
+    margin: 0.75rem;
+}
+
+#characterScreen_player_info{
+
+    grid-column: 1;
+    grid-row-start: 1;
+    grid-row-end: 3;
+
+}
+
+#characterScreen_player_stats{
+    grid-column: 1;
+    grid-row-start: 3;
+    grid-row-end: 7;
+
+}
+
+#characterScreen_player_abilities{
+
+    grid-column: 2;
+    grid-row: 1 / 6;
+}
+
+#characterScreen_player_button{
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    grid-column: 2;
+    grid-row: 6;
+}
+
+#characterScreen_player_button > p > a{
+    font-size: 1.5rem;
+}
+
+.blink_me {
+    color: gold;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+#sheet_abilities > *{
+    margin-left: -1.5rem;
+}
+
+#dungeon-container{
+    display: none;
+    grid-template-columns: 50% 50%;
+    grid-auto-rows: minmax(8vh, auto);
+}
+
+#dungeon_map_div{
+    top: 10%;
+    right: 10%;
+    position: absolute;
+    grid-column:2;
+    grid-row: 1;
+}
+
+#dungeon_map > p{
+    font-size: min(2.0vw,2.05vh);
+
 }

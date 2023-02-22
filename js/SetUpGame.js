@@ -56,10 +56,12 @@ const remainingPoints = document.querySelector("#remaining");
 
 
 const audio = new Audio('../music/slow-2021-08-17_-_8_Bit_Nostalgia_-_www.FesliyanStudios.com.mp3');
+let canPlaySound = false;
 audio.volume = 0.2;
 audio.loop = true;
 audioBtn.style.color = "red";
 sound.style.color = "red";
+
 
 
 const adventureScreen = document.querySelector("#adventureScreen");
@@ -106,12 +108,12 @@ function userInput(){
 function battleInput(){
     const formData = new FormData(form_battle);
     let choice = formData.get("user_choice_battle");
-    let text = adventureGame.interact(choice.toUpperCase());
+    adventureGame.interact(choice.toUpperCase());
     form_battle.reset();
     return false;
 }
 
-//TODO change horrible code
+
 function interact(input){
     let temporaryTag = document.createElement("p");
     let text = adventureGame.interact(input.toUpperCase());
@@ -136,7 +138,16 @@ function setUpEventListeners(){
     gameExport.addEventListener("click", UtilityGame.exportGameFile);
     form.addEventListener("submit", userInput);
     form_battle.addEventListener("submit", battleInput);
+
+    //Can't Play music right at the Start -> Page has to be interacted with first
+    document.body.addEventListener('click', () => {
+        if(!canPlaySound){
+            canPlaySound = true;
+            UtilityMusic.toggleMusic();
+            UtilityMusic.toggleSound();
+        }
+    });
 }
 
-export {battle_error,audio, audioBtn, adventureGame, contentText, score, locationText, content, attributeDiv, contentInput,stats,remainingPoints, subStat, addStat, interact ,doneBtn, sound, battle_info, battleScreen, adventureScreen, battle_player_info, battle_enemy_info};
+export {battle_error,audio, audioBtn, adventureGame, contentText, score, locationText, content, attributeDiv, contentInput,stats,remainingPoints, subStat, addStat, interact ,doneBtn, sound, battle_info, battleScreen, adventureScreen, battle_player_info, battle_enemy_info, canPlaySound};
 

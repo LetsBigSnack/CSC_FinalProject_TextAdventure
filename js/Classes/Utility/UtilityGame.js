@@ -14,6 +14,7 @@ import {OnlineInfluencer} from "../Models/Player/Archetypes/OnlineInfluencer.js"
 import {TwitterUser} from "../Models/Player/Archetypes/TwitterUser.js";
 import {AdventureGame} from "../Models/AdventureGame.js";
 import {UtilityText} from "./UtilityText.js";
+import {UtilityMusic} from "./UtilityMusic.js";
 
 /**
  * This Class is used to house all the Function which revolve around game saving, loading, exporting and importing.
@@ -26,6 +27,7 @@ class UtilityGame {
      * @returns {string} Returns the current state of the Game in a JSON-Format
      */
     static exportGame(){
+        adventureGame.player.setDefaultStats();
         let exportObject = {
             "currentRoom" : adventureGame.roomList.findIndex(element => element === adventureGame.currentRoom),
             "bugList" : adventureGame.bugList,
@@ -47,6 +49,7 @@ class UtilityGame {
         }else{
             let paragraph = document.createElement("p");
             paragraph.innerHTML = UtilityText.colorText("Game can only be saved/exported during the exploration state", UtilityText.TEXT_COLORS.Red);
+            UtilityMusic.playSoundClip(UtilityMusic.SOUND_CLIPS.ERROR[0]);
             contentText.appendChild(paragraph);
         }
     }
@@ -161,7 +164,6 @@ class UtilityGame {
 
     static importPlayer(playerJSON){
 
-        // Cast to specific class ?
         let newPlayer;
 
         switch(playerJSON.className){
@@ -206,13 +208,16 @@ class UtilityGame {
             paragraph.innerHTML = UtilityText.colorText("Game saved!", UtilityText.TEXT_COLORS.Green);
         } else {
             if(adventureGame.currentState === AdventureGame.States.Battle){
+                UtilityMusic.playSoundClip(UtilityMusic.SOUND_CLIPS.ERROR[0]);
                 battle_error.innerHTML =  UtilityText.colorText("Game can only be saved/exported during the exploration state", UtilityText.TEXT_COLORS.Red);
             }else{
+                UtilityMusic.playSoundClip(UtilityMusic.SOUND_CLIPS.ERROR[0]);
                 paragraph.innerHTML = UtilityText.colorText("Game can only be saved/exported during the exploration state", UtilityText.TEXT_COLORS.Red);
                 content.scrollTop = content.scrollHeight;
             }
-          }
+        }
         contentText.appendChild(paragraph);
+        content.scrollTop = content.scrollHeight;
     }
 
 }

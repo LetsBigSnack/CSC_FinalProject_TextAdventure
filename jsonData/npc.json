@@ -2,48 +2,223 @@
   "npcs" : [
     {
       "roomID": 0,
-      "name": "Hallo Melih",
+      "name": "Dockworker",
       "dialogs": [
         {
-          "dialogText": "HOHO",
+          "dialogText": "Hey there; you must be the new guy. I hope you are more competent than the last one.",
           "dialogOptions": [
             {
-              "optionText" : "go to Dialog 2",
+              "optionText" : "What are you doing?",
               "optionLink": 1,
               "hasBug": false,
-              "requiredCharisma": 8
+              "requiredCharisma": 6
             },
             {
-              "optionText" : "go to Dialog 3",
-              "optionLink": 2,
+              "optionText" : "Yeah just arrived here.",
+              "optionLink": 4,
               "hasBug": false,
               "requiredCharisma": 0
             }
           ]
         },
         {
-          "dialogText": "Dialog 2",
+          "dialogText": "Sorry, newbie, I don't really have the time for a chat. There seems to be a problem with the sorting of the ship containers.",
           "dialogOptions": [
             {
-              "optionText" : "go to Dialog 1",
-              "optionLink": 0,
+              "optionText" : "What is the problem?",
+              "optionLink": 2,
               "hasBug": false,
               "requiredCharisma": 0
 
+            }
+          ]
+        },
+        {
+          "dialogText": "There seems to be a issue with the grouping of the containers.",
+          "dialogOptions": [
+            {
+              "optionText" : "I will check it out.",
+              "optionLink": 3,
+              "hasBug": false,
+              "requiredCharisma": 0
+
+            }
+          ]
+        },
+        {
+          "dialogText": "Thank you!.",
+          "dialogOptions": [
+          ]
+        },
+        {
+          "dialogText": "Good luck then, hope you find all the bugs.",
+          "dialogOptions": [
+          ]
+        }
+      ]
+    },
+    {
+      "roomID": 8,
+      "name": "Turing-Machine",
+      "dialogs": [
+        {
+          "dialogText": "*Bzzt* Hello dear Customer, how may i help you? *Bzzt*",
+          "dialogOptions": [
+            {
+              "optionText" : "Yeah, do you know where i can find a Bug?",
+              "optionLink": 1,
+              "hasBug": true,
+              "requiredCharisma": 0
+            }
+          ]
+        },
+        {
+          "dialogText": "*Bzzt* Hello dear Customer, how may i help you? *Bzzt*",
+          "dialogOptions": [
+            {
+              "optionText" : "...",
+              "optionLink": 1,
+              "hasBug": false,
+              "requiredCharisma": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "roomID": 7,
+      "name": "RAM-Farmer",
+      "dialogs": [
+        {
+          "dialogText": "Truly beautiful those creatures. There are like a gift sent from above.",
+          "dialogOptions": [
+            {
+              "optionText" : "*nod*",
+              "optionLink": 1,
+              "hasBug": false,
+              "requiredCharisma": 0
             },
             {
-              "optionText" : "go to Dialog 3",
+              "optionText" : "All I see are dirty animals!",
+              "optionLink": 5,
+              "hasBug": false,
+              "requiredCharisma": 4
+            }
+          ]
+        },
+        {
+          "dialogText": "Do you have any question regarding those stunning animals?",
+          "dialogOptions": [
+            {
+              "optionText" : "What are the RAMs used for",
               "optionLink": 2,
+              "hasBug": false,
+              "requiredCharisma": 0
+            },
+            {
+              "optionText" : "How many animals do you have at the Farm?",
+              "optionLink": 3,
+              "hasBug": false,
+              "requiredCharisma": 0
+            },
+            {
+              "optionText" : "How do they reproduce?",
+              "optionLink": 4,
+              "hasBug": true,
+              "requiredCharisma": 3
+            }
+          ]
+        },
+        {
+          "dialogText": "Their wool is used for cloths, their horns are used for energy and fuel, and their meats taste really delicious!",
+          "dialogOptions": [
+            {
+              "optionText" : "Can I ask some more question.",
+              "optionLink": 1,
               "hasBug": false,
               "requiredCharisma": 0
             }
           ]
         },
         {
-          "dialogText": "Dialog 3",
+          "dialogText": "Around 2^16 need to upgrade the farm to an integer farm.",
+          "dialogOptions": [
+            {
+              "optionText" : "Can I ask some more question.",
+              "optionLink": 1,
+              "hasBug": false,
+              "requiredCharisma": 0
+            }
+          ]
+        },
+        {
+          "dialogText": "Take Ram_1 and Ram_2, for example; if they had a baby ram, it would just be automatically named Ram_3, but sometimes it's named Ram_1Ram_2, which is very weird.",
+          "dialogOptions": [
+            {
+              "optionText" : "Can I ask some more question.",
+              "optionLink": 1,
+              "hasBug": false,
+              "requiredCharisma": 0
+            }
+          ]
+        },
+        {
+          "dialogText": "Get the Shell out!",
           "dialogOptions": [
           ]
         }
+
+      ]
+    },
+    {
+      "roomID": 3,
+      "name": "Person in Car",
+      "dialogs": [
+        {
+          "dialogText": "For Turing's sake, why can't I pass through the flip-flopping gate? Hey, you there, can you help me?",
+          "dialogOptions": [
+            {
+              "optionText" : " Sure, what seems to be the Problem?",
+              "optionLink": 1,
+              "hasBug": false,
+              "requiredCharisma": 0
+            },
+            {
+              "optionText" : "No!",
+              "optionLink": 3,
+              "hasBug": false,
+              "requiredCharisma": 2
+            }
+          ]
+        },
+        {
+          "dialogText": "*She hands you her ticket. It says: const ticket_11011;*",
+          "dialogOptions": [
+            {
+              "optionText" : "Sorry, i can't help you with the problem.",
+              "optionLink": 3,
+              "hasBug": false,
+              "requiredCharisma": 0
+            },
+            {
+              "optionText" : "Seems like the ticket hasn't been assigned a value.",
+              "optionLink": 2,
+              "hasBug": true,
+              "requiredCharisma": 5
+            }
+          ]
+        },
+        {
+          "dialogText": "Thanks, but that doesn't really help me does it!",
+          "dialogOptions": [
+          ]
+        },
+        {
+          "dialogText": "You are as help as page two of Google!",
+          "dialogOptions": [
+          ]
+        }
+
       ]
     }
   ]
