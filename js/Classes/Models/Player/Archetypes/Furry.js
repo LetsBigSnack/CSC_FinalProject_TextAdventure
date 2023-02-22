@@ -1,7 +1,6 @@
 import {Player} from "../Player.js";
 import {UtilityText} from "../../../Utility/UtilityText.js";
 import {UtilityRandom} from "../../../Utility/UtilityRandom.js";
-import {adventureGame} from "../../../../SetUpGame.js";
 /**
  * This Class is used to represent the Player-Class "Furry" in the game.
  */

@@ -126,7 +126,7 @@ class Room {
         }
 
         if (this.commands[AdventureGame.EVENT.Look]) {
-            options +=  UtilityText.emphasizeFirstLetter("Look at","[", "]", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.Separator;
+            options +=  UtilityText.emphasizeFirstLetter("Look around","[", "]", UtilityText.TEXT_COLORS.Green) + UtilityText.TEXT_SYMBOL.Separator;
         }
 
         if(this.isDungeon){

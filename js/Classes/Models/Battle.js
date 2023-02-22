@@ -305,7 +305,7 @@ class Battle{
     }
 
     /**
-     * Escapes the enocunter
+     * Escapes the encounter
      */
     escape(){
         if(adventureGame.isInDungeon){

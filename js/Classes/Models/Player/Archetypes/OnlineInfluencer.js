@@ -92,7 +92,7 @@ class OnlineInfluencer extends Player{
         if(this.currentMana-this.abilities[2].mp >= 0){
             this.currentMana = this.currentMana-this.abilities[2].mp;
             returnObject.dmg = (UtilityRandom.getRandomInt(1,8))+(UtilityRandom.getRandomInt(1,8))+this.stats.Charisma+this.followers;
-            returnObject.text = UtilityText.colorText(this.name, UtilityText.TEXT_COLORS.Blue) + " mobilizes their Followers for" + returnObject.dmg+ " damage."+ UtilityText.TEXT_SYMBOL.NewLine +
+            returnObject.text = UtilityText.colorText(this.name, UtilityText.TEXT_COLORS.Blue) + " mobilizes their Followers for " + returnObject.dmg+ " damage."+ UtilityText.TEXT_SYMBOL.NewLine +
                 "Followers "+UtilityText.colorText("["+this.followers+"]", UtilityText.TEXT_COLORS.Pink);
         }
         return returnObject;

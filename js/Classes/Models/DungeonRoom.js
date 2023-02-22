@@ -51,7 +51,7 @@ class DungeonRoom {
 
     /**
      * Add a connection to the DungeonRoom
-     * @param{AdventureGame.DIRECTIONS} directions The Direction on which the new room will be added
+     * @param directions The Direction on which the new room will be added
      * @param{DungeonRoom} room The DungeonRoom, which will be added
      * @param{boolean} call The Calls if to stop the function from an endless recursion
      */
